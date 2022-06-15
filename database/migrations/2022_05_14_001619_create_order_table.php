@@ -18,7 +18,7 @@ class CreateOrderTable extends Migration
             $table->string('number');
             $table->double('total');
             $table->double('grand_total');
-            $table->double('tax');
+            $table->double('tax')->nullable();
             $table->string('status');
             $table->integer('user_id');
             $table->string('payment_id');

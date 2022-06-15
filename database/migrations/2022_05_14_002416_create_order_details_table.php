@@ -19,7 +19,7 @@ class CreateOrderDetailsTable extends Migration
             $table->double('price');
             $table->integer('order_id');
             $table->integer('product_id');
-            $table->integer('shipment_id');
+            $table->integer('shipment_id')->nullable();
             $table->timestamps();
         });
     }

@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Traits\CartTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 
 class CartController extends BaseController
 {
+    use CartTrait;
+
     public function listCart(){
         return $this->getCartContent();
     }

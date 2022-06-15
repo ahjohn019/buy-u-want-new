@@ -58,9 +58,7 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::prefix('stripe')->group(function(){
         Route::post('/createCustomer',[StripeController::class,'createCustomer']);
         Route::get('/retrieveCustomer',[StripeController::class,'retrieveCustomer']);
-        Route::post('/createPaymentIntents',[StripeController::class,'createPaymentIntents']);
         Route::post('/finalPayments',[StripeController::class,'finalPayments']);
-        Route::post('/createPaymentMethod',[StripeController::class,'createPaymentMethod']);
         Route::post('/createOrder',[StripeController::class,'createorder']);
     });
 });

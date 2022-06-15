@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderDetails;
 use Illuminate\Http\Request;
-use App\Traits\PaymentStripeTraits;
+use App\Traits\CartTrait;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\StripeCreateCardRequest;
 use App\Http\Requests\StripeCreateCustomerRequest;
@@ -16,13 +16,22 @@ class StripeController extends BaseController
 {
     protected $stripeService;
 
+    use CartTrait;
+
     public function __construct(StripeServices $stripeService){
         $this->stripeService = $stripeService;
     }
 
-    public function finalPayments(StripeCreateCustomerRequest $customerRequest, StripeCreateCardRequest $cardRequest)
+    public function retrieveCustomer(){
+        return $this->stripeService->retrieveCustomerService();
+    }
+
+    public function finalPayments(
+        StripeCreateCustomerRequest $customerRequest, 
+        StripeCreateCardRequest $cardRequest
+    )
     {
-        $confirmPaymentIntents = $this->stripeService->beforePayment($customerRequest, $cardRequest);
+        $confirmPaymentIntents = $this->stripeService->paymentProcess($customerRequest, $cardRequest);
 
         $this->clearAll();
 
