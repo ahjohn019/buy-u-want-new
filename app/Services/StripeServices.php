@@ -42,9 +42,7 @@ class StripeServices
     public function createCustomer($request){
         $customerCreate = $this->getStripeKey()->customers()->create($request->validated());
         $this->user->findAuthUser()->update(['stripe_id' => $customerCreate['id']]);
-        // $getUser = $this->user->findAuthUser()->first();
-        // $getUpdatedData = $getUser->refresh();
-        // return $getUpdatedData;
+        return response()->json(["data" => "Customer Created Successfully"]);
     }
 
     public function retrieveCustomerService(){
@@ -100,7 +98,7 @@ class StripeServices
 
     public function paymentProcess($customerRequest, $cardRequest){
         if(empty(auth()->user()->stripe_id)){
-            $this->createCustomer($customerRequest);
+            return $this->createCustomer($customerRequest);
         }
 
         $createPaymentIntents = $this->createPaymentIntents()->getData();
