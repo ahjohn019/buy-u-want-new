@@ -12,6 +12,12 @@ use App\Http\Controllers\BaseController;
 
 class ProductController extends BaseController
 {
+    protected $product;
+
+    public function __construct(Product $product){
+        $this->product = $product;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,8 +26,8 @@ class ProductController extends BaseController
     public function index()
     {
         //
-        $productList = Product::getActiveProduct()->get();
-        return $productList;
+        $productList = $this->product->getActiveProduct()->get();
+        return response()->json(["data" => $productList]);
     }
 
     /**
@@ -43,12 +49,15 @@ class ProductController extends BaseController
     public function store(ProductRequest $request)
     {
         try{
-            if(!Gate::inspect('create', Product::class)->allowed()) return abort(403);
+            if(!Gate::inspect('create', $this->product)->allowed()) return abort(403);
             DB::beginTransaction();
-            $product = Product::create($request->validated());
-            Product::where('id', $product->id)->update(['user_id' => auth()->user()->id]);
+            $product = $this->product->create($request->validated());
+            $this->product->where('id', $product->id)->update([
+                'user_id' => auth()->user()->id, 
+                'sku' => strtoupper($product->sku) 
+            ]);
             DB::commit();
-            return $product;
+            return response()->json(["data" => $product]);
         } catch(\Throwable $e){
             DB::rollback();
             return back()->with('error',$e->getMessage());
@@ -64,8 +73,8 @@ class ProductController extends BaseController
     public function show($id)
     {
         //
-        $productShow = Product::find($id); 
-        return $productShow->variants;
+        $productShow = $this->product->find($id); 
+        return response()->json(["data" => $productShow]);
     }
 
     /**
@@ -89,11 +98,11 @@ class ProductController extends BaseController
     public function update(ProductRequest $request, $id)
     {
         try{
-            if(!Gate::inspect('update', Product::find($id))->allowed()) return abort(403);
+            if(!Gate::inspect('update', $this->product->find($id))->allowed()) return abort(403);
             DB::beginTransaction();
-            $product = Product::where('id',$id)->update($request->validated());
+            $product = $this->product->where('id',$id)->update($request->validated());
             DB::commit();
-            return $product;
+            return response()->json(["data" => "Updated Successfully"]);
         } catch(\Throwable $e){
             DB::rollback();
             return back()->with('error',$e->getMessage());
@@ -110,9 +119,9 @@ class ProductController extends BaseController
     {
         //
         try{
-            if(!Gate::inspect('delete', Product::find($id))->allowed()) return abort(403);
-            Product::find($id)->delete();
-            return true;
+            if(!Gate::inspect('delete', $this->product->find($id))->allowed()) return abort(403);
+            $this->product->find($id)->delete();
+            return response()->json(["data" => "Deleted Successfully"]);
         } catch(\Throwable $e){
             DB::rollback();
             return back()->with('error',$e->getMessage());

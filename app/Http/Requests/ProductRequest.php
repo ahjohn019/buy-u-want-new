@@ -27,8 +27,8 @@ class ProductRequest extends FormRequest
             //
             'name' => 'required',
             'description' => 'required',
-            'sku' => 'required',
-            'price' => 'required',
+            'sku' => 'required|unique:products',
+            'price' => 'required|numeric|between:0.00,9999.99',
             'status' => 'required',
             'category_id' => 'required',
         ];
