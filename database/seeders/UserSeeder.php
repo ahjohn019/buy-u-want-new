@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
             'name' => 'UserOne',
             'email' => 'yewrui@hotmail.com',
             'password' => Hash::make('123123123'),
-            'user_details_id' => null,
+            'biography_id' => null,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ];
@@ -36,7 +36,7 @@ class UserSeeder extends Seeder
             'name' => 'AdminOne',
             'email' => 'admin@hotmail.com',
             'password' => Hash::make('123123123'),
-            'user_details_id' => 1,
+            'biography_id' => 1,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ];
@@ -78,11 +78,11 @@ class UserSeeder extends Seeder
 
         
         DB::table('users')->insert([$create_user_one,$create_user_two]);
-        DB::table('user_details')->insert([$create_user_two_details]);
+        DB::table('biographies')->insert([$create_user_two_details]);
         DB::table('addresses')->insert([$create_user_two_addresses, $create_user_two_addresses_two]);
         
-        $user = Role::create(['name' => 'user']);
-        $admin = Role::create(['name' => 'admin']);
+        $user = Role::firstOrCreate(['name' => 'user']);
+        $admin = Role::firstOrCreate(['name' => 'admin']);
 
         $db_user = User::where('id',1)->first(); 
         $db_admin = User::where('id',2)->first();

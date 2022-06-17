@@ -4,11 +4,11 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VariantController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\Auth\RegisteredUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,10 +30,10 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/users',[RegisteredUserController::class,'index']);
-Route::get('/users/{id}',[RegisteredUserController::class,'show']);
-Route::put('/users/{id}',[RegisteredUserController::class,'update']);
-Route::post('/users/details',[RegisteredUserController::class,'storeDetails']);
+Route::get('/users',[UserController::class,'index']);
+Route::get('/users/{id}',[UserController::class,'show']);
+Route::put('/users/{id}',[UserController::class,'update']);
+Route::post('/users/details',[UserController::class,'storeDetails']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
