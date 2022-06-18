@@ -12,6 +12,7 @@ class Address extends Model
 
     protected $fillable = ['address_line_one','address_line_two','postcode','user_id','city','state','country'];
 
+    //belongs to only one user have address
     public function user(){
         return $this->belongsTo(User::class);
     }

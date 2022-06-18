@@ -12,7 +12,8 @@ class Coupon extends Model
 
     protected $fillable = ['name','prefix','discount_details_id'];
 
+    //one coupon belongs to one discount details
     public function discount_details(){
-        return $this->belongsTo(DiscountDetails::class,'discount_details_id','id');
+        return $this->belongsTo(DiscountDetails::class);
     }
 }

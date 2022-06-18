@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Order;
 use App\Models\Address;
 use App\Models\Payment;
-use App\Models\UserDetails;
+use App\Models\Product;
+use App\Models\Biography;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -48,16 +50,29 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function userDetails(){
-        return $this->belongsTo(UserDetails::class);
+    //one user has one biography
+    public function biography(){
+        return $this->hasOne(Biography::class);
     }
 
+    //one category has created by one user
+    public function category(){
+        return $this->hasOne(Category::class);
+    }
+
+    //one user has many addresses
     public function addresses() {
         return $this->hasMany(Address::class);
     }
 
-    public function payments(){
-        return $this->hasMany(Payment::class);
+    //product has only one created by user
+    public function product(){
+        return $this->hasOne(Product::class);
+    }
+
+    //one user has many orders
+    public function order(){
+        return $this->hasMany(Order::class);
     }
 
     public function scopeFindAuthUser($query){

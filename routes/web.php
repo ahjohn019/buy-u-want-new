@@ -30,10 +30,15 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/users',[UserController::class,'index']);
-Route::get('/users/{id}',[UserController::class,'show']);
-Route::put('/users/{id}',[UserController::class,'update']);
-Route::post('/users/details',[UserController::class,'storeDetails']);
+Route::prefix('users')->group(function(){
+    Route::get('/',[UserController::class,'index']);
+    Route::get('/{id}',[UserController::class,'show']);
+    Route::put('/{id}',[UserController::class,'update']);
+    Route::post('/details',[UserController::class,'storeDetails']);
+    Route::put('/details/{id}',[UserController::class,'updateDetails']);
+    Route::delete('/details/{id}',[UserController::class,'destroyDetails']);
+});
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

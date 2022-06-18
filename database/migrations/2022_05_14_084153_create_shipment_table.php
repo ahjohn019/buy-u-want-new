@@ -17,7 +17,7 @@ class CreateShipmentTable extends Migration
             $table->id();
             $table->string('name');
             $table->double('charge');
-            $table->integer('location_id');
+            $table->integer('order_details_id');
             $table->timestamps();
         });
     }

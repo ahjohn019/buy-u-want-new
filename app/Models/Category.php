@@ -12,10 +12,12 @@ class Category extends Model
     use HasFactory;
     protected $fillable = ['name','user_id'];
 
+    //one category belongs to one user
     public function user(){
         return $this->belongsTo(User::class);
     }
 
+    //one category has many products
     public function product(){
         return $this->hasMany(Product::class);
     }

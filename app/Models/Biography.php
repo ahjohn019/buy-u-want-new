@@ -7,18 +7,16 @@ use App\Models\Address;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class UserDetails extends Model
+class Biography extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['gender','birth_date','role','home_number','mobile_number','user_id','user_address_id'];
+    protected $fillable = ['gender','birth_date','role','home_number','mobile_number','user_id'];
 
+    //one biography belongs to one user
     public function user(){
         return $this->belongsTo(User::class);
     }
 
-    public function addresses(){
-        return $this->hasMany(Address::class);
-    }
 }
 

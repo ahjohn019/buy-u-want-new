@@ -11,13 +11,15 @@ class DiscountDetails extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['type','category','value','total_usage','discount_id','coupon_id'];
+    protected $fillable = ['type','category','value','total_usage','discount_id'];
 
+    //one discount details belongs to one discount
     public function discount(){
-        return $this->belongsTo(Discount::class, 'discount_id','id');
+        return $this->belongsTo(Discount::class);
     }
 
+    //one coupon has one discount details
     public function coupon(){
-        return $this->belongsTo(Coupon::class, 'coupon_id','id');
+        return $this->hasOne(Coupon::class);
     }
 }

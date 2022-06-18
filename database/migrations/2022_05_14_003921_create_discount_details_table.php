@@ -20,7 +20,6 @@ class CreateDiscountDetailsTable extends Migration
             $table->double('value');
             $table->integer('total_usage');
             $table->integer('discount_id');
-            $table->integer('coupon_id')->nullable();
             $table->timestamps();
         });
     }

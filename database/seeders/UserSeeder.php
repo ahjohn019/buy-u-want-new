@@ -27,7 +27,6 @@ class UserSeeder extends Seeder
             'name' => 'UserOne',
             'email' => 'yewrui@hotmail.com',
             'password' => Hash::make('123123123'),
-            'biography_id' => null,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ];
@@ -36,13 +35,23 @@ class UserSeeder extends Seeder
             'name' => 'AdminOne',
             'email' => 'admin@hotmail.com',
             'password' => Hash::make('123123123'),
-            'biography_id' => 1,
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+        ];
+
+        $create_user_one_details = [
+            'gender' => 'male',
+            'birth_date' => 'yewrui@hotmail.com',
+            'role' => 'user',
+            'home_number' => '0341614322',
+            'mobile_number' => '0123771428',
+            'user_id' => 2,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ];
 
         $create_user_two_details = [
-            'gender' => 'AdminOne',
+            'gender' => 'male',
             'birth_date' => 'admin@hotmail.com',
             'role' => 'admin',
             'home_number' => '0341614322',

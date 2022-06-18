@@ -19,7 +19,6 @@ class CreateDiscountTable extends Migration
             $table->string('description');
             $table->string('status');
             $table->integer('product_id');
-            $table->integer('discount_details_id');
             $table->timestamps();
         });
     }
