@@ -61,7 +61,7 @@ class User extends Authenticatable
     }
 
     //one user has many addresses
-    public function addresses() {
+    public function address() {
         return $this->hasMany(Address::class);
     }
 

@@ -28,7 +28,6 @@ class UserController extends BaseController
     //Display specific user
     public function show($id){
         $findUser = $this->user::find($id);
-        dd($this->user::find($id)->biography);
         
         return response()->json(['User' => $findUser]);
     }

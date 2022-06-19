@@ -61,66 +61,87 @@ class ModelTest extends TestCase
         $this->assertTrue(Schema::hasColumns($relationship->getParent()->getTable(), array($foreign_key)));
     }
 
+    public function getModelList(){        
+        $getModelList = [
+            'User' =>  new User,
+            'Biography' =>  new Biography, 
+            'Category' =>  new Category, 
+            'Product' => new Product, 
+            'Address' => new Address,
+            'Order'=> new Order,
+            'OrderDetails' => new OrderDetails,
+            'Discount' => new Discount,
+            'Variant' => new Variant
+        ];
+
+        return $getModelList;
+    }
+
 
     public function test_user_in_correct_relationship(){
-        $user = new User;
-        $address = new Address;
-        $biography = new Biography;
-        $category = new Category;
-        $products = new Product;
-        $order = new Order;
-
         $user_id = 'user_id';
+        $notInTest = ["User", "OrderDetails", "Discount", "Variant"];
+        $hasOneTest = ['Biography', 'Category', 'Product'];
+        $hasManyTest = ['Address', 'Order'];
 
-        $this->assertHasOneUsing(Biography::class, $user->biography(), $user_id);
-        $this->assertBelongsToUsing(User::class, $biography->user(), $user_id);
-
-        $this->assertHasManyUsing(Address::class, $user->addresses(), $user_id);
-        $this->assertBelongsToUsing(User::class, $address->user(), $user_id);
-
-        $this->assertHasOneUsing(Category::class, $user->category(), $user_id);
-        $this->assertBelongsToUsing(User::class, $category->user(), $user_id);
-
-        $this->assertHasOneUsing(Product::class, $user->product(), $user_id);
-        $this->assertBelongsToUsing(User::class, $products->user(), $user_id);
-
-        $this->assertHasManyUsing(Order::class, $user->order(), $user_id);
-        $this->assertBelongsToUsing(User::class, $products->user(), $user_id);
+        foreach($this->getModelList() as $key => $value){
+            $lowerKeyCase = strtolower($key);
+            if(!in_array($key, $notInTest)){
+                $this->assertBelongsToUsing(User::class, $value->user(), $user_id);
+            }
+            if(in_array($key, $hasOneTest)){
+               $this->assertHasOneUsing('App\\Models\\'. $key, $this->getModelList()['User']->$lowerKeyCase(), $user_id);    
+            }
+            if(in_array($key, $hasManyTest)){
+               $this->assertHasManyUsing('App\\Models\\'. $key, $this->getModelList()['User']->$lowerKeyCase(), $user_id);    
+            }
+        }
     }
 
     public function test_product_in_correct_relationship(){
-        $product = new Product;
-        $category = new Category();
-        $variant = new Variant();
-        $discount = new Discount();
-        $user = new User();
-        $orderDetails = new OrderDetails();
+        $product_id = 'product_id';
 
-        $this->assertHasManyUsing(Variant::class, $product->variant(), 'product_id');
-        $this->assertBelongsToUsing(Product::class, $variant->product(),'product_id');
+        foreach ($this->getModelList() as $key => $value) {
+            $lowerKeyCase = strtolower($key);
 
-        $this->assertHasManyUsing(Product::class, $category->product(), 'category_id');
-        $this->assertBelongsToUsing(Category::class, $product->category(),'category_id');
-
-        $this->assertHasOneUsing(Product::class, $user->product(), 'user_id');
-        $this->assertBelongsToUsing(User::class, $product->user(),'user_id');
-
-        $this->assertHasOneUsing(Discount::class, $product->discount(), 'product_id');
-        $this->assertBelongsToUsing(Product::class, $discount->product(),'product_id');
-
-        $this->assertHasManyUsing(OrderDetails::class, $product->orderDetails(), 'product_id');
-        $this->assertBelongsToUsing(Product::class, $orderDetails->product(),'product_id');
+            if($key == "Discount"){
+                $this->assertHasOneUsing('App\\Models\\'. $key, $this->getModelList()['Product']->$lowerKeyCase(), 'product_id');
+                $this->assertBelongsToUsing(Product::class, $this->getModelList()['Discount']->product(),'product_id');
+            }
+            if($key == "Product"){
+                if($this->getModelList()['User']){
+                    $this->assertHasOneUsing('App\\Models\\'. $key, $this->getModelList()['User']->$lowerKeyCase(), 'user_id');
+                    $this->assertBelongsToUsing(User::class, $this->getModelList()['Product']->user(), 'user_id');
+                }
+                if($this->getModelList()['Category']){
+                    $this->assertHasManyUsing('App\\Models\\'. $key, $this->getModelList()['Category']->$lowerKeyCase(), 'category_id');
+                    $this->assertBelongsToUsing(Product::class, $this->getModelList()['Variant']->product(),'product_id');
+                }
+            }
+            if($key == "OrderDetails"){
+                $this->assertHasManyUsing('App\\Models\\'. $key, $this->getModelList()['Product']->orderDetails(), 'product_id');
+                $this->assertBelongsToUsing(Product::class, $this->getModelList()['OrderDetails']->product(),'product_id');
+            } 
+            if($key == "Variant") {
+                $this->assertHasManyUsing('App\\Models\\'. $key, $this->getModelList()['Product']->$lowerKeyCase(), 'product_id');
+                $this->assertBelongsToUsing(Product::class, $this->getModelList()['Variant']->product(),'product_id');
+            }
+            
+        }
     }
 
     public function test_order_in_correct_relationship(){
-        $user = new User();
-        $order = new Order();
-        $orderDetails = new OrderDetails();
-
-        $this->assertHasManyUsing(OrderDetails::class, $order->orderDetails(), 'order_id');
-        $this->assertBelongsToUsing(Order::class, $orderDetails->order(),'order_id');
-
-        $this->assertHasManyUsing(Order::class, $user->order(), 'user_id');
-        $this->assertBelongsToUsing(User::class, $order->user(),'user_id');
+        foreach ($this->getModelList() as $key => $value) {
+            $lowerKeyCase = strtolower($key);
+            
+            if($key == "OrderDetails"){
+                $this->assertHasManyUsing('App\\Models\\'. $key, $this->getModelList()['Order']->orderDetails(), 'order_id');
+                $this->assertBelongsToUsing(Order::class,  $this->getModelList()['OrderDetails']->order(),'order_id');
+            }
+            if ($key == "Order") {
+                $this->assertHasManyUsing('App\\Models\\'. $key, $this->getModelList()['User']->$lowerKeyCase(), 'user_id');
+                $this->assertBelongsToUsing(User::class, $this->getModelList()['Order']->user(),'user_id');
+            }
+        }
     }
 }
