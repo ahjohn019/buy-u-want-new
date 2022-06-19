@@ -18,7 +18,7 @@ class CategoryController extends BaseController
     public function index()
     {
         //
-        $categoryList = Category::getActiveCategory()->get();
+        $categoryList = $this->category->getActiveCategory()->get();
         return $categoryList;
     }
 
@@ -42,9 +42,9 @@ class CategoryController extends BaseController
     {
         //
         try{
-            if(!Gate::inspect('create', Category::class)->allowed()) return abort(403);
-            $category = Category::create($request->validated());
-            Category::where('id', $category->id)->update(['user_id' => auth()->user()->id]);
+            if(!Gate::inspect('create', $this->category)->allowed()) return abort(403);
+            $category = $this->category->create($request->validated());
+            $this->category->where('id', $category->id)->update(['user_id' => auth()->user()->id]);
             return $category;
         } catch(Exception $e){
             return back()->with('error',$e->getMessage());
@@ -61,7 +61,7 @@ class CategoryController extends BaseController
     public function show($id)
     {
         //
-        $categoryShow = Category::find($id); 
+        $categoryShow = $this->category->find($id); 
         return $categoryShow;
     }
 
@@ -87,8 +87,8 @@ class CategoryController extends BaseController
     {
         //
         try{
-            if(!Gate::inspect('update', Category::find($id))->allowed()) return abort(403);
-            $category = Category::where('id',$id)->update($request->validated());
+            if(!Gate::inspect('update', $this->category->find($id))->allowed()) return abort(403);
+            $category = $this->category->where('id',$id)->update($request->validated());
             return $category;
         } catch(Exception $e){
             return back()->with('error',$e->getMessage());
@@ -106,8 +106,8 @@ class CategoryController extends BaseController
     {
         //
         try{
-            if(!Gate::inspect('delete', Category::find($id))->allowed()) return abort(403);
-            Category::find($id)->delete();
+            if(!Gate::inspect('delete', $this->category->find($id))->allowed()) return abort(403);
+            $this->category->find($id)->delete();
             return true;
         } catch(Exception $e){
             return back()->with('error',$e->getMessage());

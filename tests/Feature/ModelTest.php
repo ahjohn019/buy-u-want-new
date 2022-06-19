@@ -27,13 +27,6 @@ class ModelTest extends TestCase
      * @return void
      */
 
-    public function test_example()
-    {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
-    }
-
     public function assertGetRelatedData($related_model,$relationship,$foreign_key){
         $this->assertInstanceOf($related_model, $relationship->getRelated());
         $this->assertEquals($foreign_key, $relationship->getForeignKeyName());

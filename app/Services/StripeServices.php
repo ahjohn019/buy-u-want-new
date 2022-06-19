@@ -117,6 +117,8 @@ class StripeServices
             'metadata' => ['order_id' => $orderData->number]
         ]);
 
+        $this->clearAll();
+
         return $updatePaymentIntents;
     }
 }

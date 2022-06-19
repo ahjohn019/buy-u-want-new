@@ -2,24 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\Variant;
 use Illuminate\Http\Request;
 use App\Http\Requests\VariantRequest;
 use Illuminate\Support\Facades\DB;
+use App\Services\VariantServices;
 
 class VariantController extends BaseController
 {
-
-    public function restrictProduct($request){
-        $getProductId = Product::pluck('id')->all();
-        $findProduct = Product::find($request->product_id);
-        $getProductOwnerId = $findProduct->user_id ?? null;
-
-        return ["getProductId"=> $getProductId, "getProductOwnerId"=> $getProductOwnerId];
-    }
-
-
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +17,7 @@ class VariantController extends BaseController
     public function index()
     {
         //
-        $variantList = Variant::getActiveVariant()->get();
+        $variantList = $this->variant->getActiveVariant()->get();
         return $variantList;
     }
 
@@ -52,14 +41,14 @@ class VariantController extends BaseController
     {
         //
         try{
-            $productNotValid = !in_array($request->product_id, $this->restrictProduct($request)['getProductId']) 
-                               || auth()->user()->id != $this->restrictProduct($request)['getProductOwnerId'];
+            $productNotValid = !in_array($request->product_id, $this->variantServices->restrictProduct($request)['getProductId']) 
+                               || auth()->user()->id != $this->variantServices->restrictProduct($request)['getProductOwnerId'];
 
             if($productNotValid){
                 return response()->json(["data" => "Unauthorized", "status" => 0]);
             }
 
-            $variantCreate = Variant::create($request->validated());
+            $variantCreate = $this->variant->create($request->validated());
             return response()->json(["data" => $variantCreate, "status" => 1]);
         } catch(\Throwable $e){
             dd($e);
@@ -78,7 +67,7 @@ class VariantController extends BaseController
     public function show($id)
     {
         //
-        $variantShow = Variant::find($id);
+        $variantShow = $this->variant->find($id);
         return $variantShow->product;
     }
 
@@ -104,18 +93,18 @@ class VariantController extends BaseController
     {
         //
         try{
-
-            $productNotValid = !in_array($request->product_id, $this->restrictProduct($request)['getProductId']) 
-                               || auth()->user()->id != $this->restrictProduct($request)['getProductOwnerId'];
+            $productNotValid = !in_array($request->product_id, $this->variantServices->restrictProduct($request)['getProductId']) 
+                               || auth()->user()->id != $this->variantServices->restrictProduct($request)['getProductOwnerId'];
 
             if($productNotValid){
                 return response()->json(["data" => "Unauthorized", "status" => 0]);
             }
 
-            $variantUpdate = Variant::where('id', $id)->update($request->validated());
+            $variantUpdate = $this->variant->where('id', $id)->update($request->validated());
             return response()->json(["data" => $variantUpdate, "status" => 1]);
 
         } catch(\Throwable $e){
+            dd($e);
             DB::rollback();
             return back()->with('error',$e->getMessage());
         }
@@ -131,11 +120,10 @@ class VariantController extends BaseController
     {
         //
         try{
-
-            if(auth()->user()->id != Variant::find($id)->product->user_id){
+            if(auth()->user()->id != $this->variant->find($id)->product->user_id){
                 return response()->json(["data" => "Unauthorized", "status" => 0]);
             }
-
+            $this->variant->find($id)->delete();
             return response()->json(["data" => "Delete Variant", "status" => 1]);
         } catch(\Throwable $e){
             DB::rollback();

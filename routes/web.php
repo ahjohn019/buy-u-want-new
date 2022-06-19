@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VariantController;
@@ -30,6 +31,11 @@ Route::get('/', function () {
     ]);
 });
 
+Route::resource('products', ProductController::class);
+Route::resource('categories', CategoryController::class);
+Route::resource('variants', VariantController::class);
+Route::resource('orders', OrderController::class);
+
 Route::prefix('users')->group(function(){
     Route::get('/',[UserController::class,'index']);
     Route::get('/{id}',[UserController::class,'show']);
@@ -51,11 +57,8 @@ Route::prefix('carts')->group(function(){
     Route::post('/addCart/{product}',[CartController::class,'addCart']);
     Route::post('/updateCart/{product}',[CartController::class,'updateCart']);
     Route::post('/removeCart/{product}',[CartController::class,'removeCart']);
+    Route::post('/clearAll',[CartController::class,'clearAll']);
 });
-
-Route::resource('products', ProductController::class);
-Route::resource('categories', CategoryController::class);
-Route::resource('variants', VariantController::class);
 
 //Stripe Controller
 Route::middleware(['auth','verified'])->group(function () {

@@ -3,32 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Biography;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\BaseController;
+use App\Http\Requests\UserDetailsRequest;
 
 class UserController extends BaseController
 {
-    //
-    protected $user;
-    protected $biography;
-
-    public function __construct(User $user, Biography $biography){
-        $this->user = $user;
-        $this->biography = $biography;
-    }
-
     // Display User
     public function index(){
         $getUser = $this->user::all();
-         return response()->json(['data' => $getUser]);
+        return response()->json(['data' => $getUser]);
     }
 
     //Display specific user
     public function show($id){
         $findUser = $this->user::find($id);
-        
         return response()->json(['User' => $findUser]);
     }
     
@@ -47,13 +37,7 @@ class UserController extends BaseController
     }
 
     //create user details only
-    public function storeDetails(Request $request){
-        $request->validate([
-            'gender' => 'required|string',
-            'birth_date' => 'required|date_format:d-m-Y',
-            'role' => 'required|string',
-        ]);
-
+    public function storeDetails(UserDetailsRequest $request){
         try{
             $getUserDetails =  $this->biography->where('user_id', auth()->user()->id)->first();
 
@@ -62,31 +46,22 @@ class UserController extends BaseController
             }
 
             DB::beginTransaction();
-            $userDetails = $this->biography->create([
-                'gender' => $request->gender,
-                'birth_date' => $request->birth_date,
-                'role' => $request->role,
-                'user_id' => auth()->user()->id
-            ]);
+            $userDetails = $this->biography->create($request->validated());
+            $this->biography->where('id', $userDetails->id)->update(['user_id'=> auth()->user()->id]);
             DB::commit();
 
             return response()->json(['data' => 'User Details Created Successfully','status' => 1]);
         } catch(\Throwable $e){
+            dd($e->getMessage());
             DB::rollback();
             return back()->with('error',$e->getMessage());
         }
     }
 
     //update user details only
-    public function updateDetails(Biography $id, Request $request){
-       $validatedData = $request->validate([
-            'gender' => 'required|string',
-            'birth_date' => 'required|date_format:d-m-Y',
-            'role' => 'required|string',
-        ]);
-        
+    public function updateDetails(Biography $id, UserDetailsRequest $request){
         try{
-            $id->update($validatedData);
+            $id->update($request->validated());
             return response()->json(['data' => 'User Details Updated Successfully','status' => 1]);
         } catch (\Throwable $e){
             return back()->with('error',$e->getMessage());

@@ -12,7 +12,7 @@ class OrderDetails extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['quantity','price','order_id','product_id','payment_id','shipment_id'];
+    protected $fillable = ['quantity','price','order_id','product_id','shipment_id'];
 
     //each order belongs to one order
     public function order(){
@@ -23,12 +23,7 @@ class OrderDetails extends Model
     public function product(){
         return $this->belongsTo(Product::class);
     }
-
-    //one order details belongs to one payment id
-    public function payment(){
-        return $this->belongsTo(Payment::class);
-    }
-
+    
     //one order details belongs to one shipment 
     public function shipment(){
         return $this->belongsTo(Shipment::class);

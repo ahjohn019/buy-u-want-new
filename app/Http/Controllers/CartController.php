@@ -40,4 +40,8 @@ class CartController extends BaseController
     public function removeCart(Product $product){
         \Cart::session(auth()->user()->id)->remove($product->id);
     }
+
+    public function clearCart(){
+        return $this->clearAll();
+    }
 }

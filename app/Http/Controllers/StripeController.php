@@ -33,8 +33,6 @@ class StripeController extends BaseController
     {
         $confirmPaymentIntents = $this->stripeService->paymentProcess($customerRequest, $cardRequest);
 
-        $this->clearAll();
-
         return $confirmPaymentIntents;
     }
 }

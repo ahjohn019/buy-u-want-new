@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -12,12 +11,6 @@ use App\Http\Controllers\BaseController;
 
 class ProductController extends BaseController
 {
-    protected $product;
-
-    public function __construct(Product $product){
-        $this->product = $product;
-    }
-
     /**
      * Display a listing of the resource.
      *
