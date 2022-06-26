@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\Biography;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -15,5 +16,10 @@ class Address extends Model
     //belongs to only one user have address
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    //many to many relationship (user)
+    public function pivotUser(){
+        return $this->belongsToMany(User::class, 'user_address');
     }
 }

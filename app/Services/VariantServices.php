@@ -5,12 +5,31 @@ use App\Models\Product;
 
 class VariantServices
 {
-    public function restrictProduct($request){
-        $getProductId = Product::pluck('id')->all();
-        $findProduct = Product::find($request->product_id);
-        $getProductOwnerId = $findProduct->user_id ?? null;
+    /**
+     * Get The list of product id & find the product owner who modify variant 
+     *
+     * @param string $request
+     * @param string $product
+     * @return void
+     */
+    public function check($request, $product){
+        $getProductId = $product::pluck('id')->all();
+        $getProductOwner = $product::find($request->product_id)->user_id ?? null;
 
-        return ["getProductId"=> $getProductId, "getProductOwnerId"=> $getProductOwnerId];
+        return ["getProductId"=> $getProductId, "getProductOwner"=> $getProductOwner];
     }
 
+    /**
+     * Check the product belongs to the owner
+     *
+     * @param string $request
+     * @param string $product
+     * @return void
+     */
+    public function checkProductInvalid($request, $product){
+        $productInvalid = !in_array($request->product_id, $this->check($request, $product)['getProductId']) 
+                          || auth()->user()->id != $this->check($request, $product)['getProductOwner'];
+
+        return $productInvalid;
+    }
 }

@@ -18,14 +18,31 @@ class StripeController extends BaseController
 
     use CartTrait;
 
+    /**
+     * Get Stripe Services Function
+     *
+     * @param StripeServices $stripeService
+     */
     public function __construct(StripeServices $stripeService){
         $this->stripeService = $stripeService;
     }
 
+    /**
+     * Get The Specific Stripe Customer From Service Class
+     *
+     * @return void
+     */
     public function retrieveCustomer(){
         return $this->stripeService->retrieveCustomerService();
     }
 
+    /**
+     * Process the stripe payments after customer purchased the items
+     *
+     * @param StripeCreateCustomerRequest $customerRequest
+     * @param StripeCreateCardRequest $cardRequest
+     * @return void
+     */
     public function finalPayments(
         StripeCreateCustomerRequest $customerRequest, 
         StripeCreateCardRequest $cardRequest

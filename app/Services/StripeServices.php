@@ -24,10 +24,20 @@ class StripeServices
         $this->orderDetails = $orderDetails;
     }
 
+    /**
+     * Get the stripe key from the dashboard
+     *
+     * @return void
+     */
     public function getStripeKey(){
         return $this->stripeKey;
     }
 
+    /**
+     * List of payment intent resource
+     *
+     * @return void
+     */
     public function intentResource() {
         return [
             'amount' => $this->getCartTotal(),
@@ -39,22 +49,44 @@ class StripeServices
         ];
     }
 
+    /**
+     * Create new customer if first time customer didn't register as stripe services.
+     *
+     * @param array $request
+     * @return void
+     */
     public function createCustomer($request){
         $customerCreate = $this->getStripeKey()->customers()->create($request->validated());
         $this->user->findAuthUser()->update(['stripe_id' => $customerCreate['id']]);
         return response()->json(["data" => "Customer Created Successfully"]);
     }
 
+    /**
+     * Retrieve the selected customer by stripe customer id.
+     *
+     * @return void
+     */
     public function retrieveCustomerService(){
         $customerGet = empty(auth()->user()->stripe_id) ? null : $this->getStripeKey()->customers()->find(auth()->user()->stripe_id);
         return $customerGet;
     }
 
+    /**
+     * Create the stripe payment method
+     *
+     * @param array $request
+     * @return void
+     */
      public function createPaymentMethod($request){
         $paymentMethod = $this->getStripeKey()->paymentMethods()->create($request->validated());
         return $paymentMethod['id'];
     }
 
+    /**
+     * Create the steipe payment intents
+     *
+     * @return void
+     */
     public function createPaymentIntents(){
         $intentData = $this->intentResource();
 
@@ -66,6 +98,12 @@ class StripeServices
         return response()->json(["data" => $paymentIntent, "status" => 1]);
     }
 
+    /**
+     * Create an order after make stripe payment
+     *
+     * @param [type] $confirmPaymentIntents
+     * @return void
+     */
     public function generateOrder($confirmPaymentIntents){
         $order = $this->order->create([
             'number' => 'ORDER-' . uniqid(),
@@ -82,6 +120,12 @@ class StripeServices
         return $order;
     }
 
+    /**
+     * Store the order details data if order was done on payment.
+     *
+     * @param [type] $orderId
+     * @return void
+     */
     public function generateOrderDetails($orderId){
         $getItems = $this->getCartContent();
         foreach($getItems as $item){
@@ -95,7 +139,13 @@ class StripeServices
         }
     }
 
-
+    /**
+     * Final process payment after user confirmed to make an order
+     *
+     * @param array $customerRequest
+     * @param array $cardRequest
+     * @return void
+     */
     public function paymentProcess($customerRequest, $cardRequest){
         if(empty(auth()->user()->stripe_id)){
             return $this->createCustomer($customerRequest);

@@ -3,26 +3,43 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Biography;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\BaseController;
+use App\Http\Requests\UserAddressRequest;
 use App\Http\Requests\UserDetailsRequest;
 
 class UserController extends BaseController
 {
-    // Display User
+    /**
+     * Display All User
+     *
+     * @return void
+     */
     public function index(){
         $getUser = $this->user::all();
         return response()->json(['data' => $getUser]);
     }
 
-    //Display specific user
+    /**
+     * Display Specific User
+     *
+     * @param integer $id
+     * @return void
+     */
     public function show($id){
         $findUser = $this->user::find($id);
         return response()->json(['User' => $findUser]);
     }
     
-    //Update user only
+    /**
+     * Update Specific User
+     *
+     * @param User $id
+     * @param Request $request
+     * @return void
+     */
     public function update(User $id, Request $request){
         $validatedData = $request->validate([
             'name' => 'required|string|max:255'
@@ -36,7 +53,12 @@ class UserController extends BaseController
         }
     }
 
-    //create user details only
+    /**
+     * Store User Details
+     *
+     * @param UserDetailsRequest $request
+     * @return void
+     */
     public function storeDetails(UserDetailsRequest $request){
         try{
             $getUserDetails =  $this->biography->where('user_id', auth()->user()->id)->first();
@@ -48,22 +70,74 @@ class UserController extends BaseController
             DB::beginTransaction();
             $userDetails = $this->biography->create($request->validated());
             $this->biography->where('id', $userDetails->id)->update(['user_id'=> auth()->user()->id]);
+
+            $getUser = $this->user::find(auth()->user()->id);
+            $getUser->pivotBiography()->sync($userDetails->id);
+            
             DB::commit();
 
             return response()->json(['data' => 'User Details Created Successfully','status' => 1]);
         } catch(\Throwable $e){
-            dd($e->getMessage());
             DB::rollback();
             return back()->with('error',$e->getMessage());
         }
     }
 
-    //update user details only
-    public function updateDetails(Biography $id, UserDetailsRequest $request){
+    /**
+     * Store User Address
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function storeAddress(UserAddressRequest $request){
+        //
+        try {
+            DB::beginTransaction();
+            $userDetails = $this->address->create($request->validated());
+            $this->address->where('id', $userDetails->id)->update(['user_id'=> auth()->user()->id]);
+
+            $getUser = $this->user::find(auth()->user()->id);
+            $getUser->pivotAddress()->sync($userDetails->id);
+            
+            DB::commit();
+
+        } catch (\Throwable $e) {
+            dd($e);
+            DB::rollback();
+            return back()->with('error',$e->getMessage());
+        }
+    }
+
+    /**
+     * Update Specific User Details
+     *
+     * @param Biography $id
+     * @param UserDetailsRequest $request
+     * @return void
+     */
+    public function updateDetails(User $id, UserDetailsRequest $request){
         try{
-            $id->update($request->validated());
+            $id->biography->update($request->validated());
             return response()->json(['data' => 'User Details Updated Successfully','status' => 1]);
         } catch (\Throwable $e){
+            return back()->with('error',$e->getMessage());
+        }
+    }
+
+    /**
+     * Update Specific User Address
+     *
+     * @param Address $id
+     * @param UserDetailsRequest $request
+     * @return void
+     */
+    public function updateAddress(User $id, UserAddressRequest $addressRequest){
+        try {
+            $inputAddress = request()->input('address_id');
+            $findAddress = $id->address->where('id',$inputAddress)->first();
+            $findAddress->update($addressRequest->validated());
+            return response()->json(['data' => 'User Address Updated Successfully','status' => 1]);
+        } catch (\Throwable $e) {
             return back()->with('error',$e->getMessage());
         }
     }

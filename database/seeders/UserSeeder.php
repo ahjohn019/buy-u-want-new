@@ -45,7 +45,7 @@ class UserSeeder extends Seeder
             'role' => 'user',
             'home_number' => '0341614322',
             'mobile_number' => '0123771428',
-            'user_id' => 2,
+            'user_id' => 1,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ];
@@ -85,10 +85,22 @@ class UserSeeder extends Seeder
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ];
 
+        $create_pivot_user_table = [
+            [
+                'user_id' => 1,
+                'biography_id' => 1
+            ],
+            [
+                'user_id' => 2,
+                'biography_id' => 2
+            ]
+        ];
+        // DB::table('user_biography')->insert($create_pivot_user_table);    
         
         DB::table('users')->insert([$create_user_one,$create_user_two]);
-        DB::table('biographies')->insert([$create_user_two_details]);
+        DB::table('biographies')->insert([$create_user_one_details, $create_user_two_details]);
         DB::table('addresses')->insert([$create_user_two_addresses, $create_user_two_addresses_two]);
+        
         
         $user = Role::firstOrCreate(['name' => 'user']);
         $admin = Role::firstOrCreate(['name' => 'admin']);

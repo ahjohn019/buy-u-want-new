@@ -18,5 +18,9 @@ class Biography extends Model
         return $this->belongsTo(User::class);
     }
 
+    //many to many relationship (user)
+    public function pivotUser(){
+        return $this->belongsToMany(User::class, 'user_biography');
+    }
 }
 

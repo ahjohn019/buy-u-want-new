@@ -78,4 +78,13 @@ class User extends Authenticatable
     public function scopeFindAuthUser($query){
         return $query->where('id',auth()->user()->id);
     }
+
+    //many to many relationship (biography, address)
+    public function pivotBiography(){
+        return $this->belongsToMany(Biography::class, 'user_biography');
+    }
+
+    public function pivotAddress(){
+        return $this->belongsToMany(Address::class, 'user_address');
+    }
 }

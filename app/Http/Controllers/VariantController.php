@@ -39,19 +39,17 @@ class VariantController extends BaseController
      */
     public function store(VariantRequest $request)
     {
-        //
+        //check if product id is in collection, product is created by owner, create it else denied the permission.
         try{
-            $productNotValid = !in_array($request->product_id, $this->variantServices->restrictProduct($request)['getProductId']) 
-                               || auth()->user()->id != $this->variantServices->restrictProduct($request)['getProductOwnerId'];
+            $productInvalid = $this->variantServices->checkProductInvalid($request, $this->product);
 
-            if($productNotValid){
+            if($productInvalid){
                 return response()->json(["data" => "Unauthorized", "status" => 0]);
             }
 
             $variantCreate = $this->variant->create($request->validated());
             return response()->json(["data" => $variantCreate, "status" => 1]);
         } catch(\Throwable $e){
-            dd($e);
             DB::rollback();
             return back()->with('error',$e->getMessage());
         }
@@ -91,12 +89,11 @@ class VariantController extends BaseController
      */
     public function update(VariantRequest $request, $id)
     {
-        //
+        //check if product id is in collection, product is created by owner, updated it else denied the permission.
         try{
-            $productNotValid = !in_array($request->product_id, $this->variantServices->restrictProduct($request)['getProductId']) 
-                               || auth()->user()->id != $this->variantServices->restrictProduct($request)['getProductOwnerId'];
+            $productInvalid = $this->variantServices->checkProductInvalid($request, $this->product);
 
-            if($productNotValid){
+            if($productInvalid){
                 return response()->json(["data" => "Unauthorized", "status" => 0]);
             }
 
@@ -104,7 +101,6 @@ class VariantController extends BaseController
             return response()->json(["data" => $variantUpdate, "status" => 1]);
 
         } catch(\Throwable $e){
-            dd($e);
             DB::rollback();
             return back()->with('error',$e->getMessage());
         }

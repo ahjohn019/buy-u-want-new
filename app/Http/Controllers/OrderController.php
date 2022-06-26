@@ -20,7 +20,7 @@ class OrderController extends BaseController
     public function index()
     {
         //
-        $orderList = $this->order->where('created_at','DESC')->get();
+        $orderList = $this->order->orderBy('created_at','DESC')->get();
         return response()->json(["data" => $orderList]);
     }
 
@@ -33,7 +33,7 @@ class OrderController extends BaseController
     public function show($number)
     {
         //
-        $orderShow = $this->order->where('number',$id)->get();
+        $orderShow = $this->order->where('number',$number)->first();
         $orderDetails = $orderShow->orderDetails;
         return response()->json(["data" => $orderShow,"details"=>$orderDetails]);
     }

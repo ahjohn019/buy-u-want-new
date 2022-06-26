@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Address;
 use App\Models\Product;
 use App\Models\Variant;
-use App\Models\Biography;
 use App\Models\Category;
+use App\Models\Biography;
 use Illuminate\Http\Request;
 use App\Services\VariantServices;
 
@@ -28,7 +29,8 @@ class BaseController extends Controller
         Order $order,
         User $user, 
         Biography $biography,
-        Category $category
+        Category $category,
+        Address $address
     ){
         $this->middleware(['auth','verified'])->except(['index','show']);
         $this->variantServices = $variantServices;
@@ -38,5 +40,6 @@ class BaseController extends Controller
         $this->user = $user;
         $this->biography = $biography;
         $this->category = $category;
+        $this->address = $address;
     }
 }
