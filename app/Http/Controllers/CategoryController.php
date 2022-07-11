@@ -45,7 +45,7 @@ class CategoryController extends BaseController
             if(!Gate::inspect('create', $this->category)->allowed()) return abort(403);
             $category = $this->category->create($request->validated());
             $this->category->where('id', $category->id)->update(['user_id' => auth()->user()->id]);
-            return $category;
+            return response()->json(["data" => $category]);
         } catch(Exception $e){
             return back()->with('error',$e->getMessage());
         }

@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\DiscountDetails;
+use App\Models\Product;
+use App\Models\Discount;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -10,10 +11,17 @@ class Coupon extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','prefix','discount_details_id'];
+    protected $fillable = ['prefix','name','description','usage','max_usage','max_usage_per_user','discount_id','product_id'];
 
-    //one coupon belongs to one discount details
-    public function discount_details(){
-        return $this->belongsTo(DiscountDetails::class);
+    public function discount(){
+        return $this->belongsTo(Discount::class);
+    }
+
+    public function product(){
+        return $this->belongsTo(Product::class);
+    }
+
+    public function pivotDiscount(){
+        return $this->belongsToMany(Discount::class, 'coupons_discounts');
     }
 }

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Category extends Model
 {
     use HasFactory;
-    protected $fillable = ['name','user_id'];
+    protected $fillable = ['name','status','user_id'];
 
     //one category belongs to one user
     public function user(){

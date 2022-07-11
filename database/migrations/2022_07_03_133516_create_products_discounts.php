@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDiscountDetailsTable extends Migration
+class CreateProductsDiscounts extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateDiscountDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('discounts_details', function (Blueprint $table) {
+        Schema::create('products_discounts', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
-            $table->string('category');
-            $table->double('value');
-            $table->integer('total_usage');
+            $table->integer('product_id');
             $table->integer('discount_id');
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateDiscountDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('discounts_details');
+        Schema::dropIfExists('products_discounts');
     }
 }

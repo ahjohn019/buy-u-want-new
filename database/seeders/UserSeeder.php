@@ -23,6 +23,9 @@ class UserSeeder extends Seeder
          *
          * @return void
          */
+
+        // User::factory(5)->create();
+
         $create_user_one = [
             'name' => 'UserOne',
             'email' => 'yewrui@hotmail.com',

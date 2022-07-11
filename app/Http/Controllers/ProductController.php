@@ -44,7 +44,9 @@ class ProductController extends BaseController
         try{
             if(!Gate::inspect('create', $this->product)->allowed()) return abort(403);
             DB::beginTransaction();
+            
             $product = $this->product->create($request->validated());
+            
             $this->product->where('id', $product->id)->update([
                 'user_id' => auth()->user()->id, 
                 'sku' => strtoupper($product->sku) 

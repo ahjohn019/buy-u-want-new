@@ -15,7 +15,7 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-        //
+        
         DB::table('products')->insert([
             [
                 'name' => 'Sample Shirt One',
@@ -26,6 +26,7 @@ class ProductSeeder extends Seeder
                 'status' => 1,
                 'category_id' => 1,
                 'user_id' => 1,
+                'discount_id' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],[
@@ -37,6 +38,20 @@ class ProductSeeder extends Seeder
                 'status' => 0,
                 'category_id' => 1,
                 'user_id' => 2,
+                'discount_id' => 2,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            [
+                'name' => 'Sample Shirt Three',
+                'description' => 'sampleshirtthree',
+                'sku' => 'Sample-Two',
+                'price' => 30.00,
+                'image' => null,
+                'status' => 0,
+                'category_id' => 1,
+                'user_id' => 2,
+                'discount_id' => null,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]

@@ -98,8 +98,8 @@ class ModelTest extends TestCase
             $lowerKeyCase = strtolower($key);
 
             if($key == "Discount"){
-                $this->assertHasOneUsing('App\\Models\\'. $key, $this->getModelList()['Product']->$lowerKeyCase(), 'product_id');
-                $this->assertBelongsToUsing(Product::class, $this->getModelList()['Discount']->product(),'product_id');
+                $this->assertHasManyUsing(Product::class, $this->getModelList()['Discount']->product(),'discount_id');
+                $this->assertBelongsToUsing('App\\Models\\'. $key, $this->getModelList()['Product']->$lowerKeyCase(), 'discount_id');
             }
             if($key == "Product"){
                 if($this->getModelList()['User']){

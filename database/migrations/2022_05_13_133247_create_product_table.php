@@ -23,6 +23,7 @@ class CreateProductTable extends Migration
             $table->integer('status');
             $table->integer('category_id');
             $table->integer('user_id')->nullable();
+            $table->integer('discount_id')->nullable();
             $table->timestamps();
         });
     }

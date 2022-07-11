@@ -18,10 +18,10 @@ class CreateUsersAddressTable extends Migration
             $table->string('address_line_one');
             $table->string('address_line_two')->nullable();
             $table->integer('postcode');
-            $table->integer('user_id');
             $table->string('city');
             $table->string('state');
             $table->string('country');
+            $table->integer('user_id');
             $table->timestamps();
         });
     }

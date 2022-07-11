@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\DiscountDetails;
 use Illuminate\Database\Eloquent\Model;
@@ -11,15 +12,23 @@ class Discount extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','description','status','product_id'];
+    protected $fillable = ['name','description','value','method','type','expiry_at'];
 
-    //belongs to only one product have discount
+    //one discount has many product include
     public function product(){
-        return $this->belongsTo(Product::class);
+        return $this->hasMany(Product::class);
     }
 
-    //one discount has one discount details
-    public function discount_details(){
-        return $this->hasOne(DiscountDetails::class);
+    //one discount has one coupon details
+    public function coupon(){
+        return $this->hasOne(Coupon::class);
+    }
+
+    public function pivotCoupon(){
+        return $this->belongsToMany(Coupon::class, 'coupons_discounts');
+    }
+
+    public function pivotProduct(){
+        return $this->belongsToMany(Product::class, 'products_discounts');
     }
 }

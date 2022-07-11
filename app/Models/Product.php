@@ -14,7 +14,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','description','sku','price','image','category_id','user_id','status'];
+    protected $fillable = ['name','description','sku','price','image','category_id','user_id','discount_id','status'];
 
     //each products belongs to one category
     public function category(){
@@ -26,9 +26,9 @@ class Product extends Model
         return $this->hasMany(Variant::class);
     }
     
-    //has one discount on one product
+    //each discount belongs to one product
     public function discount(){
-        return $this->hasOne(Discount::class);
+        return $this->belongsTo(Discount::class);
     }
 
     //belongs to specific one user create product
@@ -39,6 +39,10 @@ class Product extends Model
     //one products has many order details
     public function orderDetails(){
         return $this->hasMany(OrderDetails::class);
+    }
+
+    public function pivotDiscount(){
+        return $this->belongsToMany(Discount::class, 'products_discounts');
     }
 
     public function scopeGetActiveProduct($query){

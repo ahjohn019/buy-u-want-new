@@ -6,10 +6,12 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VariantController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DiscountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,10 +33,16 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/index', function () {
+    return Inertia::render('Index/Index');
+});
+
 Route::resource('products', ProductController::class);
 Route::resource('categories', CategoryController::class);
 Route::resource('variants', VariantController::class);
 Route::resource('orders', OrderController::class);
+Route::resource('discounts', DiscountController::class);
+Route::resource('coupons',CouponController::class);
 
 Route::prefix('users')->group(function(){
     Route::get('/',[UserController::class,'index']);
