@@ -42,7 +42,7 @@ class Product extends Model
     }
 
     public function pivotDiscount(){
-        return $this->belongsToMany(Discount::class, 'products_discounts');
+        return $this->belongsToMany(Discount::class, 'products_discounts')->withPivot('status');
     }
 
     public function scopeGetActiveProduct($query){

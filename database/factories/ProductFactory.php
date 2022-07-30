@@ -16,13 +16,13 @@ class ProductFactory extends Factory
         return [
             'name' => $this->faker->text(10),
             'description' => $this->faker->text(),
-            'sku' => $this->faker->text(8),
+            'sku' => strtoupper($this->faker->word(10)),
             'price' => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 100),
             'image' => null,
             'status' => 1,
             'category_id' => 1,
-            'user_id' => 2,
-            'discount_id' => null,
+            'user_id' => $this->faker->numberBetween($min = 1, $max = 2),
+            'discount_id' => $this->faker->numberBetween($min = 1, $max = 10),
         ];
     }
 }

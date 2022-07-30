@@ -34,8 +34,12 @@ Route::get('/', function () {
 });
 
 Route::get('/index', function () {
-    return Inertia::render('Index/Index');
+    return Inertia::render('User/Index');
 });
+
+Route::get('/admin/index', function () {
+    return Inertia::render('Admin/Index');
+})->middleware('admin');
 
 Route::resource('products', ProductController::class);
 Route::resource('categories', CategoryController::class);

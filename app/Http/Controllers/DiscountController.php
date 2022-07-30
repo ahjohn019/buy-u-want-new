@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Discount;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\DiscountRequest;
 
 class DiscountController extends BaseController
@@ -15,7 +16,6 @@ class DiscountController extends BaseController
      */
     public function index()
     {
-        //
         $discounts = Discount::all();
         return response()->json(["data" => $discounts]);
     }
@@ -80,7 +80,14 @@ class DiscountController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $product = $this->discount->where('id',$id)->update($request->validated());
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return back()->with('error',$th->getMessage());
+        }
     }
 
     /**
@@ -91,6 +98,12 @@ class DiscountController extends BaseController
      */
     public function destroy($id)
     {
-        //
+        try {
+            $this->discount->find($id)->delete();
+            return response()->json(["data" => "Deleted Successfully"]);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return back()->with('error',$th->getMessage());
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Discount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -51,6 +52,13 @@ class ProductController extends BaseController
                 'user_id' => auth()->user()->id, 
                 'sku' => strtoupper($product->sku) 
             ]);
+
+            // check discount id must be exist.
+            $discount = $this->discount::findorFail($request->discount_id);
+
+            // when discount value is set, product_discount add the new data row.
+            $discount->pivotProduct()->attach($request->id, ['status' => 'active']);
+
             DB::commit();
             return response()->json(["data" => $product]);
         } catch(\Throwable $e){
@@ -96,6 +104,13 @@ class ProductController extends BaseController
             if(!Gate::inspect('update', $this->product->find($id))->allowed()) return abort(403);
             DB::beginTransaction();
             $product = $this->product->where('id',$id)->update($request->validated());
+
+            // check discount id must be exist.
+            $product = $this->product::findorFail($id);
+
+            // when found the product id , discount value update on existing products.
+            $product->pivotDiscount()->update(['discount_id' => $request->discount_id]);
+            
             DB::commit();
             return response()->json(["data" => "Updated Successfully"]);
         } catch(\Throwable $e){

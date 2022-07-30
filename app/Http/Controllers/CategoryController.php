@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -19,7 +20,7 @@ class CategoryController extends BaseController
     {
         //
         $categoryList = $this->category->getActiveCategory()->get();
-        return $categoryList;
+        return response()->json(['categories' => $categoryList]);
     }
 
     /**
@@ -89,7 +90,7 @@ class CategoryController extends BaseController
         try{
             if(!Gate::inspect('update', $this->category->find($id))->allowed()) return abort(403);
             $category = $this->category->where('id',$id)->update($request->validated());
-            return $category;
+            return response()->json(["data" => $category]);
         } catch(Exception $e){
             return back()->with('error',$e->getMessage());
         }

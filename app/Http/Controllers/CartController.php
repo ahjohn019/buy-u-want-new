@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Traits\CartTrait;
 use Illuminate\Http\Request;
+use App\Traits\DiscountTrait;
 use App\Http\Controllers\BaseController;
 
 class CartController extends BaseController
 {
-    use CartTrait;
+    use CartTrait, DiscountTrait;
 
     /**
      * List All Items In The cart
@@ -26,11 +27,11 @@ class CartController extends BaseController
      * @param Product $product
      * @return void
      */
-    public function addCart(Product $product){      
+    public function addCart(Product $product){   
         \Cart::session(auth()->user()->id)->add([
             'id' => $product->id,
             'name' => $product->name,
-            'price' => $product->price,
+            'price' => $this->discountProcess($product),
             'quantity' => 1,
         ]);
 

@@ -29,6 +29,6 @@ class Discount extends Model
     }
 
     public function pivotProduct(){
-        return $this->belongsToMany(Product::class, 'products_discounts');
+        return $this->belongsToMany(Product::class, 'products_discounts')->withPivot('status');
     }
 }
