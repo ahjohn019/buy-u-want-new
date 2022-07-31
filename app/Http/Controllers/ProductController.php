@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\Discount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -77,7 +78,8 @@ class ProductController extends BaseController
     {
         //
         $productShow = $this->product->find($id); 
-        return response()->json(["data" => $productShow]);
+        // $productVariantList = $this->product->variant->pluck('name')
+        return Inertia::render('Front/Products/Show', ["products" => $productShow, "productsCategory" => $productShow->category, "productsVariant" => $productShow->variant ]);
     }
 
     /**

@@ -1,6 +1,6 @@
 <template>
     <div class="bg-blue-400 text-white ">
-        <div class="grid grid-cols-3 gap-6" style="padding:1.5rem 5%;">
+        <div class="container mx-auto grid grid-cols-3 gap-6 pt-6" style="width:1200px;">
             <div class="m-6">
                 <p class="text-3xl font-bold">Find Us</p>
                 <p class="text-sm my-4 leading-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempus
@@ -45,5 +45,4 @@
             <p>Copyright © Buy U Want. All rights reserved. </p>
         </div>
     </div>
-
 </template>

@@ -1,5 +1,5 @@
 <template>
-    <div class="flex space-x-4 justify-center mt-4">
+    <div class="container mx-auto grid grid-cols-4 gap-4" style="width:1200px;">
         <div v-for="category in categories" :key="category.id" :class="applyColor(category.name)">
             <div class="category-list" v-bind:class="addCategoryColor">
                 <p>{{category.name}}</p>

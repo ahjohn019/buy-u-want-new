@@ -34,7 +34,7 @@ Route::get('/', function () {
 });
 
 Route::get('/index', function () {
-    return Inertia::render('User/Index');
+    return Inertia::render('Front/Master/Index');
 });
 
 Route::get('/admin/index', function () {
