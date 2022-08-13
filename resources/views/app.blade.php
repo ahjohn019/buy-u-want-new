@@ -11,10 +11,12 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+        <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.2/dist/flowbite.min.css" />
 
         <!-- Scripts -->
         @routes
         <script src="{{ mix('js/app.js') }}" defer></script>
+        <script src="https://unpkg.com/flowbite@1.5.2/dist/flowbite.js"></script>
         @inertiaHead
     </head>
     <body class="font-sans antialiased">

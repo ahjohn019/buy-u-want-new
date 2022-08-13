@@ -37,6 +37,10 @@ Route::get('/index', function () {
     return Inertia::render('Front/Master/Index');
 });
 
+Route::get('/checkout', function(){
+    return Inertia::render('Front/Checkout/Index');
+});
+
 Route::get('/admin/index', function () {
     return Inertia::render('Admin/Index');
 })->middleware('admin');

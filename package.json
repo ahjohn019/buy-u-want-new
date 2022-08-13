@@ -31,6 +31,7 @@
         "@fortawesome/free-regular-svg-icons": "^6.1.1",
         "@fortawesome/free-solid-svg-icons": "^6.1.1",
         "@fortawesome/vue-fontawesome": "^3.0.1",
+        "flowbite": "^1.5.2",
         "sweetalert2": "^11.4.14",
         "swiper": "^8.3.1"
     }
