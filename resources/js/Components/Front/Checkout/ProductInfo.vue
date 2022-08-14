@@ -36,7 +36,7 @@
                     <p>Subtotal</p>
                 </div>
                 <div class="text-right">
-                    <p>RM 100</p>
+                    <p>RM 200</p>
                 </div>
                 <div>
                     <p>Shipping</p>
@@ -54,7 +54,7 @@
                 </div>
                 <div class="text-right">
                     <span>MYR</span>
-                    <span class="ml-4 text-3xl font-semibold">RM 100</span>
+                    <span class="ml-4 text-3xl font-semibold">RM 201</span>
                 </div>
             </div>
         </div>

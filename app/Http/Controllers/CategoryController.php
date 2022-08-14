@@ -63,7 +63,7 @@ class CategoryController extends BaseController
     {
         //
         $categoryShow = $this->category->find($id); 
-        return $categoryShow;
+        return Inertia::render('Front/Category/Index', ['category' => $categoryShow]);
     }
 
     /**
