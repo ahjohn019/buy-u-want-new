@@ -71,7 +71,7 @@ Route::get('/dashboard', function () {
 
 //Cart Controller
 Route::prefix('carts')->group(function(){
-    Route::get('/listAll',[CartController::class,'listCart']);
+    Route::get('/',[CartController::class,'listCart']);
     Route::post('/addCart/{product}',[CartController::class,'addCart']);
     Route::post('/updateCart/{product}',[CartController::class,'updateCart']);
     Route::post('/removeCart/{product}',[CartController::class,'removeCart']);

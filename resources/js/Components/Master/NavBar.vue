@@ -4,9 +4,9 @@
             <a href="/index">Buy U Want</a>
         </div>
         <div>
-            <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="fa-2x mx-2" />
-            <font-awesome-icon icon="fa-solid fa-user-plus" class="fa-2x mx-2" />
-            <font-awesome-icon icon="fa-solid fa-cart-shopping" class="fa-2x mx-2" />
+            <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="mx-2" />
+            <font-awesome-icon icon="fa-solid fa-user-plus" class="mx-2" />
+            <font-awesome-icon icon="fa-solid fa-cart-shopping" class=" mx-2" />
         </div>
     </div>
 </template>

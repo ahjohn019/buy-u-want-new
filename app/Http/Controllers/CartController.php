@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\Product;
 use App\Traits\CartTrait;
 use Illuminate\Http\Request;
@@ -18,7 +19,8 @@ class CartController extends BaseController
      * @return void
      */
     public function listCart(){
-        return $this->getCartContent();
+        $cartContent = $this->getCartContent();
+        return Inertia::render('Front/Cart/Index', ["cart"=> $cartContent]);
     }
 
     /**
