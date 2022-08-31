@@ -35,7 +35,7 @@ Route::get('/', function () {
 
 Route::get('/index', function () {
     return Inertia::render('Front/Master/Index');
-});
+})->name('main.pages');
 
 Route::get('/checkout', function(){
     return Inertia::render('Front/Checkout/Index');
@@ -71,11 +71,11 @@ Route::get('/dashboard', function () {
 
 //Cart Controller
 Route::prefix('carts')->group(function(){
-    Route::get('/',[CartController::class,'listCart']);
-    Route::post('/addCart/{product}',[CartController::class,'addCart']);
-    Route::post('/updateCart/{product}',[CartController::class,'updateCart']);
-    Route::post('/removeCart/{product}',[CartController::class,'removeCart']);
-    Route::post('/clearAll',[CartController::class,'clearAll']);
+    Route::get('/',[CartController::class,'listCart'])->name('cart.index');
+    Route::post('/addCart/{product}',[CartController::class,'addCart'])->name('cart.add');
+    Route::post('/updateCart/{product}',[CartController::class,'updateCart'])->name('cart.update');
+    Route::post('/removeCart/{product}',[CartController::class,'removeCart'])->name('cart.remove');
+    Route::post('/clearAll',[CartController::class,'clearAll'])->name('cart.clear');
 });
 
 //Stripe Controller

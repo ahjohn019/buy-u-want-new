@@ -18,7 +18,7 @@
                         <p>{{ variant.name }}</p>
                     </div>
                 </div>
-                <Cart />
+                <Cart :products="products"/>
             </div>
         </div>
         <br>

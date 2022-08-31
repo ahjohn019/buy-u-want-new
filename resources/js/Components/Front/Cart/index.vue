@@ -9,41 +9,54 @@
                 <th class="text-right">Total</th>
             </thead>
             <tbody class="border-b-2" style="height:150px;">
-                <tr>
+                <tr v-for="data in cart" :key="data.id">
                     <td>
                         <div class="flex ">
-                            <div class="border drop-shadow-md rounded-lg">
+                            <div class="border drop-shadow-md rounded-lg my-4">
                                 <img src="../../../../images/addidas_duramo.png" alt="" width="100">
                             </div>
-                            <div class="ml-4">
-                                <p class="text-xl font-semibold">Shoes One</p>
+                            <div class="m-4">
+                                <p class="text-xl font-semibold">{{data.name}}</p>
                                 <p>Addidas</p>
-                                <a href="#" class="underline text-sky-500 hover:text-red-500">Remove</a>
+                                <button class="border rounded-lg p-2 bg-red-500 text-white text-center font-bold col-span-3 hover:bg-gray-300 hover:text-white" 
+                                        @click="removeCart(data.id)"
+                                >
+                                    Remove
+                                </button>   
                             </div>
                         </div>
                     </td>
                     <td>
-                        RM 100
+                        {{data.price}}
                     </td>
                     <td>
-                        <div class="border rounded-lg p-3 text-center grid grid-cols-3 gap-4 w-1/2">
-                            <div>
-                                <button v-on:click="decrement">
-                                    <font-awesome-icon icon="fa-solid fa-minus" />
-                                </button>
+                        <div class="flex">
+                            <div class="border rounded-lg p-3 text-center grid grid-cols-3 gap-4 ">
+                                <div>
+                                    <button @click="decrement(data)">
+                                        <font-awesome-icon icon="fa-solid fa-minus" />
+                                    </button>
+                                </div>
+                                <div>
+                                    {{data.quantity}}
+                                </div>
+                                
+                                <div>
+                                    <button @click="increment(data)">
+                                        <font-awesome-icon icon="fa-solid fa-plus" />
+                                    </button>
+                                </div>
                             </div>
-                            <div>
-                                {{quantity}}
-                            </div>
-                            <div>
-                                <button v-on:click="increment">
-                                    <font-awesome-icon icon="fa-solid fa-plus" />
-                                </button>
-                            </div>
+                            <button class="border rounded-lg font-sm p-2 ml-4 bg-blue-500 text-white text-center font-bold col-span-3 hover:bg-gray-300 hover:text-white" 
+                                    @click="updateCart(data.quantity, data.id)"
+                            >
+                                Update
+                            </button>
                         </div>
+                        
                     </td>
                     <td class="text-right">
-                        RM 100
+                        RM {{ unitPrice[data.id].unitPrice }}
                     </td>
                 </tr>
             </tbody>
@@ -69,7 +82,7 @@
                     <p>Subtotal</p>
                 </div>
                 <div class="text-right">
-                    <p class="font-bold">RM 100</p>
+                    <p class="font-bold">RM {{ total }}</p>
                 </div>
             </div>
             <button type="button"
@@ -79,18 +92,25 @@
 </template>
 
 <script>
+    import {Link} from '@inertiajs/inertia-vue3'
+
     export default {
-        data() {
-            return {
-                quantity: 1
-            }
+        components:{
+            Link
         },
+        props:['cart', 'unitPrice', 'total'],
         methods: {
-            decrement() {
-                if (this.quantity > 1) this.quantity--;
+            decrement(data) {
+                if (data.quantity > 1) data.quantity--;
             },
-            increment() {
-                this.quantity++;
+            increment(data) {
+                data.quantity++;
+            },
+            updateCart(quantity, productId){
+                this.$inertia.post(route('cart.update', { quantity: quantity, product : productId  } ))
+            },
+            removeCart(productId){
+                this.$inertia.post(route('cart.remove', { product : productId } ))
             }
         },
     }

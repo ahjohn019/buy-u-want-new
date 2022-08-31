@@ -20,7 +20,12 @@ class CartController extends BaseController
      */
     public function listCart(){
         $cartContent = $this->getCartContent();
-        return Inertia::render('Front/Cart/Index', ["cart"=> $cartContent]);
+
+        foreach($cartContent as $cartValue){
+            $unitPrice[$cartValue->id] = ['unitPrice' => $this->getUnitPrice($cartValue->id)];
+        }
+
+        return Inertia::render('Front/Cart/Index', ["cart"=> $cartContent, "unitPrice" => @$unitPrice, "total" => $this->getCartTotal()]);
     }
 
     /**
@@ -29,15 +34,17 @@ class CartController extends BaseController
      * @param Product $product
      * @return void
      */
-    public function addCart(Product $product){   
+    public function addCart(Product $product){
         \Cart::session(auth()->user()->id)->add([
             'id' => $product->id,
             'name' => $product->name,
             'price' => $this->discountProcess($product),
-            'quantity' => 1,
+            'quantity' => request()->cartQty,
+            'attributes' => [
+            ]
         ]);
 
-        return $this->listCart();
+        return redirect()->route('products.show', $product->id)->with('message','Added Successfully');
     }
 
     /**
@@ -47,15 +54,15 @@ class CartController extends BaseController
      * @param Product $product
      * @return void
      */
-    public function updateCart(Request $request, Product $product){
-        \Cart::session(auth()->user()->id)->update($product->id,[
+    public function updateCart(Request $request, $product){
+        \Cart::session(auth()->user()->id)->update($product,[
             'quantity' => [
                 'relative' => false,
                 'value' => (int)$request->quantity
             ],
         ]);
 
-        return $this->listCart();
+        return back()->withInput();
     }
 
     /**
@@ -64,8 +71,9 @@ class CartController extends BaseController
      * @param Product $product
      * @return void
      */
-    public function removeCart(Product $product){
-        \Cart::session(auth()->user()->id)->remove($product->id);
+    public function removeCart($product){
+        \Cart::session(auth()->user()->id)->remove($product);
+        return back()->withInput();
     }
 
     /**

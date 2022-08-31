@@ -1,7 +1,7 @@
 <template>
     <NavBar />
     <div class="h-screen container mx-auto" style="width:1000px;">
-        <Cart />
+        <Cart :cart="cart" :unitPrice="unitPrice" :total="total"/>
     </div>
     <Footer />
 
@@ -17,6 +17,7 @@
             NavBar,
             Cart,
             Footer
-        }
+        },
+        props:['cart', 'unitPrice', 'total']
     }
 </script>

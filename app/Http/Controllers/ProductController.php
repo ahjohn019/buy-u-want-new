@@ -78,7 +78,6 @@ class ProductController extends BaseController
     {
         //
         $productShow = $this->product->find($id); 
-        // $productVariantList = $this->product->variant->pluck('name')
         return Inertia::render('Front/Products/Show', ["products" => $productShow, "productsCategory" => $productShow->category, "productsVariant" => $productShow->variant ]);
     }
 
