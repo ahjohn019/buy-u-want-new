@@ -58,7 +58,7 @@ class StripeServices
     public function createCustomer($request){
         $customerCreate = $this->getStripeKey()->customers()->create($request->validated());
         $this->user->findAuthUser()->update(['stripe_id' => $customerCreate['id']]);
-        return response()->json(["data" => "Customer Created Successfully"]);
+        return $customerCreate;
     }
 
     /**
@@ -87,8 +87,15 @@ class StripeServices
      *
      * @return void
      */
-    public function createPaymentIntents(){
-        $intentData = $this->intentResource();
+    public function createPaymentIntents($customerNew = null){
+        $intentData = [
+            'amount' => $this->getCartTotal(),
+            'currency' => currencyList('Malaysia'),
+            'customer' => auth()->user()->stripe_id ?? $customerNew['id'],
+            'payment_method_types' => [
+                'card',
+            ]
+        ];
 
         if($intentData['amount'] <= 0){
             return response()->json(["data" => $intentData, "status" => 0]);
@@ -147,11 +154,12 @@ class StripeServices
      * @return void
      */
     public function paymentProcess($customerRequest, $cardRequest){
-        if(empty(auth()->user()->stripe_id)){
-            return $this->createCustomer($customerRequest);
-        }
-
         $createPaymentIntents = $this->createPaymentIntents()->getData();
+
+        if(empty(auth()->user()->stripe_id)){
+            $customerNew = $this->createCustomer($customerRequest);
+            $createPaymentIntents = $this->createPaymentIntents($customerNew)->getData();
+        }
 
         if($createPaymentIntents->status <= 0){
             return response()->json(["data" => "Unavailable", "status" => 0]);

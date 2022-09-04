@@ -85,19 +85,18 @@
                     <p class="font-bold">RM {{ total }}</p>
                 </div>
             </div>
-            <button type="button"
-                class="bg-blue-500 text-white w-full hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-semibold text-lg rounded-lg text-sm p-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Checkout</button>
+            <form :action="route('checkout.index')" method="get">
+                <button type="submit"
+                    class="bg-blue-500 text-white w-full hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-semibold text-lg rounded-lg text-sm p-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                    Checkout
+                </button>
+            </form>
         </div>
     </div>
 </template>
 
 <script>
-    import {Link} from '@inertiajs/inertia-vue3'
-
     export default {
-        components:{
-            Link
-        },
         props:['cart', 'unitPrice', 'total'],
         methods: {
             decrement(data) {

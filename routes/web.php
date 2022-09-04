@@ -37,9 +37,7 @@ Route::get('/index', function () {
     return Inertia::render('Front/Master/Index');
 })->name('main.pages');
 
-Route::get('/checkout', function(){
-    return Inertia::render('Front/Checkout/Index');
-});
+Route::get('/checkout', [StripeController::class, 'checkoutIndex'])->name('checkout.index');
 
 Route::get('/admin/index', function () {
     return Inertia::render('Admin/Index');
@@ -82,10 +80,10 @@ Route::prefix('carts')->group(function(){
 Route::middleware(['auth','verified'])->group(function () {
     //Stripe
     Route::prefix('stripe')->group(function(){
-        Route::post('/createCustomer',[StripeController::class,'createCustomer']);
-        Route::get('/retrieveCustomer',[StripeController::class,'retrieveCustomer']);
-        Route::post('/finalPayments',[StripeController::class,'finalPayments']);
-        Route::post('/createOrder',[StripeController::class,'createorder']);
+        Route::post('/createCustomer',[StripeController::class,'createCustomer'])->name('stripe.createCustomer');
+        Route::get('/retrieveCustomer',[StripeController::class,'retrieveCustomer'])->name('stripe.retrieveCustomer');
+        Route::post('/finalPayments',[StripeController::class,'finalPayments'])->name('stripe.finalPayments');
+        Route::post('/createOrder',[StripeController::class,'createorder'])->name('stripe.createOrder');
     });
 });
 

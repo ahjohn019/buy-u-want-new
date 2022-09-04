@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Inertia\Inertia;
 use App\Models\Order;
+use App\Traits\CartTrait;
 use App\Models\OrderDetails;
 use Illuminate\Http\Request;
-use App\Traits\CartTrait;
+use App\Services\StripeServices;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\StripeCreateCardRequest;
 use App\Http\Requests\StripeCreateCustomerRequest;
-use App\Services\StripeServices;
 
 class StripeController extends BaseController
 {
@@ -51,5 +52,21 @@ class StripeController extends BaseController
         $confirmPaymentIntents = $this->stripeService->paymentProcess($customerRequest, $cardRequest);
 
         return $confirmPaymentIntents;
+    }
+
+    /**
+     * Checkout Main Pages
+     *
+     * @return void
+     */
+    public function checkoutIndex(Request $request){
+        $cartContent = $this->getCartContent();
+
+         foreach($cartContent as $cartValue){
+            $unitPrice[$cartValue->id] = ['unitPrice' => $this->getUnitPrice($cartValue->id)];
+        }
+
+        return Inertia::render('Front/Checkout/Index' , ["cart" => $cartContent, "unitPrice" => @$unitPrice, "total" => $this->getCartTotal()]);
+        
     }
 }

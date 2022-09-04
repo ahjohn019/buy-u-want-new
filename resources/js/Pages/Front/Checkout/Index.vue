@@ -1,7 +1,7 @@
 <template>
     <div class="h-screen grid grid-cols-2">
-        <Show />
-        <ProductInfo />
+        <Show  />
+        <ProductInfo :cart="cart" :unitPrice="unitPrice" :total="total" />
     </div>
 </template>
 
@@ -15,6 +15,7 @@
             NavBar,
             Show,
             ProductInfo
-        }
+        },
+        props: ['cart','unitPrice','total']
     }
 </script>

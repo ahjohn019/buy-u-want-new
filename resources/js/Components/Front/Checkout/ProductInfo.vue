@@ -1,23 +1,21 @@
 <template>
     <div class="bg-gray-50 border-l-2">
-        <div class="container" style="width:550px; margin-left:3.5em; margin-top:3.5em;">
-            <br>
-            <div class="grid grid-cols-6">
-                <div class="border rounded-lg">
+        <div class="container" style="width:550px; margin-left:3.5em; margin-top:3.5em;">            
+            <div class="grid grid-cols-6 my-4" v-for="cartDetails in cart" :key="cartDetails.id">
+                <div class="border rounded-lg m-2">
                     <img src="../../../../images/addidas_duramo.png" alt="">
                 </div>
                 <div class="col-start-2 col-span-2 m-auto ml-4">
-                    <p class="text-xl font-medium">Sample One</p>
+                    <p class="text-sm font-medium">{{cartDetails.name}}</p>
                     <p>Addidas</p>
+                    <p>x {{cartDetails.quantity}}</p>
                 </div>
                 <div class="col-start-7 text-right m-auto mr-0">
-                    <p class="text-xl font-medium">RM 200</p>
+                    <p class="text-xl font-medium">RM {{unitPrice[cartDetails.id].unitPrice}}</p>
                 </div>
             </div>
-            <br>
             <hr>
-            <br>
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between my-4">
                 <div class="w-full">
                     <input type="text" id="small-input" placeholder="Discount Code"
                         class="block p-4 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -28,36 +26,31 @@
                         Apply</button>
                 </div>
             </div>
-            <br>
             <hr>
-            <br>
-            <div class="grid grid-cols-2 gap-2">
+            <div class="grid grid-cols-2 gap-2 my-4">
                 <div>
                     <p>Subtotal</p>
                 </div>
                 <div class="text-right">
-                    <p>RM 200</p>
-                </div>
-                <div>
-                    <p>Shipping</p>
-                </div>
-                <div class="text-right">
-                    <p>RM 1</p>
+                    <p>RM {{ total }}</p>
                 </div>
             </div>
-            <br>
             <hr>
-            <br>
-            <div class="grid grid-cols-2">
+            <div class="grid grid-cols-2 my-4">
                 <div>
                     <p class="font-semibold text-sm">Total</p>
                 </div>
                 <div class="text-right">
                     <span>MYR</span>
-                    <span class="ml-4 text-3xl font-semibold">RM 201</span>
+                    <span class="ml-4 text-3xl font-semibold">RM {{ total }}</span>
                 </div>
             </div>
         </div>
     </div>
-
 </template>
+
+<script>
+    export default{
+        props: ['cart','unitPrice', 'total']
+    }
+</script>

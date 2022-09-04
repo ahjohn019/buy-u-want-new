@@ -28,6 +28,7 @@ class StripeCreateCustomerRequest extends FormRequest
                 'line1'       => 'required',
                 'city'        => 'required',
                 'country'     => 'required',
+                'state' => 'required',
                 'postal_code' => 'required'
             ],
             'email' => ['required','email'],
