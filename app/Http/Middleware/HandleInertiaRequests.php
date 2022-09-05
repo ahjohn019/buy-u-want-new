@@ -42,7 +42,9 @@ class HandleInertiaRequests extends Middleware
                 return (new Ziggy)->toArray();
             },
             'flash' => [
-                'message' => session('message')
+                'addCartSuccessMessage' => session('addCartSuccessMessage'),
+                'checkoutSuccessMessage' => session('checkoutSuccessMessage'),
+                'loginSuccessMessage' => session('loginSuccessMessage')
             ]
         ]);
     }

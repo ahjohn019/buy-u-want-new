@@ -1,12 +1,12 @@
 <template>
     <NavBar />
     <div
-        v-if="$page.props.flash.message"
+        v-if="$page.props.flash.addCartSuccessMessage"
         class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
         role="alert"
     >
         <span class="font-medium">
-            {{ $page.props.flash.message }}
+            {{ $page.props.flash.addCartSuccessMessage }}
         </span>
     </div>
     <Show :products="products" :category="productsCategory" :variants="productsVariant" />

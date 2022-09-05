@@ -50,8 +50,7 @@ class StripeController extends BaseController
     )
     {
         $confirmPaymentIntents = $this->stripeService->paymentProcess($customerRequest, $cardRequest);
-
-        return $confirmPaymentIntents;
+        return redirect()->route('main.index')->with('checkoutSuccessMessage', 'Payment Successfully');
     }
 
     /**

@@ -35,7 +35,7 @@ Route::get('/', function () {
 
 Route::get('/index', function () {
     return Inertia::render('Front/Master/Index');
-})->name('main.pages');
+})->name('main.index');
 
 Route::get('/checkout', [StripeController::class, 'checkoutIndex'])->name('checkout.index');
 

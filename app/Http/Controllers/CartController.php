@@ -44,7 +44,7 @@ class CartController extends BaseController
             ]
         ]);
 
-        return redirect()->route('products.show', $product->id)->with('message','Added Successfully');
+        return redirect()->route('products.show', $product->id)->with('addCartSuccessMessage','Added Successfully');
     }
 
     /**
