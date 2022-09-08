@@ -79,6 +79,11 @@ class User extends Authenticatable
         return $query->where('id',auth()->user()->id);
     }
 
+    //one to one stripe users
+    public function stripeUsers(){
+        return $this->hasOne(StripeUsers::class);
+    }
+
     //many to many relationship (biography, address)
     public function pivotBiography(){
         return $this->belongsToMany(Biography::class, 'user_biography');

@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Models\User;
 use App\Models\Order;
 use App\Traits\CartTrait;
+use App\Models\StripeUsers;
 use App\Models\OrderDetails;
 use Cartalyst\Stripe\Stripe;
 use App\Http\Requests\StripeCreateCustomerRequest;
@@ -16,12 +17,14 @@ class StripeServices
     protected $user;
     protected $order;
     protected $orderDetails;
+    protected $userStripe;
 
-    public function __construct(User $user, Order $order, OrderDetails $orderDetails){
+    public function __construct(User $user, Order $order, OrderDetails $orderDetails, StripeUsers $userStripe ){
         $this->stripeKey = Stripe::make(config('app.stripe_secret'));
         $this->order = $order;
         $this->user = $user;
         $this->orderDetails = $orderDetails;
+        $this->userStripe = $userStripe;
     }
 
     /**
@@ -56,8 +59,16 @@ class StripeServices
      * @return void
      */
     public function createCustomer($request){
-        $customerCreate = $this->getStripeKey()->customers()->create($request->validated());
-        $this->user->findAuthUser()->update(['stripe_id' => $customerCreate['id']]);
+        try {
+            $customerCreate = $this->getStripeKey()->customers()->create($request->validated());
+            $this->userStripe->create([
+                'user_id' => auth()->user()->id,
+                'stripe_customer_id' => $customerCreate['id']
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        
         return $customerCreate;
     }
 
@@ -91,7 +102,7 @@ class StripeServices
         $intentData = [
             'amount' => $this->getCartTotal(),
             'currency' => currencyList('Malaysia'),
-            'customer' => auth()->user()->stripe_id ?? $customerNew['id'],
+            'customer' => auth()->user()->stripeUsers->stripe_customer_id ?? @$customerNew['id'],
             'payment_method_types' => [
                 'card',
             ]
@@ -156,7 +167,7 @@ class StripeServices
     public function paymentProcess($customerRequest, $cardRequest){
         $createPaymentIntents = $this->createPaymentIntents()->getData();
 
-        if(empty(auth()->user()->stripe_id)){
+        if(empty(auth()->user()->stripeUsers)){
             $customerNew = $this->createCustomer($customerRequest);
             $createPaymentIntents = $this->createPaymentIntents($customerNew)->getData();
         }
