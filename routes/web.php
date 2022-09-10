@@ -12,6 +12,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VariantController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DiscountController;
+use App\Http\Controllers\AttachmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,7 @@ Route::resource('variants', VariantController::class);
 Route::resource('orders', OrderController::class);
 Route::resource('discounts', DiscountController::class);
 Route::resource('coupons',CouponController::class);
+Route::resource('attachments', AttachmentController::class);
 
 Route::prefix('users')->group(function(){
     Route::get('/',[UserController::class,'index']);

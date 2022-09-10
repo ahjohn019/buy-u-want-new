@@ -41,6 +41,11 @@ class Product extends Model
         return $this->hasMany(OrderDetails::class);
     }
 
+    //one products has many attachments
+    public function attachments(){
+        return $this->hasMany(Attachments::class);
+    }
+
     public function pivotDiscount(){
         return $this->belongsToMany(Discount::class, 'products_discounts')->withPivot('status');
     }
