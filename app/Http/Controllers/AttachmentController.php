@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
+use App\Models\Product;
 use App\Models\Attachment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -24,8 +25,9 @@ class AttachmentController extends Controller
     public function index()
     {
         //
-        $list = Attachment::all();
-        return Inertia::render('Front/Images/ImagesTest', ['data' => $list]);
+        $list = Attachment::productAttachments()->get();
+        $productList = Product::all();
+        return Inertia::render('Front/Images/ImagesTest', ['data' => $list, 'products'=> $productList]);
     }
 
     /**
@@ -51,31 +53,17 @@ class AttachmentController extends Controller
             $attachments = $request->file('attachments');
             $products = $request->input('product_id');
                         
-            if(empty($request->file('attachments'))) return "Image Is Empty";
+            if(empty($attachments)) return "Image Is Empty";
             Storage::disk('public')->putFile('file',$attachments);
 
             if($request->update){
                 $attachmentsName = $this->attachments->where('id',$request->products)->first()->name;
                 Storage::disk('public')->delete('file/'. $attachmentsName);
-
-                $this->attachments->where('id', $request->input('products'))->update([
-                    'name' => $attachments->hashName(),
-                    'extension' => $attachments->extension(),
-                    'mime_type' => $attachments->getClientMimeType(),
-                    'size' => $attachments->getSize()
-                ]);
-
+                $this->attachments->where('id', $request->input('products'))->update(imagesList($request));
                 return redirect()->back();
             }
 
-            $this->attachments->create([
-                'name' => $attachments->hashName(),
-                'extension' => $attachments->extension(),
-                'mime_type' => $attachments->getClientMimeType(),
-                'size' => $attachments->getSize(),
-                'product_id' => $products,
-            ]);
-
+            $this->attachments->create(imagesList($request));
             return redirect()->back();
         } catch (\Throwable $th) {
             throw $th;
@@ -125,9 +113,14 @@ class AttachmentController extends Controller
     public function destroy($id)
     {
         //
-        $attachmentsName = $this->attachments->where('id', $id)->first()->name;
-        Storage::disk('public')->delete('file/'. $attachmentsName);
-        $this->attachments->where('id', $id)->delete();
-        return redirect()->back();
+        try {
+            $attachment = $this->attachments->where('id', $id);
+            $attachmentsName = $attachment->first()->name;
+            Storage::disk('public')->delete('file/'. $attachmentsName);
+            $attachment->delete();
+            return redirect()->back();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Variant;
 use App\Models\Category;
 use App\Models\Discount;
+use App\Models\Attachment;
 use App\Models\OrderDetails;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -43,7 +44,7 @@ class Product extends Model
 
     //one products has many attachments
     public function attachments(){
-        return $this->hasMany(Attachments::class);
+        return $this->hasMany(Attachment::class);
     }
 
     public function pivotDiscount(){

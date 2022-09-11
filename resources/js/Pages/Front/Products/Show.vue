@@ -9,7 +9,7 @@
             {{ $page.props.flash.addCartSuccessMessage }}
         </span>
     </div>
-    <Show :products="products" :category="productsCategory" :variants="productsVariant" />
+    <Show :products="products" :category="productsCategory" :variants="productsVariant" :attachments="productsAttachment" />
     
     <br>
     <br>
@@ -28,6 +28,6 @@
             Footer
         },
         
-        props: ['products', 'productsCategory', 'productsVariant']
+        props: ['products', 'productsCategory', 'productsVariant', 'productsAttachment']
     }
 </script>

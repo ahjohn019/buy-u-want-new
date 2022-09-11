@@ -14,6 +14,18 @@ function currencyList($currency) {
     }
 }
 
-function states(){
-    //
+function imagesList($request){
+    $attachmentList = [
+        'name' => $request->attachments->hashName(),
+        'extension' => $request->attachments->extension(),
+        'mime_type' => $request->attachments->getClientMimeType(),
+        'size' => $request->attachments->getSize()
+    ];
+
+    if($request->create){
+        $productId = ['product_id' => $request->product_id];
+        $attachmentList = array_merge($attachmentList, $productId);
+    }
+
+    return $attachmentList;
 }

@@ -12,7 +12,14 @@ class Attachment extends Model
 
     protected $fillable = ['name','extension','mime_type','size','product_id'];
 
-    public function products(){
+    public function product(){
         return $this->belongsTo(Product::class);
+    }
+
+    public function scopeProductAttachments($query){
+        return $query->select('products.sku','attachments.*')
+                    ->leftJoin('products', function($query){
+                        $query->on('products.id', '=', 'attachments.product_id');
+                    });
     }
 }

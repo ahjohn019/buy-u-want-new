@@ -2,7 +2,7 @@
     <div class="container mx-auto" style="width:1000px; margin-top:2.5em;">
         <div class="grid grid-cols-2 gap-4">
             <div class="border rounded-lg m-auto">
-                <img src="../../../../images/addidas_duramo.png" alt="" style="width:100%;" />
+                <img :src="attachments.length <= 0 ? '#' : '/storage/file/'+ attachments[0].name" alt="" style="width:100%;"  />
             </div>
             <div class="space-y-2 flex flex-col justify-center">
                 <div class="flex justify-between items-center">
@@ -41,7 +41,7 @@
                 quantity: 0
             }
         },
-        props:['products','category','variants'],
+        props:['products','category','variants','attachments'],
         methods: {
             decrement(){
                 if(this.quantity > 0) this.quantity--;
