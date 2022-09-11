@@ -24,9 +24,8 @@ class AttachmentController extends Controller
     public function index()
     {
         //
-
-
-        return Inertia::render('Front/Images/ImagesTest');
+        $list = Attachment::all();
+        return Inertia::render('Front/Images/ImagesTest', ['data' => $list]);
     }
 
     /**
@@ -51,8 +50,23 @@ class AttachmentController extends Controller
         try {
             $attachments = $request->file('attachments');
             $products = $request->input('product_id');
+                        
             if(empty($request->file('attachments'))) return "Image Is Empty";
-            Storage::disk('local')->putFile('file',$attachments);
+            Storage::disk('public')->putFile('file',$attachments);
+
+            if($request->update){
+                $attachmentsName = $this->attachments->where('id',$request->products)->first()->name;
+                Storage::disk('public')->delete('file/'. $attachmentsName);
+
+                $this->attachments->where('id', $request->input('products'))->update([
+                    'name' => $attachments->hashName(),
+                    'extension' => $attachments->extension(),
+                    'mime_type' => $attachments->getClientMimeType(),
+                    'size' => $attachments->getSize()
+                ]);
+
+                return redirect()->back();
+            }
 
             $this->attachments->create([
                 'name' => $attachments->hashName(),
@@ -62,7 +76,7 @@ class AttachmentController extends Controller
                 'product_id' => $products,
             ]);
 
-            return response()->json(['message' => 'success uploaded']);
+            return redirect()->back();
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -100,7 +114,6 @@ class AttachmentController extends Controller
     public function update(Request $request, $id)
     {
         //
-        
     }
 
     /**
@@ -112,5 +125,9 @@ class AttachmentController extends Controller
     public function destroy($id)
     {
         //
+        $attachmentsName = $this->attachments->where('id', $id)->first()->name;
+        Storage::disk('public')->delete('file/'. $attachmentsName);
+        $this->attachments->where('id', $id)->delete();
+        return redirect()->back();
     }
 }
