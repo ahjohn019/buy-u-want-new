@@ -165,16 +165,13 @@ class StripeServices
      * @return void
      */
     public function paymentProcess($customerRequest, $cardRequest){
-        $createPaymentIntents = $this->createPaymentIntents()->getData();
+        $customerNew = null;
+        
+        if(empty(auth()->user()->stripeUsers)) $customerNew = $this->createCustomer($customerRequest);
+        
+        $createPaymentIntents = $this->createPaymentIntents($customerNew)->getData();
 
-        if(empty(auth()->user()->stripeUsers)){
-            $customerNew = $this->createCustomer($customerRequest);
-            $createPaymentIntents = $this->createPaymentIntents($customerNew)->getData();
-        }
-
-        if($createPaymentIntents->status <= 0){
-            return response()->json(["data" => "Unavailable", "status" => 0]);
-        }
+        if($createPaymentIntents->status <= 0) return response()->json(["data" => "Unavailable", "status" => 0]);
 
         $confirmPaymentIntents = $this->getStripeKey()->paymentIntents()->confirm($createPaymentIntents->data->id, [
             'payment_method' => $this->createPaymentMethod($cardRequest)

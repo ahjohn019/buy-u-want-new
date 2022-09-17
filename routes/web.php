@@ -50,7 +50,7 @@ Route::resource('variants', VariantController::class);
 Route::resource('orders', OrderController::class);
 Route::resource('discounts', DiscountController::class);
 Route::resource('coupons',CouponController::class);
-Route::resource('attachments', AttachmentController::class);
+Route::resource('attachments', AttachmentController::class)->middleware('admin');
 
 Route::prefix('users')->group(function(){
     Route::get('/',[UserController::class,'index']);
