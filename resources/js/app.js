@@ -18,6 +18,7 @@ import {
     faPencil,
     faTruck,
     faMoneyBill,
+    faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -34,7 +35,8 @@ library.add(
     faAngleLeft,
     faPencil,
     faTruck,
-    faMoneyBill
+    faMoneyBill,
+    faUsers
 );
 
 const appName =

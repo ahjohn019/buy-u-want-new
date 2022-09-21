@@ -6,7 +6,8 @@ module.exports = {
         "./storage/framework/views/*.php",
         "./resources/views/**/*.blade.php",
         "./resources/js/**/*.vue",
-        "node_modules/flowbite/**/*.{js,jsx,ts,tsx}",
+        "./src/**/*.{html,js}",
+        "./node_modules/tw-elements/dist/js/**/*.js",
     ],
 
     theme: {
@@ -17,5 +18,8 @@ module.exports = {
         },
     },
 
-    plugins: [require("@tailwindcss/forms"), require("flowbite/plugin")],
+    plugins: [
+        require("@tailwindcss/forms"),
+        require("tw-elements/dist/plugin"),
+    ],
 };
