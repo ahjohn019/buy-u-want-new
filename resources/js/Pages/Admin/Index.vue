@@ -1,8 +1,8 @@
 <template>
     <div>
         <SideBar />
-        <Dashboard />
-        <AdminFooter />
+        <!-- <Dashboard />
+        <AdminFooter /> -->
     </div>
 </template>
 

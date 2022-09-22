@@ -17,10 +17,10 @@ class AdminAuthenticated
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth()->user()->hasRole('admin')){
-            return $next($request);
+        if(!auth()->user()){
+            return redirect(RouteServiceProvider::HOME);
         }
 
-        return redirect(RouteServiceProvider::HOME);
+        return $next($request);
     }
 }
