@@ -1,10 +1,24 @@
 <template>
-    <swiper :spaceBetween="30" :effect="'fade'" :loop="true" :navigation="true" :pagination="{
-        clickable: true,
-    }" :modules="modules" class="mySwiper">
-        <swiper-slide><img src="https://picsum.photos/1000/1000" /></swiper-slide>
-        <swiper-slide><img src="https://picsum.photos/1200/1000" /></swiper-slide>
-        <swiper-slide><img src="https://picsum.photos/1300/1000" /></swiper-slide>
+    <swiper
+        :spaceBetween="30"
+        :effect="'fade'"
+        :loop="true"
+        :navigation="true"
+        :pagination="{
+            clickable: true,
+        }"
+        :modules="modules"
+        style="height: 700px"
+    >
+        <swiper-slide
+            ><img src="https://picsum.photos/1000/1000"
+        /></swiper-slide>
+        <swiper-slide
+            ><img src="https://picsum.photos/1200/1000"
+        /></swiper-slide>
+        <swiper-slide
+            ><img src="https://picsum.photos/1300/1000"
+        /></swiper-slide>
     </swiper>
 </template>
 <script>

@@ -1,11 +1,10 @@
 <template>
     <div class="bg-blue-400 text-white">
         <div
-            class="container mx-auto grid grid-cols-3 gap-6 pt-6"
-            style="width: 1200px"
+            class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 p-6 mt-4"
         >
-            <div class="m-6">
-                <p class="text-3xl font-bold">Find Us</p>
+            <div class="p-2">
+                <p class="text-xl md:text-3xl font-bold">Find Us</p>
                 <p class="text-sm my-4 leading-6">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     Donec tempus ullamcorper mauris. Vestibulum ante metus,
@@ -17,16 +16,16 @@
                     lectus, eget venenatis sapien sodales vitae.
                 </p>
             </div>
-            <div class="m-6">
-                <p class="text-3xl font-bold">About Us</p>
+            <div class="p-2">
+                <p class="text-xl md:text-3xl font-bold">About Us</p>
                 <ul class="space-y-2 my-4">
                     <li>About Us</li>
                     <li>Privacy Policy</li>
                     <li>Terms Of Use</li>
                 </ul>
             </div>
-            <div class="m-6">
-                <p class="text-3xl font-bold">Contact Us</p>
+            <div class="p-2">
+                <p class="text-xl md:text-3xl font-bold">Contact Us</p>
                 <ul class="space-y-2 my-4">
                     <li>
                         <font-awesome-icon icon="fa-solid fa-phone" />
