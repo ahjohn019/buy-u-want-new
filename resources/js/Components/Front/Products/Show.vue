@@ -1,8 +1,8 @@
 <template>
-    <div class="container mx-auto" style="width: 1000px; margin-top: 2.5em">
-        <div class="grid grid-cols-2 gap-4">
+    <div class="container mx-auto p-4" style="margin-top: 2.5em">
+        <div class="grid md:grid-cols-2 gap-4">
             <div class="border rounded-lg m-auto">
-                <img
+                <!-- <img
                     :src="
                         attachments.length <= 0
                             ? '#'
@@ -10,11 +10,20 @@
                     "
                     alt=""
                     style="width: 100%"
+                /> -->
+                <img
+                    src="../../../../images/addidas_duramo.png"
+                    alt=""
+                    style="width: 100%"
                 />
             </div>
             <div class="space-y-2 flex flex-col justify-center">
-                <div class="flex justify-between items-center">
-                    <p class="text-4xl font-bold h-10">{{ products.name }}</p>
+                <div class="flex justify-between my-auto md:m-0">
+                    <p
+                        class="text-xl md:text-4xl font-bold h-10 flex items-center"
+                    >
+                        {{ products.name }}
+                    </p>
                     <div class="border rounded-full p-2">
                         <font-awesome-icon
                             icon="fa-solid fa-star"
@@ -22,9 +31,13 @@
                         />
                     </div>
                 </div>
-                <p class="text-lg">{{ category.name }}</p>
-                <p class="text-3xl">RM {{ products.price }}</p>
-                <div class="flex space-x-2">
+                <p class="md:text-lg text-center md:text-left">
+                    {{ category.name }}
+                </p>
+                <p class="md:text-3xl text-center md:text-left">
+                    RM {{ products.price }}
+                </p>
+                <div class="flex space-x-2 justify-center md:justify-start">
                     <div v-for="variant in variants" :key="variant.id">
                         <p>{{ variant.name }}</p>
                     </div>
@@ -33,17 +46,18 @@
             </div>
         </div>
         <br />
+        <Details :products="products" />
     </div>
 </template>
 
 <script>
-import Details from "../Products/Details.vue";
 import Cart from "../Products/Cart.vue";
+import Details from "../Products/Details.vue";
 
 export default {
     components: {
-        Details,
         Cart,
+        Details,
     },
 
     data() {
