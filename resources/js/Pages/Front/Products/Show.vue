@@ -16,7 +16,7 @@
         :attachments="productsAttachment"
     />
 
-    <div class="md:relative md:bottom-0 w-full">
+    <div class="lg:fixed bottom-0 left-0 right-0">
         <Footer />
     </div>
 </template>

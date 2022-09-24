@@ -1,5 +1,5 @@
 <template>
-    <div class="mx-auto grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div
             v-for="category in categories"
             class="m-auto"

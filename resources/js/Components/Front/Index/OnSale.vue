@@ -1,30 +1,32 @@
 <template>
     <div class="on-sale-container text-center">
         <p class="text-xl md:text-4xl">On Sale</p>
-        <img
-            src="../../../../images/addidas_duramo.png"
-            alt=""
-            class="shadow-xl border border-gray-300 rounded-lg m-auto mt-2"
-            width="250"
-        />
-        <div class="p-5 space-y-1">
-            <p class="text-xl md:text-3xl font-bold">Shoes One</p>
-            <p class="md:text-xl text-gray-500 font-bold">Addidas</p>
-            <div class="flex flex-col justify-center items-center">
-                <p class="md:text-xl font-bold">RM 100</p>
-                <div
-                    class="bg-blue-400 text-white rounded-xl p-2 shadow-xl flex justify-center mt-3"
-                >
-                    <button
-                        type="button"
-                        class="flex justify-center items-center space-x-3"
+        <div class="h-full flex flex-col">
+            <img
+                src="../../../../images/addidas_duramo.png"
+                alt=""
+                class="shadow-xl border border-gray-300 rounded-lg mx-auto my-4"
+                width="200"
+            />
+            <div class="p-5 space-y-1">
+                <p class="text-xl md:text-3xl font-bold">Shoes One</p>
+                <p class="md:text-xl text-gray-500 font-bold">Addidas</p>
+                <div class="flex flex-col justify-center items-center">
+                    <p class="md:text-xl font-bold">RM 100</p>
+                    <div
+                        class="bg-blue-400 text-white rounded-xl p-2 shadow-xl flex justify-center mt-3"
                     >
-                        <p class="md:text-xl">Add To Cart</p>
-                        <font-awesome-icon
-                            icon="fa-solid fa-cart-shopping"
-                            class="fa-lg"
-                        />
-                    </button>
+                        <button
+                            type="button"
+                            class="flex justify-center items-center space-x-3"
+                        >
+                            <p class="md:text-xl">Add To Cart</p>
+                            <font-awesome-icon
+                                icon="fa-solid fa-cart-shopping"
+                                class="fa-lg"
+                            />
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

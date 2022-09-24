@@ -1,7 +1,7 @@
 <template>
-    <div class="container mx-auto p-4" style="margin-top: 2.5em">
+    <div class="container mx-auto p-4 mt-4 md:w-3/4">
         <div class="grid md:grid-cols-2 gap-4">
-            <div class="border rounded-lg m-auto">
+            <div class="border rounded-lg m-auto w-1/2 md:w-auto">
                 <!-- <img
                     :src="
                         attachments.length <= 0
@@ -14,7 +14,7 @@
                 <img
                     src="../../../../images/addidas_duramo.png"
                     alt=""
-                    style="width: 100%"
+                    class="w-full"
                 />
             </div>
             <div class="space-y-2 flex flex-col justify-center">

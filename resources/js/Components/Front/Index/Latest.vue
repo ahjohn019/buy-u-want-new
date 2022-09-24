@@ -1,8 +1,8 @@
 <template>
     <div class="flex flex-col">
         <p class="text-xl text-center md:text-4xl">Latest Product</p>
-        <div class="grid md:grid-cols-2 gap-4 p-4 md:p-0">
-            <div class="flex justify-center">
+        <div class="grid grid-cols-2 gap-4 my-2">
+            <div class="flex flex-col md:flex-row justify-center">
                 <div>
                     <img
                         src="../../../../images/addidas_duramo.png"
@@ -11,7 +11,7 @@
                         style="width: 150px"
                     />
                 </div>
-                <div class="p-5">
+                <div class="py-5 md:p-5">
                     <p class="md:text-2xl font-bold">Shoes One</p>
                     <p class="md:text-sm text-gray-500 font-bold">Addidas</p>
                     <div class="flex justify-between items-center mt-4">
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex justify-center">
+            <div class="flex flex-col md:flex-row justify-center">
                 <div>
                     <img
                         src="../../../../images/addidas_duramo.png"
@@ -41,7 +41,7 @@
                         style="width: 150px"
                     />
                 </div>
-                <div class="p-5">
+                <div class="py-5 md:p-5">
                     <p class="md:text-2xl font-bold">Shoes One</p>
                     <p class="md:text-sm text-gray-500 font-bold">Addidas</p>
                     <div class="flex justify-between items-center mt-4">
@@ -62,7 +62,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex justify-center">
+            <div class="flex flex-col md:flex-row justify-center">
                 <div>
                     <img
                         src="../../../../images/addidas_duramo.png"
@@ -71,7 +71,7 @@
                         style="width: 150px"
                     />
                 </div>
-                <div class="p-5">
+                <div class="py-5 md:p-5">
                     <p class="md:text-2xl font-bold">Shoes One</p>
                     <p class="md:text-sm text-gray-500 font-bold">Addidas</p>
                     <div class="flex justify-between items-center mt-4">
@@ -92,7 +92,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex justify-center">
+            <div class="flex flex-col md:flex-row justify-center">
                 <div>
                     <img
                         src="../../../../images/addidas_duramo.png"
@@ -101,7 +101,7 @@
                         style="width: 150px"
                     />
                 </div>
-                <div class="p-5">
+                <div class="py-5 md:p-5">
                     <p class="md:text-2xl font-bold">Shoes One</p>
                     <p class="md:text-sm text-gray-500 font-bold">Addidas</p>
                     <div class="flex justify-between items-center mt-4">
@@ -122,7 +122,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex justify-center">
+            <div class="flex flex-col md:flex-row justify-center">
                 <div>
                     <img
                         src="../../../../images/addidas_duramo.png"
@@ -131,7 +131,7 @@
                         style="width: 150px"
                     />
                 </div>
-                <div class="p-5">
+                <div class="py-5 md:p-5">
                     <p class="md:text-2xl font-bold">Shoes One</p>
                     <p class="md:text-sm text-gray-500 font-bold">Addidas</p>
                     <div class="flex justify-between items-center mt-4">
@@ -152,7 +152,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex justify-center">
+            <div class="flex flex-col md:flex-row justify-center">
                 <div>
                     <img
                         src="../../../../images/addidas_duramo.png"
@@ -161,7 +161,7 @@
                         style="width: 150px"
                     />
                 </div>
-                <div class="p-5">
+                <div class="py-5 md:p-5">
                     <p class="md:text-2xl font-bold">Shoes One</p>
                     <p class="md:text-sm text-gray-500 font-bold">Addidas</p>
                     <div class="flex justify-between items-center mt-4">

@@ -67,7 +67,7 @@ body {
 
 .featured-slide img {
     display: block;
-    width: 300px;
+    width: 200px;
     object-fit: cover;
     margin: 0.75rem auto;
 }

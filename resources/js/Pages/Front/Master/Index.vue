@@ -33,17 +33,20 @@ import Footer from "../../../Components/Master/Footer.vue";
     </div>
     <Carousel />
     <br />
-    <Categories />
-    <br />
-    <hr />
-    <br />
-    <Featured />
-    <br />
-    <hr />
-    <br />
-    <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 p-2">
-        <OnSales />
-        <Latest />
+    <div class="container mx-auto px-8">
+        <Categories />
+        <br />
+        <hr />
+        <br />
+        <Featured />
+        <br />
+        <hr />
+        <br />
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
+            <OnSales />
+            <Latest />
+        </div>
     </div>
+
     <Footer />
 </template>
