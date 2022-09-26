@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\User;
 use App\Models\Payment;
 use App\Models\OrderDetails;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -22,5 +23,13 @@ class Order extends Model
     //one order has many order details
     public function orderDetails(){
         return $this->hasMany(OrderDetails::class);
+    }
+
+    public function scopeGetTotalOrderByMonth($query){
+        return $query->select(
+                    DB::raw('count(*) as total'),
+                    DB::raw("DATE_FORMAT(created_at,'%M') as months"),
+                    DB::raw("DATE_FORMAT(created_at,'%Y') as years")
+                )->groupBy('months','years');
     }
 }

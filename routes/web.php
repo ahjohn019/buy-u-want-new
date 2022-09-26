@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ChartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\StripeController;
@@ -51,6 +52,10 @@ Route::resource('orders', OrderController::class);
 Route::resource('discounts', DiscountController::class);
 Route::resource('coupons',CouponController::class);
 Route::resource('attachments', AttachmentController::class)->middleware('admin');
+
+Route::prefix('charts')->group(function () {
+    Route::get('/orders',[ChartController::class,'orders'])->name('chart.orders');
+});
 
 Route::prefix('users')->group(function(){
     Route::get('/',[UserController::class,'index']);

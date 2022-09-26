@@ -1,32 +1,34 @@
 <template>
-    <n-space vertical>
-        <n-layout has-sider>
-            <n-layout-sider
-                bordered
-                collapse-mode="width"
-                :collapsed-width="64"
-                :width="240"
-                :collapsed="collapsed"
-                show-trigger
-                @collapse="collapsed = true"
-                @expand="collapsed = false"
-            >
-                <n-menu
+    <div class="h-screen relative">
+        <n-space vertical>
+            <n-layout has-sider position="absolute">
+                <n-layout-sider
+                    bordered
+                    collapse-mode="width"
+                    :collapsed-width="64"
+                    :width="240"
                     :collapsed="collapsed"
-                    :collapsed-width="32"
-                    :collapsed-icon-size="22"
-                    :options="menuOptions"
-                    :render-label="renderMenuLabel"
-                    :render-icon="renderMenuIcon"
-                    :expand-icon="expandIcon"
-                    class="fixed"
-                />
-            </n-layout-sider>
-            <n-layout>
-                <Dashboard />
+                    show-trigger
+                    @collapse="collapsed = true"
+                    @expand="collapsed = false"
+                    class="hidden md:block"
+                >
+                    <n-menu
+                        :collapsed="collapsed"
+                        :collapsed-width="32"
+                        :collapsed-icon-size="22"
+                        :options="menuOptions"
+                        :render-label="renderMenuLabel"
+                        :render-icon="renderMenuIcon"
+                        :expand-icon="expandIcon"
+                    />
+                </n-layout-sider>
+                <n-layout>
+                    <Dashboard />
+                </n-layout>
             </n-layout>
-        </n-layout>
-    </n-space>
+        </n-space>
+    </div>
 </template>
 
 <script>

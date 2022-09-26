@@ -1,8 +1,6 @@
 <template>
     <div>
         <SideBar />
-        <!-- <Dashboard />
-        <AdminFooter /> -->
     </div>
 </template>
 

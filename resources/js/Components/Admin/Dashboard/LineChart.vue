@@ -1,5 +1,5 @@
 <template>
-    <div class="xl:w-8/12 mb-12 xl:mb-0 px-4 md:w-full">
+    <div class="xl:w-8/12 mb-12 xl:mb-0 px-4 w-full">
         <div
             class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-gray-700 text-white"
         >
@@ -87,16 +87,7 @@ export default {
     data() {
         return {
             chartData: {
-                labels: ["January", "February", "March"],
-                datasets: [
-                    {
-                        label: "Data One",
-                        backgroundColor: "#FFFFFF",
-                        data: [40, 39, 10, 40, 39, 80, 40],
-                        borderColor: "#FFFFFF",
-                        yAxisID: "y",
-                    },
-                ],
+                datasets: [],
             },
             chartOptions: {
                 responsive: true,
@@ -125,6 +116,22 @@ export default {
                 },
             },
         };
+    },
+    mounted() {
+        try {
+            axios.get(route("chart.orders")).then((response) => {
+                let result = response.data.result;
+
+                for (const [key, value] of Object.entries(result)) {
+                    this.chartData.datasets.push({
+                        label: key,
+                        backgroundColor: value.colors,
+                        data: value.months,
+                        borderColor: value.colors,
+                    });
+                }
+            });
+        } catch (error) {}
     },
 };
 </script>

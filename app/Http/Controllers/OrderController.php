@@ -21,7 +21,7 @@ class OrderController extends BaseController
     {
         //
         $orderList = $this->order->orderBy('created_at','DESC')->get();
-        return response()->json(["data" => $orderList]);
+        return response()->json(["orderList" => $orderList]);
     }
 
     /**
