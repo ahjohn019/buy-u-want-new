@@ -17,7 +17,7 @@ class AdminAuthenticated
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!auth()->user()){
+        if(!auth()->user() || !auth()->user()->hasRole('admin')){
             return redirect(RouteServiceProvider::HOME);
         }
 

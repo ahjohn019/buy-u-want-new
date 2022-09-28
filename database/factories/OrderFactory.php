@@ -14,7 +14,7 @@ class OrderFactory extends Factory
     public function definition()
     {
         $number = $this->faker->randomFloat($nbMaxDecimals = 2, $min = 10, $max = 100);
-        $date = $this->faker->dateTimeBetween('-120 days', '+120 days');
+        $date = $this->faker->dateTimeBetween('-180 days', '+180 days');
 
         return [
             'number' => 'ORDER' . $this->faker->md5(),

@@ -53,7 +53,7 @@ Route::resource('discounts', DiscountController::class);
 Route::resource('coupons',CouponController::class);
 Route::resource('attachments', AttachmentController::class)->middleware('admin');
 
-Route::prefix('charts')->group(function () {
+Route::group(['prefix'=>'charts','middleware'=>'admin'], function () {
     Route::get('/orders',[ChartController::class,'orders'])->name('chart.orders');
 });
 

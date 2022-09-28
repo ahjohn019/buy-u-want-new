@@ -87,6 +87,7 @@ export default {
     data() {
         return {
             chartData: {
+                labels: [],
                 datasets: [],
             },
             chartOptions: {
@@ -120,12 +121,12 @@ export default {
     mounted() {
         try {
             axios.get(route("chart.orders")).then((response) => {
-                let result = response.data.result;
-
+                let result = response.data.ordersData;
+                this.chartData.labels = response.data.monthList;
                 for (const [key, value] of Object.entries(result)) {
                     this.chartData.datasets.push({
                         label: key,
-                        backgroundColor: value.colors,
+                        backgroundColor: Object.values(value.months),
                         data: value.months,
                         borderColor: value.colors,
                     });
