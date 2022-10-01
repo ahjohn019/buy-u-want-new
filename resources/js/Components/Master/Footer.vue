@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-blue-400 text-white">
+    <div class="bg-blue-400 text-white mt-auto">
         <div
             class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 p-6 mt-4"
         >

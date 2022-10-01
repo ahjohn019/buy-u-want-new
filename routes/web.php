@@ -1,6 +1,7 @@
 <?php
 
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\CartController;
@@ -36,7 +37,7 @@ Route::get('/', function () {
 });
 
 Route::get('/index', function () {
-    return Inertia::render('Front/Master/Index');
+    return Inertia::render('Front/Master/Index',['auth'=>auth()->user()]);
 })->name('main.index');
 
 Route::get('/checkout', [StripeController::class, 'checkoutIndex'])->name('checkout.index');

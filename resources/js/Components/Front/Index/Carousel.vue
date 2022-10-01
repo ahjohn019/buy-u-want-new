@@ -8,7 +8,7 @@
             clickable: true,
         }"
         :modules="modules"
-        style="height: 700px"
+        class="w-full h-600px"
     >
         <swiper-slide
             ><img src="https://picsum.photos/1000/1000"

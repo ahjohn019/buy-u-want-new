@@ -7,46 +7,30 @@ import Featured from "../../../Components/Front/Index/Featured.vue";
 import OnSales from "../../../Components/Front/Index/OnSale.vue";
 import Latest from "../../../Components/Front/Index/Latest.vue";
 import Footer from "../../../Components/Master/Footer.vue";
+import Base from "./Base.vue";
+
+defineProps(["auth"]);
 </script>
 
 <template>
-    <Head title="Index" />
-
-    <NavBar />
-    <div
-        v-if="$page.props.flash.checkoutSuccessMessage"
-        class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
-        role="alert"
-    >
-        <span class="font-medium">
-            {{ $page.props.flash.checkoutSuccessMessage }}
-        </span>
-    </div>
-    <div
-        v-if="$page.props.flash.loginSuccessMessage"
-        class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
-        role="alert"
-    >
-        <span class="font-medium">
-            {{ $page.props.flash.loginSuccessMessage }}
-        </span>
-    </div>
-    <Carousel />
-    <br />
-    <div class="container mx-auto px-8">
-        <Categories />
-        <br />
-        <hr />
-        <br />
-        <Featured />
-        <br />
-        <hr />
-        <br />
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
-            <OnSales />
-            <Latest />
-        </div>
-    </div>
-
-    <Footer />
+    <Base :auth="auth">
+        <template #content>
+            <Carousel />
+            <br />
+            <div class="container mx-auto px-8">
+                <Categories />
+                <br />
+                <hr />
+                <br />
+                <Featured />
+                <br />
+                <hr />
+                <br />
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
+                    <OnSales />
+                    <Latest />
+                </div>
+            </div>
+        </template>
+    </Base>
 </template>
