@@ -1,24 +1,22 @@
 <template>
-    <NavBar />
-    <p class="text-4xl font-semibold text-center" style="padding: 50px 0">
-        Category
-    </p>
-    <div class="container mx-auto grid grid-cols-6 gap-2">
-        <Filters />
-        <Show />
-    </div>
+    <Base>
+        <template #content>
+            <div class="container mx-auto p-4">
+                <p class="text-4xl font-semibold py-6">Category</p>
+                <Show />
+            </div>
+        </template>
+    </Base>
 </template>
 
 <script>
-import NavBar from "../../../Components/Master/NavBar.vue";
 import Show from "../../../Components/Front/Category/Show.vue";
-import Filters from "../../../Components/Front/Category/Filters.vue";
+import Base from "../Master/Base.vue";
 
 export default {
     components: {
-        NavBar,
         Show,
-        Filters,
+        Base,
     },
 };
 </script>
