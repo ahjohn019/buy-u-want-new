@@ -78,7 +78,7 @@ class ProductController extends BaseController
     {
         //
         $productShow = $this->product->find($id); 
-        // dd($productShow->attachments);
+
         return Inertia::render('Front/Products/Show', ["products" => $productShow, 
                 "productsCategory" => $productShow->category, 
                 "productsVariant" => $productShow->variant,

@@ -1,19 +1,19 @@
 <template>
-    <div>
-        <SideBar />
-    </div>
+    <Base>
+        <template #admin>
+            <Dashboard />
+        </template>
+    </Base>
 </template>
 
 <script>
-import SideBar from "../../Components/Master/SideBar.vue";
 import Dashboard from "../../Components/Admin/Dashboard/Dashboard.vue";
-import AdminFooter from "../../Components/Master/AdminFooter.vue";
+import Base from "./Base.vue";
 
 export default {
     components: {
-        SideBar,
         Dashboard,
-        AdminFooter,
+        Base,
     },
 };
 </script>
