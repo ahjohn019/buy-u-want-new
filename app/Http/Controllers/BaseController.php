@@ -18,7 +18,6 @@ class BaseController extends Controller
 {
     //
     protected $variant;
-    protected $product;
     protected $order;
     protected $user;
     protected $biography;
@@ -29,7 +28,6 @@ class BaseController extends Controller
     public function __construct(
         VariantServices $variantServices, 
         Variant $variant, 
-        Product $product,
         Order $order,
         User $user, 
         Biography $biography,
@@ -41,7 +39,6 @@ class BaseController extends Controller
         $this->middleware(['auth','verified'])->except(['index','show']);
         $this->variantServices = $variantServices;
         $this->variant = $variant;
-        $this->product = $product;
         $this->order = $order;
         $this->user = $user;
         $this->biography = $biography;

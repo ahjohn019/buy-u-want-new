@@ -42,10 +42,6 @@ Route::get('/index', function () {
 
 Route::get('/checkout', [StripeController::class, 'checkoutIndex'])->name('checkout.index');
 
-Route::get('/admin/index', function () {
-    return Inertia::render('Admin/Index');
-})->middleware('admin');
-
 Route::resource('products', ProductController::class);
 Route::resource('categories', CategoryController::class);
 Route::resource('variants', VariantController::class);
@@ -93,6 +89,14 @@ Route::middleware(['auth','verified'])->group(function () {
         Route::post('/finalPayments',[StripeController::class,'finalPayments'])->name('stripe.finalPayments');
         Route::post('/createOrder',[StripeController::class,'createorder'])->name('stripe.createOrder');
     });
+});
+
+//Admin Controllers
+Route::group(['prefix'=>'admin', 'middleware' => ['admin','verified']], function(){
+    Route::get('/index', function () {
+        return Inertia::render('Admin/Index');
+    });
+    Route::get('/products', [ProductController::class,'admin'])->name('products.admin');
 });
 
 

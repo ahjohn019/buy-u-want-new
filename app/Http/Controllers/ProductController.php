@@ -10,9 +10,22 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ProductRequest;
 use App\Http\Controllers\BaseController;
+use App\Services\ProductServices;
+use App\Models\Product;
+use App\Models\Category;
 
 class ProductController extends BaseController
 {
+    protected $product;
+    protected $productServices;
+    protected $category;
+
+    public function __construct(Product $product, Category $category, ProductServices $productServices){
+        $this->product = $product;
+        $this->productServices = $productServices;
+        $this->category = $category;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +33,6 @@ class ProductController extends BaseController
      */
     public function index()
     {
-        //
         $productList = $this->product->getActiveProduct()->get();
         return response()->json(["data" => $productList]);
     }
@@ -32,7 +44,10 @@ class ProductController extends BaseController
      */
     public function create()
     {
-        //
+        $status = statusList();
+        $categoryList = @$this->category->getActiveCategory()->get()->pluck('name')->toArray();
+
+        return Inertia::render("Admin/Product/Create",["status" => $status,"category"=>$categoryList]);
     }
 
     /**
@@ -143,4 +158,30 @@ class ProductController extends BaseController
             return back()->with('error',$e->getMessage());
         }
     }
+
+    /**
+     * Product list with admin authorization
+     *
+     * @return void
+     */
+    public function admin(Request $request){
+        $productList = $this->product->get();
+        $columns = $this->productServices->getProductAttributes($productList);
+
+        $search = $request->input('productSearch');
+        $priceRange = $request->input('priceRange');
+
+        $getMaxPrice = $this->productServices->getMaxPrice($this->product);
+
+        if($search){
+            $productList = $this->productServices->searchByAdmin($search, $columns, $this->product);
+        }
+
+        if($priceRange){
+            $productList = $this->productServices->filterByAdmin($this->product, $priceRange);
+        }
+
+        return Inertia::render('Admin/Product/Index', ['products' => $productList, 'columns' => $columns, 'maxPrice' => $getMaxPrice ]);
+    }
+
 }

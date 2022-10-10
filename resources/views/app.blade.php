@@ -11,6 +11,9 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+        <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+
+        <script src="https://cdn.tiny.cloud/1/tnhkvow02op3dmucv7ijdv2hbhfxqgm91okjdbuzw2d3h0id/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
         <!-- Scripts -->
         @routes

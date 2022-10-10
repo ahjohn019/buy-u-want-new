@@ -29,3 +29,7 @@ function imagesList($request){
 
     return $attachmentList;
 }
+
+function statusList(){
+    return ['hidden','active'];
+}

@@ -18,9 +18,6 @@
                         :collapsed-width="32"
                         :collapsed-icon-size="22"
                         :options="menuOptions"
-                        :render-label="renderMenuLabel"
-                        :render-icon="renderMenuIcon"
-                        :expand-icon="expandIcon"
                     />
                 </n-layout-sider>
                 <n-layout>
