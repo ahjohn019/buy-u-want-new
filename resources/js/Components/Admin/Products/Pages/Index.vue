@@ -1,6 +1,6 @@
 <template>
     <div class="relative">
-        <div class="px-6 flex justify-end items-center pt-2">
+        <div class="flex justify-end items-center pt-2">
             <form method="get" :action="route('products.admin')">
                 <input
                     type="text"
@@ -16,7 +16,7 @@
         </div>
 
         <div
-            class="grid grid-cols-1 md:grid-cols-4 m-4"
+            class="grid grid-cols-1 md:grid-cols-4 mt-4"
             style="min-height: 650px"
         >
             <Filter
@@ -35,8 +35,8 @@
 
 <script>
 import { defineComponent } from "vue";
-import Filter from "../Products/Filter.vue";
-import DataTable from "../Products/DataTable.vue";
+import Filter from "../Plugins/Index/Filter.vue";
+import DataTable from "../Plugins/Index/DataTable.vue";
 import { NButton } from "naive-ui";
 
 export default defineComponent({

@@ -1,17 +1,19 @@
 <template>
     <Base>
         <template #admin>
-            <Header :title="title" />
-            <Create :status="status" :category="category" />
+            <div class="container mx-auto px-6">
+                <Header :title="title" />
+                <Create :status="status" :category="category" />
+            </div>
         </template>
     </Base>
 </template>
 
 <script>
 import Base from "../Base.vue";
-import Index from "../../../Components/Admin/Products/Index.vue";
-import Create from "../../../Components/Admin/Products/Create.vue";
-import Header from "../../../Components/Master/AdminHeader.vue";
+import Index from "../../../Components/Admin/Products/Pages/Index.vue";
+import Create from "../../../Components/Admin/Products/Pages/Create.vue";
+import Header from "../../../Components/Master/Admin/Header.vue";
 
 export default {
     components: {

@@ -29,13 +29,48 @@
 </template>
 
 <script>
-import { ref, defineComponent } from "vue";
+import { ref, defineComponent, h } from "vue";
 import { NSpace, NLayout, NLayoutSider, NMenu } from "naive-ui";
 
 const menuOptions = [
     {
+        label: () =>
+            h(
+                "a",
+                {
+                    href: route("admin.index"),
+                },
+                "Dashboard"
+            ),
+        key: "dashboard",
+    },
+    {
         label: "Products",
         key: "products",
+        children: [
+            {
+                label: () =>
+                    h(
+                        "a",
+                        {
+                            href: route("products.admin"),
+                        },
+                        "Dashboard"
+                    ),
+                key: "dashboard",
+            },
+            {
+                label: () =>
+                    h(
+                        "a",
+                        {
+                            href: route("products.create"),
+                        },
+                        "Create"
+                    ),
+                key: "create",
+            },
+        ],
     },
 
     {

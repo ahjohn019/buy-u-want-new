@@ -94,8 +94,8 @@ Route::middleware(['auth','verified'])->group(function () {
 //Admin Controllers
 Route::group(['prefix'=>'admin', 'middleware' => ['admin','verified']], function(){
     Route::get('/index', function () {
-        return Inertia::render('Admin/Index');
-    });
+        return Inertia::render('Admin/Dashboard/Index');
+    })->name('admin.index');
     Route::get('/products', [ProductController::class,'admin'])->name('products.admin');
 });
 

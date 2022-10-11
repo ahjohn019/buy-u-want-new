@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import Dashboard from "../../Components/Admin/Dashboard/Dashboard.vue";
-import Base from "./Base.vue";
+import Dashboard from "../../../Components/Admin/Dashboard/Pages/Dashboard.vue";
+import Base from "../Base.vue";
 
 export default {
     components: {

@@ -1,20 +1,22 @@
 <template>
     <Base>
         <template #admin>
-            <Header :title="title" />
-            <Index
-                :products="products"
-                :columns="columns"
-                :maxPrice="maxPrice"
-            />
+            <div class="container mx-auto px-6">
+                <Header :title="title" />
+                <Index
+                    :products="products"
+                    :columns="columns"
+                    :maxPrice="maxPrice"
+                />
+            </div>
         </template>
     </Base>
 </template>
 
 <script>
 import Base from "../Base.vue";
-import Index from "../../../Components/Admin/Products/Index.vue";
-import Header from "../../../Components/Master/AdminHeader.vue";
+import Index from "../../../Components/Admin/Products/Pages/Index.vue";
+import Header from "../../../Components/Master/Admin/Header.vue";
 
 export default {
     components: {
