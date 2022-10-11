@@ -5,6 +5,24 @@ use App\Models\Product;
 
 class ProductServices{
 
+    public function inputCondition($request, $product){
+        $productList = $product->get();
+
+        $search = $request->productSearch;
+        $priceRange = $request->priceRange;
+
+        if($search){
+            $columns = $this->getProductAttributes($productList);
+            $productList = $this->searchByAdmin($search, $columns, $product);
+        }
+
+        if($priceRange){
+            $productList = $this->filterByAdmin($product, $priceRange);
+        }
+
+        return $productList;
+    }
+
     public function getProductAttributes($productList){
         $product = $productList->first();
         return array_keys($product->toArray());

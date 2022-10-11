@@ -165,21 +165,9 @@ class ProductController extends BaseController
      * @return void
      */
     public function admin(Request $request){
-        $productList = $this->product->get();
-        $columns = $this->productServices->getProductAttributes($productList);
-
-        $search = $request->input('productSearch');
-        $priceRange = $request->input('priceRange');
-
+        $productList = $this->productServices->inputCondition($request, $this->product);
+        $columns = $this->productServices->getProductAttributes($this->product);
         $getMaxPrice = $this->productServices->getMaxPrice($this->product);
-
-        if($search){
-            $productList = $this->productServices->searchByAdmin($search, $columns, $this->product);
-        }
-
-        if($priceRange){
-            $productList = $this->productServices->filterByAdmin($this->product, $priceRange);
-        }
 
         return Inertia::render('Admin/Product/Index', ['products' => $productList, 'columns' => $columns, 'maxPrice' => $getMaxPrice ]);
     }
