@@ -3,27 +3,32 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
+use App\Models\Product;
+use App\Models\Category;
 use App\Models\Discount;
+use App\Models\Attachment;
 use Illuminate\Http\Request;
+use App\Services\ProductServices;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ProductRequest;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\BaseController;
-use App\Services\ProductServices;
-use App\Models\Product;
-use App\Models\Category;
+use App\Services\AttachmentServices;
 
 class ProductController extends BaseController
 {
     protected $product;
     protected $productServices;
     protected $category;
+    protected $attachments;
 
-    public function __construct(Product $product, Category $category, ProductServices $productServices){
+    public function __construct(Product $product, Category $category, ProductServices $productServices,  AttachmentServices $attachmentService){
         $this->product = $product;
         $this->productServices = $productServices;
         $this->category = $category;
+        $this->attachmentService = $attachmentService;
     }
 
     /**
@@ -61,13 +66,10 @@ class ProductController extends BaseController
         try{
             if(!Gate::inspect('create', $this->product)->allowed()) return abort(403);
             DB::beginTransaction();
-            
-            $product = $this->product->create($request->validated());
-            
-            $this->product->where('id', $product->id)->update([
-                'user_id' => auth()->user()->id, 
-                'sku' => strtoupper($product->sku) 
-            ]);
+
+            $validated = $this->productServices->validated($request);
+            $product = $this->product->create($validated);
+            $this->attachmentService->save($request, $product);
 
             // check discount id must be exist.
             $discount = $this->discount::findorFail($request->discount_id);

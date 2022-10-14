@@ -14,7 +14,7 @@ function currencyList($currency) {
     }
 }
 
-function imagesList($request){
+function attachmentData($request, $product){
     $attachmentList = [
         'name' => $request->attachments->hashName(),
         'extension' => $request->attachments->extension(),
@@ -22,8 +22,8 @@ function imagesList($request){
         'size' => $request->attachments->getSize()
     ];
 
-    if($request->create){
-        $productId = ['product_id' => $request->product_id];
+    if($request->type == 'create'){
+        $productId = ['product_id' => $product->id];
         $attachmentList = array_merge($attachmentList, $productId);
     }
 

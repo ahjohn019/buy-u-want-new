@@ -44,4 +44,12 @@ class ProductServices{
         return $products->whereBetween('price',[0, (int)$priceRange])->get();
     }
 
+    public function validated($request){
+        $productData = ['user_id' => auth()->user()->id, 'image' => @$request->attachments->hashName()];
+        $validated = array_merge($request->validated(), $productData);
+        $validated['sku'] = strtoupper($validated['sku']);
+
+        return $validated;
+    }
+
 }

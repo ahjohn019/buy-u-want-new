@@ -3,7 +3,9 @@
         <div class="px-6 grid md:grid-cols-3 gap-4">
             <div class="col-span-2">
                 <div class="grid grid-cols-1 gap-4">
+                    <input type="hidden" v-model="form.type" />
                     <BasicInfo :form="form" />
+                    <Attachments :form="form" />
                     <Price :form="form" />
                     <Inventory :form="form" />
                 </div>
@@ -33,6 +35,7 @@ import Price from "../Plugins/Create/Price.vue";
 import Inventory from "../Plugins/Create/Inventory.vue";
 import Status from "../Plugins/Create/Status.vue";
 import Category from "../Plugins/Create/Category.vue";
+import Attachments from "../Plugins/Create/Attachments.vue";
 
 export default defineComponent({
     components: {
@@ -42,11 +45,13 @@ export default defineComponent({
         Inventory,
         Status,
         Category,
+        Attachments,
     },
     props: ["status", "category"],
     data() {
         return {
             form: {
+                type: "create",
                 name: null,
                 description: null,
                 short_description: null,
@@ -57,6 +62,7 @@ export default defineComponent({
                 statusOptions: this.status,
                 categoryOptions: this.category,
                 errors: [],
+                attachments: null,
             },
         };
     },
@@ -80,6 +86,7 @@ export default defineComponent({
                     this.form.errors = errors;
                 },
             });
+            console.log(this.form);
         },
     },
 });
