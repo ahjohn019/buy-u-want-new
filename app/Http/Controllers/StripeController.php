@@ -65,7 +65,12 @@ class StripeController extends BaseController
             $unitPrice[$cartValue->id] = ['unitPrice' => $this->getUnitPrice($cartValue->id)];
         }
 
-        return Inertia::render('Front/Checkout/Index' , ["cart" => $cartContent, "unitPrice" => @$unitPrice, "total" => $this->getCartTotal()]);
+        return Inertia::render('Front/Checkout/Index' , [
+            "cart" => $cartContent, 
+            "unitPrice" => @$unitPrice, 
+            "total" => $this->getCartTotal(),
+            "authentication" => auth()->user()
+        ]);
         
     }
 }
