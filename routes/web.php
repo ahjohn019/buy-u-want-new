@@ -40,7 +40,7 @@ Route::get('/index', function () {
     return Inertia::render('Front/Master/Index',['auth'=>auth()->user()]);
 })->name('main.index');
 
-Route::get('/checkout', [StripeController::class, 'checkoutIndex'])->name('checkout.index');
+Route::get('/checkout', [StripeController::class, 'checkoutIndex'])->name('checkout.index')->middleware(['auth', 'verified']);
 
 Route::resource('products', ProductController::class);
 Route::resource('categories', CategoryController::class);
