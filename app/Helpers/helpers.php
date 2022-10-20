@@ -1,4 +1,6 @@
 <?php
+use App\Services\AttachmentServices;
+use App\Services\VariantServices;
 
 function currencyList($currency) {
     switch ($currency) {

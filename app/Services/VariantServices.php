@@ -2,34 +2,33 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Models\Variant;
 
 class VariantServices
 {
     /**
-     * Get The list of product id & find the product owner who modify variant 
+     * Save the variant into database along with product id
      *
-     * @param string $request
-     * @param string $product
+     * @param array $request
+     * @param array $product
      * @return void
      */
-    public function check($request, $product){
-        $getProductId = $product::pluck('id')->all();
-        $getProductOwner = $product::find($request->product_id)->user_id ?? null;
+    public function save($request, $product){
 
-        return ["getProductId"=> $getProductId, "getProductOwner"=> $getProductOwner];
-    }
+        foreach($request->variants as $key => $value){
+            $value = array_column($value, $key);
 
-    /**
-     * Check the product belongs to the owner
-     *
-     * @param string $request
-     * @param string $product
-     * @return void
-     */
-    public function checkProductInvalid($request, $product){
-        $productInvalid = !in_array($request->product_id, $this->check($request, $product)['getProductId']) 
-                          || auth()->user()->id != $this->check($request, $product)['getProductOwner'];
+            foreach($value as $a){
+                Variant::create([
+                    'name' => $key,
+                    'type' => $a,
+                    'product_id' => $product->id,
+                    'status' => 1
+                ]);
+            }
 
-        return $productInvalid;
+        }
+
+                        
     }
 }

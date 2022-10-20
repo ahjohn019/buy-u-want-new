@@ -5,6 +5,7 @@
                 <div class="grid grid-cols-1 gap-4">
                     <input type="hidden" v-model="form.type" />
                     <BasicInfo :form="form" />
+                    <Variants :form="form" />
                     <Attachments :form="form" />
                     <Price :form="form" />
                     <Inventory :form="form" />
@@ -36,6 +37,7 @@ import Inventory from "../Plugins/Create/Inventory.vue";
 import Status from "../Plugins/Create/Status.vue";
 import Category from "../Plugins/Create/Category.vue";
 import Attachments from "../Plugins/Create/Attachments.vue";
+import Variants from "../Plugins/Create/Variants.vue";
 
 export default defineComponent({
     components: {
@@ -46,6 +48,7 @@ export default defineComponent({
         Status,
         Category,
         Attachments,
+        Variants,
     },
     props: ["status", "category"],
     data() {
@@ -63,6 +66,11 @@ export default defineComponent({
                 categoryOptions: this.category,
                 errors: [],
                 attachments: null,
+                variants: {
+                    colors: [{ colors: "" }],
+                    sizes: [],
+                    sizeOptions: [],
+                },
             },
         };
     },
@@ -81,12 +89,10 @@ export default defineComponent({
             }
 
             this.$inertia.post(route("products.store"), this.form, {
-                onSuccess: (page) => {},
                 onError: (errors) => {
                     this.form.errors = errors;
                 },
             });
-            console.log(this.form);
         },
     },
 });

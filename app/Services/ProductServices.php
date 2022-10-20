@@ -45,7 +45,7 @@ class ProductServices{
     }
 
     public function validated($request){
-        $productData = ['user_id' => auth()->user()->id, 'image' => @$request->attachments->hashName()];
+        $productData = ['user_id' => auth()->user()->id, 'image' => optional($request->attachments)->hashName()];
         $validated = array_merge($request->validated(), $productData);
         $validated['sku'] = strtoupper($validated['sku']);
 

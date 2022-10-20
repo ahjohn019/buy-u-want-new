@@ -15,20 +15,20 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\BaseController;
-use App\Services\AttachmentServices;
+use App\Services\ConditionServices;
 
 class ProductController extends BaseController
 {
     protected $product;
     protected $productServices;
     protected $category;
-    protected $attachments;
+    protected $variantService;
 
-    public function __construct(Product $product, Category $category, ProductServices $productServices,  AttachmentServices $attachmentService){
+    public function __construct(Product $product, Category $category, ProductServices $productServices, ConditionServices $conditionServices){
         $this->product = $product;
         $this->productServices = $productServices;
         $this->category = $category;
-        $this->attachmentService = $attachmentService;
+        $this->conditionServices = $conditionServices;
     }
 
     /**
@@ -69,16 +69,11 @@ class ProductController extends BaseController
 
             $validated = $this->productServices->validated($request);
             $product = $this->product->create($validated);
-            $this->attachmentService->save($request, $product);
-
-            // check discount id must be exist.
-            $discount = $this->discount::findorFail($request->discount_id);
-
-            // when discount value is set, product_discount add the new data row.
-            $discount->pivotProduct()->attach($request->id, ['status' => 'active']);
-
+       
+            $this->conditionServices->condition($request, $product);
             DB::commit();
-            return response()->json(["data" => $product]);
+  
+            return redirect()->route("products.admin")->with('createProductSuccesMessage', 'Product created successfully');
         } catch(\Throwable $e){
             DB::rollback();
             return back()->with('error',$e->getMessage());
@@ -128,11 +123,11 @@ class ProductController extends BaseController
             DB::beginTransaction();
             $product = $this->product->where('id',$id)->update($request->validated());
 
-            // check discount id must be exist.
-            $product = $this->product::findorFail($id);
+            // // check discount id must be exist.
+            // $product = $this->product::findorFail($id);
 
-            // when found the product id , discount value update on existing products.
-            $product->pivotDiscount()->update(['discount_id' => $request->discount_id]);
+            // // when found the product id , discount value update on existing products.
+            // $product->pivotDiscount()->update(['discount_id' => $request->discount_id]);
             
             DB::commit();
             return response()->json(["data" => "Updated Successfully"]);

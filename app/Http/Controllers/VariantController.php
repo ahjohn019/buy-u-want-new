@@ -41,12 +41,6 @@ class VariantController extends BaseController
     {
         //check if product id is in collection, product is created by owner, create it else denied the permission.
         try{
-            $productInvalid = $this->variantServices->checkProductInvalid($request, $this->product);
-
-            if($productInvalid){
-                return response()->json(["data" => "Unauthorized", "status" => 0]);
-            }
-
             $variantCreate = $this->variant->create($request->validated());
             return response()->json(["data" => $variantCreate, "status" => 1]);
         } catch(\Throwable $e){
@@ -91,12 +85,6 @@ class VariantController extends BaseController
     {
         //check if product id is in collection, product is created by owner, updated it else denied the permission.
         try{
-            $productInvalid = $this->variantServices->checkProductInvalid($request, $this->product);
-
-            if($productInvalid){
-                return response()->json(["data" => "Unauthorized", "status" => 0]);
-            }
-
             $variantUpdate = $this->variant->where('id', $id)->update($request->validated());
             return response()->json(["data" => $variantUpdate, "status" => 1]);
 

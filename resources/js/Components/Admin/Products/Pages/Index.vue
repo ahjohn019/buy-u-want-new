@@ -1,5 +1,14 @@
 <template>
     <div class="relative">
+        <div
+            v-if="$page.props.flash.createProductSuccesMessage"
+            class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
+            role="alert"
+        >
+            <span class="font-medium">
+                {{ $page.props.flash.createProductSuccesMessage }}
+            </span>
+        </div>
         <div class="flex justify-end items-center pt-2">
             <form method="get" :action="route('products.admin')">
                 <input
