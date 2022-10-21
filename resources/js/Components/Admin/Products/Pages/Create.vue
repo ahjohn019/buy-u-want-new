@@ -76,18 +76,6 @@ export default defineComponent({
     },
     methods: {
         submit() {
-            for (const [key, value] of Object.entries(this.status)) {
-                if (this.form.status == value) {
-                    this.form.status = parseInt(key);
-                }
-            }
-
-            for (const [key, value] of Object.entries(this.category)) {
-                if (this.form.category_id == value) {
-                    this.form.category_id = parseInt(key);
-                }
-            }
-
             this.$inertia.post(route("products.store"), this.form, {
                 onError: (errors) => {
                     this.form.errors = errors;
