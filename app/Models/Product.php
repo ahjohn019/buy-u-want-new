@@ -8,6 +8,8 @@ use App\Models\Category;
 use App\Models\Discount;
 use App\Models\Attachment;
 use App\Models\OrderDetails;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -51,7 +53,43 @@ class Product extends Model
         return $this->belongsToMany(Discount::class, 'products_discounts')->withPivot('status');
     }
 
+    //get active products
     public function scopeGetActiveProduct($query){
         return $query->where('status', 1)->orderBy('created_at', 'DESC');
+    }
+
+    //filter important data for admin index
+    public function scopeGetAdminIndex($query){
+        return $query->leftJoin('categories as category','category.id','=','products.category_id')
+                     ->leftJoin('status','status.id','=','products.status')
+                     ->select(
+                            'products.name',
+                            'products.description',
+                            'category.name as category',
+                            'products.sku',
+                            'products.price',
+                            'products.image',
+                            'status.name as status',
+                            'products.created_at',
+                     );
+                     
+    }
+
+    //get filter product prices
+    public function scopefilterPrice($query, $priceRange){
+        return $query->whereBetween('price',[0, (int)$priceRange]);
+    }
+
+    //search the product information
+    public function scopeSearchProductByAdmin($query, $search, $columns){
+        return $query->where(function($query) use($search, $columns){ 
+                        foreach($columns as $column){
+                            $column = "products." . $column;
+                            if($column == "products.category") $column = "category.name";
+                            if($column == "products.status") $column = "status.name";
+                            $query->orWhere($column, 'like', '%'. $search.'%');
+                        }
+                    });
+  
     }
 }
