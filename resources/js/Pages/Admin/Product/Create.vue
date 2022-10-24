@@ -1,7 +1,7 @@
 <template>
     <Base>
         <template #admin>
-            <div class="container mx-auto px-6">
+            <div class="container mx-auto px-6 w-full md:w-4/5">
                 <Header :title="title" />
                 <Create :status="status" :category="category" />
             </div>
