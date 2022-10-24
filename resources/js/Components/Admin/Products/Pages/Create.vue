@@ -61,7 +61,7 @@ export default defineComponent({
                 price: null,
                 sku: null,
                 category_id: null,
-                status: "active",
+                status: null,
                 statusOptions: this.status,
                 categoryOptions: this.category,
                 errors: [],
@@ -81,6 +81,9 @@ export default defineComponent({
                     this.form.errors = errors;
                 },
             });
+        },
+        mounted() {
+            console.log(this.status);
         },
     },
 });

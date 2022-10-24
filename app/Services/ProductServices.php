@@ -2,7 +2,6 @@
 namespace App\Services;
 
 use App\Models\Product;
-use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -35,18 +34,13 @@ class ProductServices{
     }
 
     public function validated($request){
+
         $productData = ['user_id' => auth()->user()->id, 'image' => optional($request->attachments)->hashName()];
         $validated = array_merge($request->validated(), $productData);
-        
         $validated['sku'] = strtoupper($validated['sku']);
-        $validated['status'] == "active" ? $validated['status'] = 1 : $validated['status'] = 0;
-        $category = Category::get();
+        $validated['status'] = $validated['status']['id'];
+        $validated['category_id'] = $validated['category_id']['id'];
 
-        foreach($category as $cat){
-            if($validated['category_id'] == $cat->name){
-                $validated['category_id'] = $cat->id;
-            }
-        }
 
         return $validated;
     }

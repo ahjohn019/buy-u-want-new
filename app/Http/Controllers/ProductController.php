@@ -47,12 +47,13 @@ class ProductController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(DB $database)
     {
-        $status = statusList();
-        $categoryList = @$this->category->getActiveCategory()->get()->pluck('name')->toArray();
 
-        return Inertia::render("Admin/Product/Create",["status" => $status,"category"=>$categoryList]);
+        $status = $database::table('status')->get();
+        $category = $database::table('categories')->get();
+
+        return Inertia::render("Admin/Product/Create",["status" => $status,"category"=>$category]);
     }
 
     /**
@@ -162,6 +163,7 @@ class ProductController extends BaseController
      * @return void
      */
     public function admin(Request $request){        
+
         $productList = $this->productServices->inputCondition($request);
         $getMaxPrice = $this->productServices->getMaxPrice();
 

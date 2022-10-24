@@ -7,6 +7,8 @@
                 :options="form.statusOptions"
                 :searchable="false"
                 placeholder="Status"
+                track-by="name"
+                label="name"
             ></VueMultiselect>
         </div>
         <div v-if="form.errors.status">

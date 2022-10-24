@@ -7,6 +7,8 @@
                 :options="form.categoryOptions"
                 :searchable="false"
                 placeholder="Category"
+                track-by="name"
+                label="name"
             ></VueMultiselect>
         </div>
         <div v-if="form.errors.category_id">
