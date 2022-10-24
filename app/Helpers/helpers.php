@@ -32,10 +32,6 @@ function attachmentData($request, $product){
     return $attachmentList;
 }
 
-function statusList(){
-    return ['hidden','active'];
-}
-
 function productColumnName(){
     return  [
                 'name',
@@ -47,4 +43,17 @@ function productColumnName(){
                 'status',
                 'created_at'
             ];
+}
+
+function paymentIntentData($cartTotal, $customerNew){
+    $intentData = [
+            'amount' => $cartTotal,
+            'currency' => currencyList('Malaysia'),
+            'customer' => auth()->user()->stripeUsers->stripe_customer_id ?? @$customerNew['id'],
+            'payment_method_types' => [
+                'card',
+            ]
+    ];
+
+    return $intentData;
 }

@@ -8,6 +8,7 @@ use App\Models\StripeUsers;
 use App\Models\OrderDetails;
 use Cartalyst\Stripe\Stripe;
 use App\Http\Requests\StripeCreateCustomerRequest;
+use App\Services\OrderServices;
    
 class StripeServices
 {
@@ -15,41 +16,13 @@ class StripeServices
 
     protected $stripeKey;
     protected $user;
-    protected $order;
-    protected $orderDetails;
     protected $userStripe;
 
-    public function __construct(User $user, Order $order, OrderDetails $orderDetails, StripeUsers $userStripe ){
+    public function __construct(User $user, StripeUsers $userStripe, OrderServices $orderServices ){
         $this->stripeKey = Stripe::make(config('app.stripe_secret'));
-        $this->order = $order;
         $this->user = $user;
-        $this->orderDetails = $orderDetails;
         $this->userStripe = $userStripe;
-    }
-
-    /**
-     * Get the stripe key from the dashboard
-     *
-     * @return void
-     */
-    public function getStripeKey(){
-        return $this->stripeKey;
-    }
-
-    /**
-     * List of payment intent resource
-     *
-     * @return void
-     */
-    public function intentResource() {
-        return [
-            'amount' => $this->getCartTotal(),
-            'currency' => currencyList('Malaysia'),
-            'customer' => $this->user->stripe_id,
-            'payment_method_types' => [
-                'card',
-            ]
-        ];
+        $this->orderServices = $orderServices;
     }
 
     /**
@@ -60,7 +33,7 @@ class StripeServices
      */
     public function createCustomer($request){
         try {
-            $customerCreate = $this->getStripeKey()->customers()->create($request->validated());
+            $customerCreate = $this->stripeKey->customers()->create($request->validated());
             $this->userStripe->create([
                 'user_id' => auth()->user()->id,
                 'stripe_customer_id' => $customerCreate['id']
@@ -78,7 +51,7 @@ class StripeServices
      * @return void
      */
     public function retrieveCustomerService(){
-        $customerGet = empty(auth()->user()->stripe_id) ? null : $this->getStripeKey()->customers()->find(auth()->user()->stripe_id);
+        $customerGet = empty(auth()->user()->stripe_id) ? null : $this->stripeKey->customers()->find(auth()->user()->stripe_id);
         return $customerGet;
     }
 
@@ -89,7 +62,7 @@ class StripeServices
      * @return void
      */
      public function createPaymentMethod($request){
-        $paymentMethod = $this->getStripeKey()->paymentMethods()->create($request->validated());
+        $paymentMethod = $this->stripeKey->paymentMethods()->create($request->validated());
         return $paymentMethod['id'];
     }
 
@@ -99,62 +72,11 @@ class StripeServices
      * @return void
      */
     public function createPaymentIntents($customerNew = null){
-        $intentData = [
-            'amount' => $this->getCartTotal(),
-            'currency' => currencyList('Malaysia'),
-            'customer' => auth()->user()->stripeUsers->stripe_customer_id ?? @$customerNew['id'],
-            'payment_method_types' => [
-                'card',
-            ]
-        ];
+        $intentData = paymentIntentData($this->getCartTotal(), $customerNew = null);
+        if($intentData['amount'] <= 0) return response()->json(["data" => $intentData, "status" => 0]);
 
-        if($intentData['amount'] <= 0){
-            return response()->json(["data" => $intentData, "status" => 0]);
-        }
-
-        $paymentIntent = $this->getStripeKey()->paymentIntents()->create($intentData);
+        $paymentIntent = $this->stripeKey->paymentIntents()->create($intentData);
         return response()->json(["data" => $paymentIntent, "status" => 1]);
-    }
-
-    /**
-     * Create an order after make stripe payment
-     *
-     * @param [type] $confirmPaymentIntents
-     * @return void
-     */
-    public function generateOrder($confirmPaymentIntents){
-        $order = $this->order->create([
-            'number' => 'ORDER-' . uniqid(),
-            'total' => $this->getCartTotal(),
-            'grand_total' => $this->getCartTotal(),
-            'tax' => null,
-            'status' => $confirmPaymentIntents['status'],
-            'user_id' => auth()->user()->id,
-            'payment_id' => $confirmPaymentIntents['id']
-        ]);
-
-        $this->generateOrderDetails($order->id);
-
-        return $order;
-    }
-
-    /**
-     * Store the order details data if order was done on payment.
-     *
-     * @param [type] $orderId
-     * @return void
-     */
-    public function generateOrderDetails($orderId){
-        $getItems = $this->getCartContent();
-        foreach($getItems as $item){
-            $this->orderDetails->create([
-                'quantity' => $item->quantity,
-                'price' => $item->price,
-                'order_id' => $orderId,
-                'product_id' => $item->id,
-                'shipment_id' => null
-            ]);
-        }
     }
 
     /**
@@ -173,13 +95,13 @@ class StripeServices
 
         if($createPaymentIntents->status <= 0) return response()->json(["data" => "Unavailable", "status" => 0]);
 
-        $confirmPaymentIntents = $this->getStripeKey()->paymentIntents()->confirm($createPaymentIntents->data->id, [
+        $confirmPaymentIntents = $this->stripeKey->paymentIntents()->confirm($createPaymentIntents->data->id, [
             'payment_method' => $this->createPaymentMethod($cardRequest)
         ]);
 
-        $orderData = $this->generateOrder($confirmPaymentIntents);
+        $orderData = $this->orderServices->generateOrder($confirmPaymentIntents);
 
-        $updatePaymentIntents = $this->getStripeKey()->paymentIntents()->update($createPaymentIntents->data->id, [
+        $updatePaymentIntents = $this->stripeKey->paymentIntents()->update($createPaymentIntents->data->id, [
             'metadata' => ['order_id' => $orderData->number]
         ]);
 
