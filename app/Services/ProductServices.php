@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class ProductServices{
 
@@ -21,18 +22,13 @@ class ProductServices{
         return $productList;
     }
 
-    public function getProductAttributes(){
-        $product = Product::getAdminIndex()->first();
-        return array_keys($product->toArray());
-    }
-
     public function getMaxPrice(){
         $product = Product::all();
         return max($product->pluck('price')->toArray());
     }
 
     public function searchByAdmin($search, $products){
-       $columns = $this->getProductAttributes();
+       $columns = productColumnName();
        $search = $products->searchProductByAdmin($search, $columns)->get();
 
        return $search;

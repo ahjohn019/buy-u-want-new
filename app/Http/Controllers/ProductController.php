@@ -163,10 +163,9 @@ class ProductController extends BaseController
      */
     public function admin(Request $request){        
         $productList = $this->productServices->inputCondition($request);
-        $columns = $this->productServices->getProductAttributes();
         $getMaxPrice = $this->productServices->getMaxPrice();
 
-        return Inertia::render('Admin/Product/Index', ['products' => $productList, 'columns' => $columns, 'maxPrice' => $getMaxPrice ]);
+        return Inertia::render('Admin/Product/Index', ['products' => $productList, 'columns' => productColumnName(), 'maxPrice' => $getMaxPrice ]);
     }
 
 }

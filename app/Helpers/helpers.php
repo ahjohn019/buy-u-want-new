@@ -35,3 +35,16 @@ function attachmentData($request, $product){
 function statusList(){
     return ['hidden','active'];
 }
+
+function productColumnName(){
+    return  [
+                'name',
+                'description',
+                'category',
+                'sku',
+                'price',
+                'image',
+                'status',
+                'created_at'
+            ];
+}
