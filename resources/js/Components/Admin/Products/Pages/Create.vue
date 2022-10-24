@@ -82,9 +82,6 @@ export default defineComponent({
                 },
             });
         },
-        mounted() {
-            console.log(this.status);
-        },
     },
 });
 </script>
