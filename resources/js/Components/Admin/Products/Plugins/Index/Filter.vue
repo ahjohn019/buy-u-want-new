@@ -1,5 +1,8 @@
 <template>
-    <div class="bg-white py-6 px-4 mb-2 md:mr-2 border">
+    <div
+        class="bg-white py-6 px-4 mb-2 md:mr-2 border"
+        v-if="products.length > 0"
+    >
         <p>Price</p>
         <n-space vertical>
             <form :action="route('products.admin')" method="get">

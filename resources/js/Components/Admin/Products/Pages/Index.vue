@@ -32,8 +32,9 @@
         </div>
 
         <div
-            class="grid grid-cols-1 md:grid-cols-4 mt-4"
+            class="grid grid-cols-1 mt-4"
             style="min-height: 650px"
+            :class="[products.length > 0 ? 'md:grid-cols-4' : 'md:grid-cols-3']"
         >
             <Filter
                 :products="products"

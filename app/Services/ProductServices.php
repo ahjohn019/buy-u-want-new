@@ -23,7 +23,8 @@ class ProductServices{
 
     public function getMaxPrice(){
         $product = Product::all();
-        return max($product->pluck('price')->toArray());
+        $price = empty($product->pluck('price')->toArray()) ? 0 : max($product->pluck('price')->toArray());
+        return $price;
     }
 
     public function searchByAdmin($search, $products){
