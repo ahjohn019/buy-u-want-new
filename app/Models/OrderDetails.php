@@ -41,6 +41,6 @@ class OrderDetails extends Model
                 $join->on('orders.user_id','=','users.id');
             })
             ->groupBy('order_details.order_id')
-            ->orderBy('order_details.created_at','DESC');
+            ->orderBy('orders.created_at','DESC');
     }
 }
