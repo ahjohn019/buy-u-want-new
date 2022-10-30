@@ -13,7 +13,7 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['number','total','grand_total','tax','status','payment_id','user_id'];
+    protected $fillable = ['number','total','grand_total','total_qty','tax','status','payment_id','user_id'];
 
     //each order belongs to one user
     public function user(){
