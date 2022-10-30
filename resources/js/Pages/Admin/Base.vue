@@ -72,10 +72,22 @@ const menuOptions = [
             },
         ],
     },
-
     {
-        label: "Category",
-        key: "category",
+        label: "Orders",
+        key: "orders",
+        children: [
+            {
+                label: () =>
+                    h(
+                        "a",
+                        {
+                            href: route("orders.index"),
+                        },
+                        "Dashboard"
+                    ),
+                key: "dashboard",
+            },
+        ],
     },
 ];
 

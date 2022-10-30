@@ -57,6 +57,5 @@ class OrderController extends BaseController
             DB::rollback();
             return back()->with('error',$e->getMessage());
         }
-
     }
 }
