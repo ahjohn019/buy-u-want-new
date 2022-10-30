@@ -17,7 +17,7 @@ class OrderSeeder extends Seeder
      */
     public function run()
     {
-        OrderDetails::factory()->count(10)->create();
+        OrderDetails::factory()->count(5)->create();
         $orderDetails = OrderDetails::select(DB::raw('SUM(price) AS totalPrice'), DB::raw('COUNT(id) AS qty'), 'order_id')->groupBy('order_id')->get();
         foreach($orderDetails as $details) {
             DB::table('orders')->insert([
