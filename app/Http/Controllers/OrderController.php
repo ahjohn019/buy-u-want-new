@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\Order;
+use App\Models\OrderDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\BaseController;
@@ -19,9 +21,10 @@ class OrderController extends BaseController
      */
     public function index()
     {
-        //
-        $orderList = $this->order->orderBy('created_at','DESC')->get();
-        return response()->json(["orderList" => $orderList]);
+        $orderList = OrderDetails::orderOverview()->get();
+        $columns = orderColumnName();
+
+        return Inertia::render('Admin/Order/Index',[ "order" => $orderList, "columns" => $columns ]);
     }
 
     /**
