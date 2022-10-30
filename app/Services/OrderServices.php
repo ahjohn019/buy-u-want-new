@@ -20,6 +20,7 @@ class OrderServices
             'number' => 'ORDER-' . uniqid(),
             'total' => $this->getCartTotal(),
             'grand_total' => $this->getCartTotal(),
+            'total_qty' => $this->getQuantity(),
             'tax' => null,
             'status' => $confirmPaymentIntents['status'],
             'user_id' => auth()->user()->id,

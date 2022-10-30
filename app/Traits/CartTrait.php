@@ -20,4 +20,8 @@ trait CartTrait{
     public function clearAll(){
         Cart::session(auth()->user()->id)->clear();
     }
+
+    public function getQuantity(){
+        return Cart::getTotalQuantity();
+    }
 }
