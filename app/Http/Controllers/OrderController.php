@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Events\InvoiceNotification;
 use App\Http\Controllers\BaseController;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -56,6 +57,30 @@ class OrderController extends BaseController
         } catch(\Throwable $e){
             DB::rollback();
             return back()->with('error',$e->getMessage());
+        }
+    }
+
+    /**
+     * Update To fulfilled status
+     *
+     * @return void
+     */
+    public function fulfillStatus(Request $request){
+        try {
+            $selectedRows = json_decode($request->selectedRows);
+            
+            foreach($selectedRows as $selected){
+                $result[] = $selected->number;
+            }
+
+            $orderDetails = $this->order->whereIn('number', $result);
+            $orderDetails->update(['status' => 'fulfilled']);
+
+            event(new InvoiceNotification($orderDetails));
+
+            return redirect()->back();
+        } catch (\Throwable $th) {
+            //throw $th;
         }
     }
 }

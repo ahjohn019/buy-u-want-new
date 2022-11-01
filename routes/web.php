@@ -36,12 +36,6 @@ use App\Http\Controllers\AttachmentController;
 //     ]);
 // });
 
-Route::get('/', function () {
-    return Inertia::render('Front/Master/Index',['auth'=>auth()->user()]);
-})->name('main.index');
-
-Route::get('/checkout', [StripeController::class, 'checkoutIndex'])->name('checkout.index')->middleware(['auth', 'verified']);
-
 Route::resource('products', ProductController::class);
 Route::resource('categories', CategoryController::class);
 Route::resource('variants', VariantController::class);
@@ -49,6 +43,13 @@ Route::resource('orders', OrderController::class);
 Route::resource('discounts', DiscountController::class);
 Route::resource('coupons',CouponController::class);
 Route::resource('attachments', AttachmentController::class)->middleware('admin');
+
+
+Route::get('/', function () {
+    return Inertia::render('Front/Master/Index',['auth'=>auth()->user()]);
+})->name('main.index');
+
+Route::get('/checkout', [StripeController::class, 'checkoutIndex'])->name('checkout.index')->middleware(['auth', 'verified']);
 
 Route::group(['prefix'=>'charts','middleware'=>'admin'], function () {
     Route::get('/orders',[ChartController::class,'orders'])->name('chart.orders');
@@ -97,6 +98,7 @@ Route::group(['prefix'=>'admin', 'middleware' => ['admin','verified']], function
         return Inertia::render('Admin/Dashboard/Index');
     })->name('admin.index');
     Route::get('/products', [ProductController::class,'admin'])->name('products.admin');
+    Route::post('/orders/fulfilled',[OrderController::class,'fulfillStatus'])->name('orders.fulfilled');
 });
 
 

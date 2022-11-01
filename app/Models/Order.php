@@ -7,11 +7,13 @@ use App\Models\Payment;
 use App\Models\OrderDetails;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
     use HasFactory;
+    use Notifiable;
 
     protected $fillable = ['number','total','grand_total','total_qty','tax','status','payment_id','user_id'];
 
