@@ -17,7 +17,7 @@ class CreateProductsDiscounts extends Migration
             $table->id();
             $table->integer('product_id');
             $table->integer('discount_id');
-            $table->string('status');
+            $table->integer('status');
             $table->timestamps();
         });
     }

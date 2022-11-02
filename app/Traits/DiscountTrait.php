@@ -12,7 +12,7 @@ trait DiscountTrait{
 
         // when discount status active, calculate the price
         $checkDiscount = $product->price;
-        if($getDiscountStatus != 'active') return $checkDiscount;
+        if($getDiscountStatus != 1) return $checkDiscount;
 
         // if discount is percentage, do the percentage calculation
         if($getDiscount->method == 'percentage') $checkDiscount = $product->price * ((100 - $getDiscount->value) / 100);

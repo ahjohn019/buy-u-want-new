@@ -21,9 +21,10 @@ class CreateProductTable extends Migration
             $table->double('price');
             $table->text('image')->nullable();
             $table->integer('status');
+            $table->string('tags')->nullable();
             $table->integer('category_id');
             $table->integer('user_id')->nullable();
-            $table->integer('discount_id')->nullable();
+            // $table->integer('discount_id')->nullable();
             $table->timestamps();
         });
     }

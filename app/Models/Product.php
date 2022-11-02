@@ -17,7 +17,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','description','sku','price','image','category_id','user_id','discount_id','status'];
+    protected $fillable = ['name','description','sku','price','image','tags','category_id','user_id','status'];
 
     //each products belongs to one category
     public function category(){
@@ -27,11 +27,6 @@ class Product extends Model
     //one products has many variants
     public function variant(){
         return $this->hasMany(Variant::class);
-    }
-    
-    //each discount belongs to one product
-    public function discount(){
-        return $this->belongsTo(Discount::class);
     }
 
     //belongs to specific one user create product
