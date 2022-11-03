@@ -17,7 +17,7 @@
                         />
                     </Link>
                 </div>
-                <div class="py-5 md:p-5">
+                <div class="py-5 md:p-5" style="width: 200px">
                     <Link :href="route('products.show', product.id)">
                         <p class="md:text-2xl font-bold">{{ product.name }}</p>
                         <p class="md:text-sm text-gray-500 font-bold">
