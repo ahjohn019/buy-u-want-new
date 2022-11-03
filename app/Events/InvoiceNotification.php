@@ -20,10 +20,11 @@ class InvoiceNotification
      *
      * @return void
      */
-    public function __construct($order)
+    public function __construct($order, $status = null)
     {
         //
         $this->order = $order;
+        $this->status = $status;
     }
 
     /**

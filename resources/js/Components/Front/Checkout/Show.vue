@@ -161,9 +161,6 @@ export default {
             },
         };
     },
-    mounted() {
-        console.log(this.authentication);
-    },
     methods: {
         paymentForm() {
             this.form.name = this.form.first_name + " " + this.form.last_name;

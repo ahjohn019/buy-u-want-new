@@ -27,10 +27,17 @@ class SendInvoiceNotification
      */
     public function handle(InvoiceNotification $event)
     {
-        $orderDetails = $event->order->get();
+        if($event->status == 'fulfilled'){
+            $orderDetails = $event->order->get();
         
-        foreach($orderDetails as $order){
-            $order->user->notify(new InvoiceEmail($order));
+            foreach($orderDetails as $order){
+                $order->user->notify(new InvoiceEmail($order));
+            }
         }
+
+        if($event->status == 'checkout'){
+            auth()->user()->notify(new InvoiceEmail($event->order));
+        }
+        
     }
 }

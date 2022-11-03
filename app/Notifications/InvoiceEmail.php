@@ -46,8 +46,11 @@ class InvoiceEmail extends Notification
 
         return (new MailMessage)
                     ->greeting('Hello '. $notifiable->email)
-                    ->line('Your order has been fulfilled.')
+                    ->line('Your order is now in ' . $this->order->status )
+                    ->line('Payment ID : '. $this->order->payment_id)
                     ->line('Order Number : ' . $this->order->number)
+                    ->line('Total Quantity : ' . $this->order->total_qty)
+                    ->line('Grand Total : RM ' . $this->order->grand_total)
                     ->line('Order Status : ' . $this->order->status)
                     ->line('Thank you for using our platform!');
     }

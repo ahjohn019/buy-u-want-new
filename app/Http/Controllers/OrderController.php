@@ -76,7 +76,7 @@ class OrderController extends BaseController
             $orderDetails = $this->order->whereIn('number', $result);
             $orderDetails->update(['status' => 'fulfilled']);
 
-            event(new InvoiceNotification($orderDetails));
+            event(new InvoiceNotification($orderDetails, 'fulfilled'));
 
             return redirect()->back();
         } catch (\Throwable $th) {
