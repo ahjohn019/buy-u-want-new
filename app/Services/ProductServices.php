@@ -35,13 +35,12 @@ class ProductServices{
     }
 
     public function validated($request){
-
-        $productData = ['user_id' => auth()->user()->id, 'image' => optional($request->attachments)->hashName()];
+        $getTagsOnly = array_column($request->tags, 'tags');
+        $productData = ['user_id' => auth()->user()->id, 'image' => optional($request->attachments)->hashName(), 'tags' => json_encode($getTagsOnly)];
         $validated = array_merge($request->validated(), $productData);
         $validated['sku'] = strtoupper($validated['sku']);
         $validated['status'] = $validated['status']['id'];
         $validated['category_id'] = $validated['category_id']['id'];
-
 
         return $validated;
     }

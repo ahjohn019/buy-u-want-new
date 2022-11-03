@@ -52,13 +52,13 @@ class DiscountSeeder extends Seeder
         $productDiscountA = [
             'discount_id' => 1,
             'product_id' => 1,
-            'status' =>'active'
+            'status' =>2
         ];
 
         $productDiscountB = [
             'discount_id' => 2,
             'product_id' => 2,
-            'status' =>'active'
+            'status' =>2
         ];
 
         DB::table('discounts')->insert([

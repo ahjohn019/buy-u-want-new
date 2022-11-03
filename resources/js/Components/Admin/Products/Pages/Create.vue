@@ -14,6 +14,7 @@
             <div class="col-span-2 md:col-auto">
                 <Status :form="form" />
                 <Category :form="form" />
+                <Tags :form="form" />
             </div>
         </div>
         <div class="px-6 py-4 float-right">
@@ -38,6 +39,7 @@ import Status from "../Plugins/Create/Status.vue";
 import Category from "../Plugins/Create/Category.vue";
 import Attachments from "../Plugins/Create/Attachments.vue";
 import Variants from "../Plugins/Create/Variants.vue";
+import Tags from "../Plugins/Create/Tags.vue";
 
 export default defineComponent({
     components: {
@@ -49,6 +51,7 @@ export default defineComponent({
         Category,
         Attachments,
         Variants,
+        Tags,
     },
     props: ["status", "category"],
     data() {
@@ -71,6 +74,8 @@ export default defineComponent({
                     sizes: [],
                     sizeOptions: [],
                 },
+                tags: [],
+                tagsOptions: [],
             },
         };
     },
@@ -79,6 +84,7 @@ export default defineComponent({
             this.$inertia.post(route("products.store"), this.form, {
                 onError: (errors) => {
                     this.form.errors = errors;
+                    console.log(this.form.errors);
                 },
             });
         },

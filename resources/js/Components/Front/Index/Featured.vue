@@ -29,7 +29,11 @@
         }"
         class="featured-swiper-list"
     >
-        <swiper-slide class="featured-slide">
+        <swiper-slide
+            class="featured-slide"
+            v-for="(product, index) in products"
+            :key="index"
+        >
             <img
                 src="../../../../images/addidas_duramo.png"
                 alt=""
@@ -40,8 +44,8 @@
                 style="margin: 1.25rem auto"
             >
                 <div class="text-left">
-                    <p class="font-bold md:text-3xl">Shoes One</p>
-                    <p class="font-bold">RM150</p>
+                    <p class="font-bold md:text-3xl">{{ product.name }}</p>
+                    <p class="font-bold">RM {{ product.price }}</p>
                 </div>
                 <div
                     class="bg-green-400 text-white rounded-full p-2 shadow-xl w-10"
@@ -52,31 +56,6 @@
                 </div>
             </div>
         </swiper-slide>
-        <swiper-slide class="featured-slide">
-            <img
-                src="../../../../images/addidas_duramo.png"
-                alt=""
-                class="shadow-xl border border-gray-300 rounded-lg" />
-            <div
-                class="flex justify-between items-center mt-6"
-                style="width: 75%; margin: 1.25rem auto"
-            >
-                <div class="text-left">
-                    <p class="font-bold text-3xl">Shoes One</p>
-                    <p class="font-bold">RM150</p>
-                </div>
-                <div
-                    class="bg-green-400 text-white rounded-full p-2 shadow-xl w-10"
-                >
-                    <button type="button" class="add-to-cart">
-                        <font-awesome-icon icon="fa-solid fa-plus" />
-                    </button>
-                </div></div
-        ></swiper-slide>
-        <swiper-slide class="featured-slide"></swiper-slide>
-        <swiper-slide class="featured-slide"></swiper-slide>
-        <swiper-slide class="featured-slide"></swiper-slide>
-        <swiper-slide class="featured-slide"></swiper-slide>
     </swiper>
 </template>
 <script>
@@ -99,6 +78,23 @@ export default {
         return {
             modules: [Navigation, Pagination],
         };
+    },
+    data() {
+        return {
+            products: [],
+        };
+    },
+    mounted() {
+        axios.get(route("products.index")).then((response) => {
+            var getProduct = response.data.data;
+            var featuredProduct = getProduct.filter(function (product) {
+                return JSON.parse(product.tags.toLowerCase()).includes(
+                    "featured"
+                );
+            });
+
+            this.products = featuredProduct;
+        });
     },
 };
 </script>

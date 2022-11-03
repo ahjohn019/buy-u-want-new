@@ -34,15 +34,17 @@ class CartController extends BaseController
      * @param Product $product
      * @return void
      */
-    public function addCart(Product $product){
+    public function addCart(Product $product, Request $request){
         \Cart::session(auth()->user()->id)->add([
             'id' => $product->id,
             'name' => $product->name,
             'price' => $this->discountProcess($product),
-            'quantity' => request()->cartQty,
+            'quantity' => $request->cartQty,
             'attributes' => [
             ]
         ]);
+
+        
 
         return redirect()->route('products.show', $product->id)->with('addCartSuccessMessage','Added Successfully');
     }
