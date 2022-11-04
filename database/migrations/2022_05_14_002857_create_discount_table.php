@@ -20,6 +20,7 @@ class CreateDiscountTable extends Migration
             $table->double('value');
             $table->string('method');
             $table->string('type');
+            $table->integer('status');
             $table->string('expiry_at');
             $table->timestamps();
         });

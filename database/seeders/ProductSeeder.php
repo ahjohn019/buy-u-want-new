@@ -27,6 +27,7 @@ class ProductSeeder extends Seeder
                 'tags' => '["LaTEst","FeAturED"]',
                 'category_id' => 1,
                 'user_id' => 1,
+                'discount_id' => null,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],[
@@ -39,6 +40,7 @@ class ProductSeeder extends Seeder
                 'tags' => '["featured","LaTesT"]',
                 'category_id' => 1,
                 'user_id' => 2,
+                'discount_id' => null,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -52,6 +54,7 @@ class ProductSeeder extends Seeder
                 'tags' => '["OnSaLE"]',
                 'category_id' => 1,
                 'user_id' => 2,
+                'discount_id' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],[
@@ -64,6 +67,7 @@ class ProductSeeder extends Seeder
                 'tags' => '["Featured"]',
                 'category_id' => 1,
                 'user_id' => 2,
+                'discount_id' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -77,6 +81,7 @@ class ProductSeeder extends Seeder
                 'tags' => '["LAteST","onSaLE"]',
                 'category_id' => 1,
                 'user_id' => 2,
+                'discount_id' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]

@@ -22,6 +22,7 @@ class DiscountSeeder extends Seeder
             'value' => 10,
             'method' => 'percentage',
             'type' => 'discount',
+            'status' => 1,
             'expiry_at' => '2022-08-02',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -33,6 +34,7 @@ class DiscountSeeder extends Seeder
             'value' => 20,
             'method' => 'percentage',
             'type' => 'discount',
+            'status' => 1,
             'expiry_at' => '2022-08-10',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -44,29 +46,14 @@ class DiscountSeeder extends Seeder
             'value' => 30,
             'method' => 'coupon',
             'type' => 'discount',
+            'status' => 2,
             'expiry_at' => '2022-08-10',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ];
 
-        $productDiscountA = [
-            'discount_id' => 1,
-            'product_id' => 1,
-            'status' =>2
-        ];
-
-        $productDiscountB = [
-            'discount_id' => 2,
-            'product_id' => 2,
-            'status' =>2
-        ];
-
         DB::table('discounts')->insert([
             $discountA, $discountB, $discountC
-        ]);
-
-        DB::table('products_discounts')->insert([
-            $productDiscountA, $productDiscountB 
         ]);
 
         

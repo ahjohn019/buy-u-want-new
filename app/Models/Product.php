@@ -17,7 +17,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','description','sku','price','image','tags','category_id','user_id','status'];
+    protected $fillable = ['name','description','sku','price','image','tags','category_id','user_id','discount_id','status'];
 
     //each products belongs to one category
     public function category(){
@@ -44,8 +44,9 @@ class Product extends Model
         return $this->hasMany(Attachment::class);
     }
 
-    public function pivotDiscount(){
-        return $this->belongsToMany(Discount::class, 'products_discounts')->withPivot('status');
+
+    public function discount(){
+        return $this->belongsTo(Discount::class);
     }
 
     //get active products
