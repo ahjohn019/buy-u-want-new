@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Event;
 use App\Events\InvoiceNotification;
-use App\Listeners\SendInvoiceNotification;
+use Illuminate\Support\Facades\Event;
+use App\Listeners\UpdatePaymentStripe;
 use Illuminate\Auth\Events\Registered;
+use App\Events\PaymentStripeWasUpdated;
+use App\Listeners\SendInvoiceNotification;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -23,6 +25,10 @@ class EventServiceProvider extends ServiceProvider
         InvoiceNotification::class => [
             SendInvoiceNotification::class,
         ],
+        PaymentStripeWasUpdated::class => [
+            SendInvoiceNotification::class,
+            UpdatePaymentStripe::class
+        ]
     ];
 
     /**

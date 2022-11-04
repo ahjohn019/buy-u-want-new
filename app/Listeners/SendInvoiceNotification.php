@@ -25,7 +25,7 @@ class SendInvoiceNotification
      * @param  \App\Events\InvoiceNotification  $event
      * @return void
      */
-    public function handle(InvoiceNotification $event)
+    public function handle($event)
     {
         if($event->status == 'fulfilled'){
             $orderDetails = $event->order->get();

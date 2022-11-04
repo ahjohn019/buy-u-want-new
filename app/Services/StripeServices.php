@@ -8,7 +8,7 @@ use App\Models\StripeUsers;
 use App\Models\OrderDetails;
 use Cartalyst\Stripe\Stripe;
 use App\Services\OrderServices;
-use App\Events\InvoiceNotification;
+use App\Events\PaymentStripeWasUpdated;
 use App\Http\Requests\StripeCreateCustomerRequest;
    
 class StripeServices
@@ -91,6 +91,7 @@ class StripeServices
  
 
         $customerNew = null;
+
         if(empty(auth()->user()->stripeUsers)) $customerNew = $this->createCustomer($customerRequest);
         
         $createPaymentIntents = $this->createPaymentIntents($customerNew)->getData();
@@ -103,18 +104,8 @@ class StripeServices
 
         $orderData = $this->orderServices->generateOrder($confirmPaymentIntents);
 
-        event(new InvoiceNotification($orderData, 'checkout'));
-
-        $updatePaymentIntents = $this->stripeKey->paymentIntents()->update($createPaymentIntents->data->id, [
-            'metadata' => [
-                'Order ID' => $orderData->number,
-                'Shipping Address' =>  $customerRequest->validated()['address']['line1'] . " " . $customerRequest->validated()['address']['city'] . " " . 
-                              $customerRequest->validated()['address']['postal_code'] . " " . $customerRequest->validated()['address']['country']
-            ]
-        ]);
+        event(new PaymentStripeWasUpdated($orderData, 'checkout', $this->stripeKey, $createPaymentIntents, $customerRequest));
 
         $this->clearAll();
-
-        return $updatePaymentIntents;
     }
 }
