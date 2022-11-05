@@ -28,9 +28,7 @@ class UpdatePaymentStripe
         //
         $event->stripeKey->paymentIntents()->update($event->createPaymentIntents->data->id, [
             'metadata' => [
-                'Order ID' => $event->order->number,
-                'Shipping Address' =>  $event->customerRequest->validated()['address']['line1'] . " " . $event->customerRequest->validated()['address']['city'] . " " . 
-                              $event->customerRequest->validated()['address']['postal_code'] . " " . $event->customerRequest->validated()['address']['country']
+                'Order ID' => $event->order->number
             ]
         ]);
     }

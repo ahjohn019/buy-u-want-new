@@ -8,6 +8,7 @@ use App\Models\StripeUsers;
 use App\Models\OrderDetails;
 use Cartalyst\Stripe\Stripe;
 use App\Services\OrderServices;
+use App\Events\PaymentStripeWasCreated;
 use App\Events\PaymentStripeWasUpdated;
 use App\Http\Requests\StripeCreateCustomerRequest;
    
@@ -81,6 +82,32 @@ class StripeServices
     }
 
     /**
+     * Confirm Payment Intents Methods
+     *
+     * @param [type] $createPaymentIntents
+     * @param [type] $cardRequest
+     * @param [type] $customerAddress
+     * @return void
+     */
+    public function confirmPaymentIntents($createPaymentIntents, $cardRequest, $customerAddress){
+        return $this->stripeKey->paymentIntents()->confirm($createPaymentIntents->data->id, [
+            'payment_method' => $this->createPaymentMethod($cardRequest),
+            'shipping' => [
+                'address' => [
+                    'city' => $customerAddress['city'],
+                    'country' => $customerAddress['country'],
+                    'line1' => $customerAddress['line1'],
+                    'postal_code' => $customerAddress['postal_code'],
+                    'state' => $customerAddress['state'],
+                ],
+                'name' => "Test",
+                'phone' => "60123771428",
+                'tracking_number' => "TestTracking"
+            ]
+        ]);
+    }
+
+    /**
      * Final process payment after user confirmed to make an order
      *
      * @param array $customerRequest
@@ -89,8 +116,8 @@ class StripeServices
      */
     public function paymentProcess($customerRequest, $cardRequest){
  
-
         $customerNew = null;
+        $customerAddress = $customerRequest->validated()['address'];
 
         if(empty(auth()->user()->stripeUsers)) $customerNew = $this->createCustomer($customerRequest);
         
@@ -98,9 +125,7 @@ class StripeServices
 
         if($createPaymentIntents->status <= 0) return response()->json(["data" => "Unavailable", "status" => 0]);
 
-        $confirmPaymentIntents = $this->stripeKey->paymentIntents()->confirm($createPaymentIntents->data->id, [
-            'payment_method' => $this->createPaymentMethod($cardRequest)
-        ]);
+        $confirmPaymentIntents = $this->confirmPaymentIntents($createPaymentIntents, $cardRequest, $customerAddress);
 
         $orderData = $this->orderServices->generateOrder($confirmPaymentIntents);
 
