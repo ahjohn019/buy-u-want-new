@@ -11,11 +11,6 @@
                 >Search</n-button
             >
         </form>
-        <!-- <form method="post" :action="route('stripe.refundOrder')">
-            <n-button attr-type="submit" value="search" class="ml-4"
-                >Refund</n-button
-            >
-        </form> -->
     </div>
 </template>
 

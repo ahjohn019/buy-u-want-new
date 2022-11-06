@@ -46,7 +46,7 @@ function productColumnName(){
 }
 
 function orderColumnName(){
-    return ['number','created_at','email','status','total','items'];
+    return ['id','number','created_at','email','status','total','items'];
 }
 
 function paymentIntentData($cartTotal, $customerNew){

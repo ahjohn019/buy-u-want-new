@@ -17,13 +17,5 @@
 <script>
 export default {
     props: ["selectedRows"],
-    mounted() {
-        console.log(this.selectedRows);
-    },
-    // methods: {
-    //     fullfilled() {
-    //         this.$inertia.post(route("orders.fulfilled"));
-    //     },
-    // },
 };
 </script>

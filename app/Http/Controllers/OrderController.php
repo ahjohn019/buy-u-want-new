@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Models\Order;
 use App\Models\OrderDetails;
 use Illuminate\Http\Request;
+use App\Services\OrderServices;
 use Illuminate\Support\Facades\DB;
 use App\Events\InvoiceNotification;
 use App\Http\Controllers\BaseController;
@@ -38,7 +39,9 @@ class OrderController extends BaseController
     {
         //
         $orderShow = $this->order->where('number',$number)->first();
-        $orderDetails = $orderShow->orderDetails;
+        $orderDetails = OrderDetails::with('product')
+                        ->where('order_id', $orderShow->id)->get();
+
         return response()->json(["data" => $orderShow,"details"=>$orderDetails]);
     }
 
@@ -53,7 +56,7 @@ class OrderController extends BaseController
         //
         try{
             $this->order->find($id)->delete();
-            return response()->json(["data" => "Delete Order Succsessfully", "status" => 1]);
+            return redirect()->back()->with("orderDeletedMessage","Order Deleted Successfully");
         } catch(\Throwable $e){
             DB::rollback();
             return back()->with('error',$e->getMessage());
@@ -82,5 +85,18 @@ class OrderController extends BaseController
         } catch (\Throwable $th) {
             //throw $th;
         }
+    }
+
+    /**
+     * Delete selected order by multiple or single order
+     *
+     * @param Request $request
+     * @param OrderDetails $orderDetails
+     * @return void
+     */
+    public function archive(Request $request, OrderServices $orderServices, OrderDetails $orderDetails){
+        $orderServices->archiveCondition($request, $this->order, $orderDetails);
+
+        return redirect()->back()->with("orderDeletedMessage","Order Deleted Successfully");
     }
 }

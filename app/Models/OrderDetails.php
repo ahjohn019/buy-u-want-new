@@ -32,7 +32,7 @@ class OrderDetails extends Model
 
     //display overview of order on admin pages
     public function scopeOrderOverview($query){
-        $query->select('orders.number','orders.created_at','users.email','orders.status')
+        $query->select('orders.id','orders.number','orders.created_at','users.email','orders.status')
             ->addSelect(DB::raw('SUM(order_details.price) AS total'), DB::raw('COUNT(order_details.id) AS items'))
             ->leftJoin('orders',function($join){
                 $join->on('orders.id', '=','order_details.order_id');

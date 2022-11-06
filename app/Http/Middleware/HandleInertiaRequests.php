@@ -45,7 +45,8 @@ class HandleInertiaRequests extends Middleware
                 'addCartSuccessMessage' => session('addCartSuccessMessage'),
                 'checkoutSuccessMessage' => session('checkoutSuccessMessage'),
                 'loginSuccessMessage' => session('loginSuccessMessage'),
-                'createProductSuccesMessage' => session('createProductSuccesMessage')
+                'createProductSuccesMessage' => session('createProductSuccesMessage'),
+                'orderDeletedMessage' => session('orderDeletedMessage'),
             ]
         ]);
     }

@@ -1,6 +1,7 @@
 <template>
-    <div v-if="selectedRows.length > 0">
-        <BulkButton :selectedRows="selectedRows" />
+    <div v-if="selectedRows.length > 0" class="flex space-x-2">
+        <Fulfilled :selectedRows="selectedRows" />
+        <Archive :selectedRows="selectedRows" />
     </div>
     <ag-grid-vue
         style="width: 100%; height: 75vh"
@@ -20,12 +21,16 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { AgGridVue } from "ag-grid-vue3";
 import { defineComponent } from "vue";
-import BulkButton from "./BulkButton.vue";
+import Fulfilled from "./Button/Selection/Fulfilled.vue";
+import Archive from "./Button/Selection/Archive.vue";
+import Action from "./Button/Details/Action.vue";
 
 export default defineComponent({
     components: {
         AgGridVue,
-        BulkButton,
+        Fulfilled,
+        Archive,
+        Action,
     },
     props: ["order", "columns"],
     data() {
@@ -46,7 +51,7 @@ export default defineComponent({
                     sortable: true,
                 });
 
-                if (this.columnDefs[key].field == "number") {
+                if (this.columnDefs[key].field == "id") {
                     this.columnDefs[key] = Object.assign(this.columnDefs[key], {
                         headerCheckboxSelection: true,
                         checkboxSelection: true,
@@ -61,7 +66,7 @@ export default defineComponent({
                 field: "action",
                 sortable: true,
                 headerName: "Action",
-                // cellRenderer: "RefundButton",
+                cellRenderer: "Action",
             });
         } catch (error) {}
     },

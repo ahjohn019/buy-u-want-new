@@ -50,4 +50,23 @@ class OrderServices
             ]);
         }
     }
+
+    public function archiveCondition($request, $order, $orderDetails){
+        if($request->input("selected")){
+            $archiveList = json_decode($request->input("selected"));
+
+            foreach($archiveList as $archive){
+                $selected = $order->find($archive->id);
+                $orderDetails->where('order_id',$archive->id)->delete();
+                $selected->delete();
+            }
+        }
+
+        if($request->input("details")){
+            $details = json_decode($request->input("details"));
+            $selected = $order->find($details->id);
+            $orderDetails->where('order_id',$details->id)->delete();
+            $selected->delete();
+        }
+    }
 }

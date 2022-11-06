@@ -45,6 +45,8 @@ Route::resource('coupons',CouponController::class);
 Route::resource('attachments', AttachmentController::class)->middleware('admin');
 
 
+Route::post('/archive', [OrderController::class, 'archive'])->name('orders.archive')->middleware(['auth', 'verified']);
+
 Route::get('/', function () {
     return Inertia::render('Front/Master/Index',['auth'=>auth()->user()]);
 })->name('main.index');

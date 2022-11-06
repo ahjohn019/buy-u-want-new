@@ -123,12 +123,7 @@ class ProductController extends BaseController
             if(!Gate::inspect('update', $this->product->find($id))->allowed()) return abort(403);
             DB::beginTransaction();
             $product = $this->product->where('id',$id)->update($request->validated());
-
-            // // check discount id must be exist.
-            // $product = $this->product::findorFail($id);
-
-            // // when found the product id , discount value update on existing products.
-            // $product->pivotDiscount()->update(['discount_id' => $request->discount_id]);
+            
             
             DB::commit();
             return response()->json(["data" => "Updated Successfully"]);

@@ -8,7 +8,6 @@ use App\Models\StripeUsers;
 use App\Models\OrderDetails;
 use Cartalyst\Stripe\Stripe;
 use App\Services\OrderServices;
-use App\Events\PaymentStripeWasCreated;
 use App\Events\PaymentStripeWasUpdated;
 use App\Http\Requests\StripeCreateCustomerRequest;
    
