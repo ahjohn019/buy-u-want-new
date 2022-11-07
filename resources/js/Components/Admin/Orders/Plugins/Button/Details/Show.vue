@@ -5,7 +5,7 @@
     <n-modal v-model:show="showModal">
         <n-card
             style="width: 800px"
-            title="Modal"
+            title="Details"
             :bordered="false"
             size="huge"
             role="dialog"

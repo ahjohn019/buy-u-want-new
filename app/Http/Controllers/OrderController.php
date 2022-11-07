@@ -91,11 +91,12 @@ class OrderController extends BaseController
      * Delete selected order by multiple or single order
      *
      * @param Request $request
+     * @param OrderServices $orderServices
      * @param OrderDetails $orderDetails
      * @return void
      */
     public function archive(Request $request, OrderServices $orderServices, OrderDetails $orderDetails){
-        $orderServices->archiveCondition($request, $this->order, $orderDetails);
+        $orderServices->handleArchive($request, $this->order, $orderDetails);
 
         return redirect()->back()->with("orderDeletedMessage","Order Deleted Successfully");
     }
