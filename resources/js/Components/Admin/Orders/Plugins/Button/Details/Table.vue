@@ -5,7 +5,9 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Price</th>
+                <th>Total</th>
+                <th>Unit Price</th>
+                <th>Quantity</th>
                 <th>Created At</th>
             </tr>
         </thead>
@@ -14,7 +16,9 @@
                 <td>{{ index + 1 }}</td>
                 <td>{{ order.product.name }}</td>
                 <td>{{ order.product.description }}</td>
-                <td>{{ order.product.price }}</td>
+                <td>{{ order.price }}</td>
+                <td>{{ order.product.price}}</td>
+                <td>{{ order.quantity}}</td>
                 <td>{{ order.product.created_at }}</td>
             </tr>
         </tbody>

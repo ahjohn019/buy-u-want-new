@@ -43,7 +43,7 @@ class OrderServices
         foreach($getItems as $item){
             OrderDetails::create([
                 'quantity' => $item->quantity,
-                'price' => $item->price,
+                'price' => $item->price * $item->quantity,
                 'order_id' => $orderId,
                 'product_id' => $item->id,
                 'shipment_id' => null
