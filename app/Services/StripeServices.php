@@ -107,6 +107,30 @@ class StripeServices
     }
 
     /**
+     * Refund the selected order
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function refund($request){
+
+        try {
+            $decodeSelectedRows = json_decode($request->selectedRows);
+            
+            foreach($decodeSelectedRows as $selected){
+                $result = $this->stripeKey->paymentIntents()->find($selected->payment_id);
+                $this->stripeKey->refunds()->create($result['charges']['data'][0]['id']);
+            }
+
+            
+
+        } catch (\Throwable $th) {
+            return redirect()->back()->with("refundFailedMessage",$th->getMessage());
+        }
+        
+    }
+
+    /**
      * Final process payment after user confirmed to make an order
      *
      * @param array $customerRequest

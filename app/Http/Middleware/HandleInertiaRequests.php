@@ -47,6 +47,8 @@ class HandleInertiaRequests extends Middleware
                 'loginSuccessMessage' => session('loginSuccessMessage'),
                 'createProductSuccesMessage' => session('createProductSuccesMessage'),
                 'orderDeletedMessage' => session('orderDeletedMessage'),
+                'refundFailedMessage' => session('refundFailedMessage'),
+                'refundSuccessMessage' => session('refundSuccessMessage'),
             ]
         ]);
     }

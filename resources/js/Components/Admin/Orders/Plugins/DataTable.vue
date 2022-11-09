@@ -2,6 +2,7 @@
     <div v-if="selectedRows.length > 0" class="flex space-x-2">
         <Fulfilled :selectedRows="selectedRows" />
         <Archive :selectedRows="selectedRows" />
+        <Refund :selectedRows="selectedRows" />
     </div>
     <ag-grid-vue
         style="width: 100%; height: 75vh"
@@ -23,6 +24,7 @@ import { AgGridVue } from "ag-grid-vue3";
 import { defineComponent } from "vue";
 import Fulfilled from "./Button/Selection/Fulfilled.vue";
 import Archive from "./Button/Selection/Archive.vue";
+import Refund from "./Button/Selection/Refund.vue";
 import Action from "./Button/Details/Action.vue";
 
 export default defineComponent({
@@ -31,6 +33,7 @@ export default defineComponent({
         Fulfilled,
         Archive,
         Action,
+        Refund,
     },
     props: ["order", "columns"],
     data() {

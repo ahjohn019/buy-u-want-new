@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderDetails;
 use Illuminate\Http\Request;
 use App\Services\OrderServices;
+use App\Services\StripeServices;
 use Illuminate\Support\Facades\DB;
 use App\Events\InvoiceNotification;
 use App\Http\Controllers\BaseController;
@@ -99,5 +100,29 @@ class OrderController extends BaseController
         $orderServices->handleArchive($request, $this->order, $orderDetails);
 
         return redirect()->back()->with("orderDeletedMessage","Order Deleted Successfully");
+    }
+
+    /**
+     * Refund selected order
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function refund(Request $request, StripeServices $stripeServices){
+
+        try {
+            $selectedRows = json_decode($request->selectedRows);
+            
+            foreach($selectedRows as $selected){
+                $result[] = $selected->number;
+            }
+
+            $stripeServices->refund($request);
+            $this->order->whereIn('number', $result)->update(['status' => 'refund']);
+
+            return redirect()->back()->with("refundSuccessMessage","Refund Successfully");
+        } catch (\Throwable $th) {
+            dd($th->message);
+        }
     }
 }
