@@ -121,8 +121,9 @@ class OrderController extends BaseController
             $this->order->whereIn('number', $result)->update(['status' => 'refund']);
 
             return redirect()->back()->with("refundSuccessMessage","Refund Successfully");
+ 
         } catch (\Throwable $th) {
-            dd($th->message);
+            return redirect()->back()->with("refundFailedMessage",$th->getMessage());
         }
     }
 }

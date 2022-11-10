@@ -113,21 +113,12 @@ class StripeServices
      * @return void
      */
     public function refund($request){
-
-        try {
-            $decodeSelectedRows = json_decode($request->selectedRows);
-            
-            foreach($decodeSelectedRows as $selected){
-                $result = $this->stripeKey->paymentIntents()->find($selected->payment_id);
-                $this->stripeKey->refunds()->create($result['charges']['data'][0]['id']);
-            }
-
-            
-
-        } catch (\Throwable $th) {
-            return redirect()->back()->with("refundFailedMessage",$th->getMessage());
-        }
+        $decodeSelectedRows = json_decode($request->selectedRows);
         
+        foreach($decodeSelectedRows as $selected){
+            $result = $this->stripeKey->paymentIntents()->find($selected->payment_id);
+            $this->stripeKey->refunds()->create($result['charges']['data'][0]['id']);
+        }
     }
 
     /**
