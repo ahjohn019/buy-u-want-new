@@ -61,3 +61,27 @@ function paymentIntentData($cartTotal, $customerNew){
 
     return $intentData;
 }
+
+function sessionMessage($session){
+    switch ($session) {
+        case 'orderDeletedMessage':
+            return "Order Deleted Successfully";
+            break;
+
+        case 'refundSuccessMessage':
+            return "Refund Successfully";
+            break;
+
+        case 'orderFulFilledMessage':
+            return "Order Fulfilled Successfully";
+            break;
+
+        case 'orderDeletedMessage':
+            return "Order Deleted Successfully";
+            break;
+            
+        default:
+            # code...
+            break;
+    }
+}

@@ -68,4 +68,25 @@ class OrderServices
             $selected->delete();
         }
     }
+
+    /**
+     * Handle the datatable selected rows
+     *
+     * @param [type] $request
+     * @param [type] $order
+     * @param [type] $status
+     * @return void
+     */
+    public function handleSelectedRows($request, $order, $status){
+        $selectedRows = json_decode($request->selectedRows);
+
+        foreach($selectedRows as $selected){
+            $result[] = $selected->number;
+        }
+
+        $orderDetails = $order->whereIn('number', $result);
+        $orderDetails->update(['status' => $status]);
+
+        return $orderDetails;
+    }
 }

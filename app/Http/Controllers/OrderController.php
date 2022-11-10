@@ -54,10 +54,9 @@ class OrderController extends BaseController
      */
     public function destroy($id)
     {
-        //
         try{
             $this->order->find($id)->delete();
-            return redirect()->back()->with("orderDeletedMessage","Order Deleted Successfully");
+            return redirect()->back()->with("orderDeletedMessage",sessionMessage("orderDeletedMessage"));
         } catch(\Throwable $e){
             DB::rollback();
             return back()->with('error',$e->getMessage());
@@ -69,22 +68,14 @@ class OrderController extends BaseController
      *
      * @return void
      */
-    public function fulfillStatus(Request $request){
+    public function fulfillStatus(Request $request, OrderServices $orderServices){
         try {
-            $selectedRows = json_decode($request->selectedRows);
-            
-            foreach($selectedRows as $selected){
-                $result[] = $selected->number;
-            }
-
-            $orderDetails = $this->order->whereIn('number', $result);
-            $orderDetails->update(['status' => 'fulfilled']);
-
+            $orderDetails = $orderServices->handleSelectedRows($request, $this->order, 'fulfilled');
             event(new InvoiceNotification($orderDetails, 'fulfilled'));
 
-            return redirect()->back();
+            return redirect()->back()->with("orderFulFilledMessage", sessionMessage("orderFulFilledMessage"));
         } catch (\Throwable $th) {
-            //throw $th;
+            return back()->with('error',$th->getMessage());
         }
     }
 
@@ -97,9 +88,12 @@ class OrderController extends BaseController
      * @return void
      */
     public function archive(Request $request, OrderServices $orderServices, OrderDetails $orderDetails){
-        $orderServices->handleArchive($request, $this->order, $orderDetails);
-
-        return redirect()->back()->with("orderDeletedMessage","Order Deleted Successfully");
+        try {
+            $orderServices->handleArchive($request, $this->order, $orderDetails);
+            return redirect()->back()->with("orderDeletedMessage", sessionMessage("orderDeletedMessage"));
+        } catch (\Throwable $th) {
+            return back()->with('error',$th->getMessage());
+        }
     }
 
     /**
@@ -108,19 +102,14 @@ class OrderController extends BaseController
      * @param Request $request
      * @return void
      */
-    public function refund(Request $request, StripeServices $stripeServices){
-
+    public function refund(Request $request, StripeServices $stripeServices, OrderServices $orderServices){
         try {
-            $selectedRows = json_decode($request->selectedRows);
-            
-            foreach($selectedRows as $selected){
-                $result[] = $selected->number;
-            }
-
             $stripeServices->refund($request);
-            $this->order->whereIn('number', $result)->update(['status' => 'refund']);
+            $orderDetails = $orderServices->handleSelectedRows($request, $this->order, 'refund');
 
-            return redirect()->back()->with("refundSuccessMessage","Refund Successfully");
+            event(new InvoiceNotification($orderDetails, 'refund'));
+
+            return redirect()->back()->with("refundSuccessMessage", sessionMessage("refundSuccessMessage"));
  
         } catch (\Throwable $th) {
             return redirect()->back()->with("refundFailedMessage",$th->getMessage());
