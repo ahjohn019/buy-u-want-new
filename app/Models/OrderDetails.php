@@ -33,7 +33,7 @@ class OrderDetails extends Model
     //display overview of order on admin pages
     public function scopeOrderOverview($query){
         $query->select('orders.id','orders.number','orders.created_at','users.email','orders.status','orders.payment_id')
-            ->addSelect(DB::raw('SUM(order_details.price) AS total'), DB::raw('COUNT(order_details.id) AS items'))
+            ->addSelect(DB::raw('SUM(order_details.price) AS total'), DB::raw('COUNT(order_details.order_id) AS items'))
             ->leftJoin('orders',function($join){
                 $join->on('orders.id', '=','order_details.order_id');
             })
@@ -42,5 +42,19 @@ class OrderDetails extends Model
             })
             ->groupBy('order_details.order_id')
             ->orderBy('orders.created_at','DESC');
+    }
+
+    //search the keywords of selected orders
+    public function scopeSearchOrderDetails($query, $request, $columns){
+        $query->where(function($query) use($request, $columns){
+                $columns = array_diff($columns, ['items']);
+                foreach($columns as $column){
+                    $column = 'orders.' . $column;
+                    if($column == 'orders.email') $column = 'users.email';
+                    if($column == 'orders.total') $column = 'total';
+
+                    $query->orWhere($column, 'like', '%'. $request->orderSearch.'%');
+                }
+            });
     }
 }

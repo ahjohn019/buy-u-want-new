@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-end items-center pt-2">
-        <form method="get">
+        <form :action="route('orders.search')" method="get">
             <input
                 type="text"
                 name="orderSearch"

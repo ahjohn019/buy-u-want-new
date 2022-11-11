@@ -47,6 +47,7 @@ Route::resource('attachments', AttachmentController::class)->middleware('admin')
 
 Route::post('/archive', [OrderController::class, 'archive'])->name('orders.archive')->middleware(['auth', 'verified']);
 Route::post('/refund',[OrderController::class, 'refund'])->name('orders.refund')->middleware(['auth', 'verified']);
+Route::get('/search',[OrderController::class, 'search'])->name('orders.search')->middleware(['auth', 'verified']);
 
 Route::get('/', function () {
     return Inertia::render('Front/Master/Index',['auth'=>auth()->user()]);

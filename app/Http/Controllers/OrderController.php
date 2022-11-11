@@ -106,13 +106,29 @@ class OrderController extends BaseController
         try {
             $stripeServices->refund($request);
             $orderDetails = $orderServices->handleSelectedRows($request, $this->order, 'refund');
-
             event(new InvoiceNotification($orderDetails, 'refund'));
 
             return redirect()->back()->with("refundSuccessMessage", sessionMessage("refundSuccessMessage"));
  
         } catch (\Throwable $th) {
             return redirect()->back()->with("refundFailedMessage",$th->getMessage());
+        }
+    }
+
+    /**
+     * Search selected order
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function search(Request $request){
+        try {
+            $columns = orderColumnName();
+            $orderList = OrderDetails::orderOverview()->searchOrderDetails($request, $columns)->get();
+    
+            return Inertia::render('Admin/Order/Index',[ "order" => $orderList, "columns" => $columns ]);
+        } catch (\Throwable $th) {
+            return back()->with('error',$th->getMessage());
         }
     }
 }
