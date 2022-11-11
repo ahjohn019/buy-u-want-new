@@ -1,8 +1,11 @@
 <template>
     <Base>
+        <template #title>
+            <Header :title="title" />
+        </template>
+
         <template #admin>
             <div class="container mx-auto px-6">
-                <Header :title="title" />
                 <Index
                     :products="products"
                     :columns="columns"

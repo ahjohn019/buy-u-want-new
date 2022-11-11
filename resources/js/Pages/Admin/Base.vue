@@ -21,6 +21,19 @@
                     />
                 </n-layout-sider>
                 <n-layout>
+                    <div class="flex justify-between">
+                        <div><slot name="title"></slot></div>
+                        <div class="mr-6 flex items-center block md:hidden">
+                            <n-dropdown trigger="click" :options="menuOptions">
+                                <n-button
+                                    ><n-icon
+                                        ><font-awesome-icon
+                                            icon="fa-solid fa-bars"
+                                            class="fa-lg" /></n-icon
+                                ></n-button>
+                            </n-dropdown>
+                        </div>
+                    </div>
                     <slot name="admin"></slot>
                 </n-layout>
             </n-layout>
@@ -30,7 +43,15 @@
 
 <script>
 import { ref, defineComponent, h } from "vue";
-import { NSpace, NLayout, NLayoutSider, NMenu } from "naive-ui";
+import {
+    NSpace,
+    NLayout,
+    NLayoutSider,
+    NMenu,
+    NDropdown,
+    NButton,
+    NIcon,
+} from "naive-ui";
 
 const menuOptions = [
     {
@@ -42,7 +63,7 @@ const menuOptions = [
                 },
                 "Dashboard"
             ),
-        key: "dashboard",
+        key: "dashboardMain",
     },
     {
         label: "Products",
@@ -57,7 +78,7 @@ const menuOptions = [
                         },
                         "Dashboard"
                     ),
-                key: "dashboard",
+                key: "dashboardProducts",
             },
             {
                 label: () =>
@@ -68,7 +89,7 @@ const menuOptions = [
                         },
                         "Create"
                     ),
-                key: "create",
+                key: "createProducts",
             },
         ],
     },
@@ -85,7 +106,7 @@ const menuOptions = [
                         },
                         "Dashboard"
                     ),
-                key: "dashboard",
+                key: "dashboardOrders",
             },
         ],
     },
@@ -97,6 +118,8 @@ export default defineComponent({
         NLayout,
         NLayoutSider,
         NMenu,
+        NDropdown,
+        NButton,
     },
     setup() {
         return {

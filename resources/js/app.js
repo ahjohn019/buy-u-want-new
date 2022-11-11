@@ -21,6 +21,7 @@ import {
     faUsers,
     faTrash,
     faCircleInfo,
+    faBars,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -40,7 +41,8 @@ library.add(
     faMoneyBill,
     faUsers,
     faTrash,
-    faCircleInfo
+    faCircleInfo,
+    faBars
 );
 
 const appName =

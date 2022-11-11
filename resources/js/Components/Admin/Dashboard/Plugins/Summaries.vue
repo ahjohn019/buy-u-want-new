@@ -1,7 +1,7 @@
 <template>
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
         <div
-            class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg"
+            class="relative flex flex-col min-w-0 break-words bg-gray-100 rounded mb-6 xl:mb-0 shadow-lg"
         >
             <div class="flex-auto p-4">
                 <div class="flex flex-wrap">
@@ -28,7 +28,7 @@
             </div>
         </div>
         <div
-            class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg"
+            class="relative flex flex-col min-w-0 break-words bg-gray-100 rounded mb-6 xl:mb-0 shadow-lg"
         >
             <div class="flex-auto p-4">
                 <div class="flex flex-wrap">
@@ -55,7 +55,7 @@
             </div>
         </div>
         <div
-            class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg"
+            class="relative flex flex-col min-w-0 break-words bg-gray-100 rounded mb-6 xl:mb-0 shadow-lg"
         >
             <div class="flex-auto p-4">
                 <div class="flex flex-wrap">
@@ -82,7 +82,7 @@
             </div>
         </div>
         <div
-            class="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg"
+            class="relative flex flex-col min-w-0 break-words bg-gray-100 rounded mb-6 xl:mb-0 shadow-lg"
         >
             <div class="flex-auto p-4">
                 <div class="flex flex-wrap">
