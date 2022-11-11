@@ -79,12 +79,9 @@ class OrderServices
      */
     public function handleSelectedRows($request, $order, $status){
         $selectedRows = json_decode($request->selectedRows);
-
-        foreach($selectedRows as $selected){
-            $result[] = $selected->number;
-        }
-
-        $orderDetails = $order->whereIn('number', $result);
+        $selectedNumber = array_column($selectedRows, 'number');
+        
+        $orderDetails = $order->whereIn('number', $selectedNumber);
         $orderDetails->update(['status' => $status]);
 
         return $orderDetails;
