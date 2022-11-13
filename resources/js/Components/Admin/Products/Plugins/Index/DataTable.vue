@@ -30,36 +30,29 @@ export default defineComponent({
     mounted() {
         try {
             const filterText = ["name", "description", "sku"];
+            var columnDefs = this.columnDefs;
+            this.rowData = this.products;
 
-            for (const [key, value] of Object.entries(this.columns)) {
-                this.columnDefs.push({
-                    headerName: value,
-                    field: value,
+            this.columns.map(function (column, index) {
+                columnDefs.push({
+                    headerName: column,
+                    field: column,
                     sortable: true,
                 });
 
-                if (this.columnDefs[key].headerName == "id") {
-                    this.columnDefs[key] = Object.assign(this.columnDefs[key], {
+                if (column == "id") {
+                    Object.assign(columnDefs[index], {
                         headerCheckboxSelection: true,
                         checkboxSelection: true,
                     });
                 }
 
-                filterText.map((filter) => {
-                    if (this.columnDefs[key].headerName == filter) {
-                        this.columnDefs[key] = Object.assign(
-                            this.columnDefs[key],
-                            {
-                                filter: "agTextColumnFilter",
-                            }
-                        );
-                    }
-                });
-            }
-
-            for (var i in this.products) {
-                this.rowData.push(this.products[i]);
-            }
+                if (filterText.includes(column)) {
+                    Object.assign(columnDefs[index], {
+                        filter: "agTextColumnFilter",
+                    });
+                }
+            });
         } catch (error) {
             console.error(error);
         }

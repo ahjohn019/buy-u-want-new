@@ -47,25 +47,24 @@ export default defineComponent({
     },
     mounted() {
         try {
-            for (const [key, value] of Object.entries(this.columns)) {
-                this.columnDefs.push({
-                    headerName: value,
-                    field: value,
+            this.rowData = this.order;
+            var columnDefs = this.columnDefs;
+
+            this.columns.map(function (column, index) {
+                columnDefs.push({
+                    headerName: column,
+                    field: column,
                     sortable: true,
                 });
-
-                if (this.columnDefs[key].field == "id") {
-                    this.columnDefs[key] = Object.assign(this.columnDefs[key], {
+                if (column == "id") {
+                    Object.assign(columnDefs[index], {
                         headerCheckboxSelection: true,
                         checkboxSelection: true,
                     });
                 }
-            }
-            for (var i in this.order) {
-                this.rowData.push(this.order[i]);
-            }
+            });
 
-            this.columnDefs.push({
+            columnDefs.push({
                 field: "action",
                 sortable: true,
                 headerName: "Action",
