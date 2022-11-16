@@ -59,18 +59,11 @@ class StripeController extends BaseController
      * @return void
      */
     public function checkoutIndex(Request $request){
-        $cartContent = $this->getCartContent();
-
-         foreach($cartContent as $cartValue){
-            $unitPrice[$cartValue->id] = ['unitPrice' => $this->getUnitPrice($cartValue->id)];
-        }
-
         return Inertia::render('Front/Checkout/Index' , [
-            "cart" => $cartContent, 
-            "unitPrice" => @$unitPrice, 
+            "cart" => $this->getList()['cart'], 
+            "unitTotal" => $this->getList()['unitTotal'],
             "total" => $this->getCartTotal(),
             "authentication" => auth()->user()
         ]);
-        
     }
 }

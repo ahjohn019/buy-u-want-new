@@ -11,7 +11,7 @@
                 </span>
             </div>
             <div class="container mx-auto md:w-3/4">
-                <Cart :cart="cart" :unitPrice="unitPrice" :total="total" />
+                <Cart :cart="cart" :unitTotal="unitTotal" :total="total" />
             </div>
         </template>
     </Base>
@@ -30,6 +30,6 @@ export default {
         Footer,
         Base,
     },
-    props: ["cart", "unitPrice", "total"],
+    props: ["cart", "unitTotal", "total"],
 };
 </script>

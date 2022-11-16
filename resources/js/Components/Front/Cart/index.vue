@@ -72,7 +72,7 @@
                             </div>
                         </td>
                         <td class="text-right">
-                            RM {{ unitPrice[data.id].unitPrice }}
+                            RM {{ unitTotal[data.id] }}
                         </td>
                     </tr>
                 </tbody>
@@ -123,7 +123,7 @@
 
 <script>
 export default {
-    props: ["cart", "unitPrice", "total"],
+    props: ["cart", "unitTotal", "total"],
     methods: {
         decrement(data) {
             if (data.quantity > 1) data.quantity--;

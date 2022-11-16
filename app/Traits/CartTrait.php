@@ -24,4 +24,11 @@ trait CartTrait{
     public function getQuantity(){
         return Cart::getTotalQuantity();
     }
+
+    public function getList(){
+        $cartContent = $this->getCartContent();
+        $unitTotal = array_map(function($v){return $v['price'] * $v['quantity'];}, $cartContent->toArray());
+
+        return [ 'cart'=>$cartContent, 'unitTotal' => $unitTotal];
+    }
 }

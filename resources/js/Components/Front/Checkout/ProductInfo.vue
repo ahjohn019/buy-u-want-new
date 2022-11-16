@@ -11,7 +11,7 @@
                     <p>x {{cartDetails.quantity}}</p>
                 </div>
                 <div class="col-start-7 text-right m-auto mr-0">
-                    <p class="text-xl font-medium">RM {{unitPrice[cartDetails.id].unitPrice}}</p>
+                    <p class="text-xl font-medium">RM {{unitTotal[cartDetails.id]}}</p>
                 </div>
             </div>
             <hr>
@@ -51,6 +51,7 @@
 
 <script>
     export default{
-        props: ['cart','unitPrice', 'total']
+        props: ['cart','unitTotal', 'total'], 
+
     }
 </script>
