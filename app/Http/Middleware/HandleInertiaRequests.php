@@ -50,6 +50,7 @@ class HandleInertiaRequests extends Middleware
                 'refundFailedMessage' => session('refundFailedMessage'),
                 'refundSuccessMessage' => session('refundSuccessMessage'),
                 'orderFulFilledMessage' => session('orderFulFilledMessage'),
+                'error' => session('error')
             ]
         ]);
     }

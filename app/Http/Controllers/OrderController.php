@@ -71,6 +71,7 @@ class OrderController extends BaseController
     public function fulfillStatus(Request $request, OrderServices $orderServices){
         try {
             $orderDetails = $orderServices->handleSelectedRows($request, $this->order, 'fulfilled');
+            
             event(new InvoiceNotification($orderDetails, 'fulfilled'));
 
             return redirect()->back()->with("orderFulFilledMessage", sessionMessage()["orderFulFilledMessage"]);
@@ -111,7 +112,7 @@ class OrderController extends BaseController
             return redirect()->back()->with("refundSuccessMessage", sessionMessage()["refundSuccessMessage"]);
  
         } catch (\Throwable $th) {
-            return redirect()->back()->with("refundFailedMessage",$th->getMessage());
+            return redirect()->back()->with("error",$th->getMessage());
         }
     }
 

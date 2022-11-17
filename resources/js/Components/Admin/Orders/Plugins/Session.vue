@@ -1,20 +1,11 @@
 <template>
     <div
         v-if="deleted"
-        class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
+        class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
         role="alert"
     >
         <span class="font-medium">
             {{ deleted }}
-        </span>
-    </div>
-    <div
-        v-if="refundFailed"
-        class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
-        role="alert"
-    >
-        <span class="font-medium">
-            {{ refundFailed }}
         </span>
     </div>
     <div
@@ -35,6 +26,15 @@
             {{ fulfilled }}
         </span>
     </div>
+    <div
+        v-if="error"
+        class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
+        role="alert"
+    >
+        <span class="font-medium">
+            {{ error }}
+        </span>
+    </div>
 </template>
 
 <script>
@@ -52,6 +52,9 @@ export default {
         refundSuccess() {
             return this.$page.props.flash.refundSuccessMessage;
         },
+        error(){
+            return this.$page.props.flash.error;
+        }
     },
 };
 </script>
