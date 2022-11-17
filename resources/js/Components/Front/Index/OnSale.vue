@@ -89,7 +89,6 @@ export default {
             });
 
             this.products = salesProduct;
-            console.log(this.products);
         });
     },
     methods: {

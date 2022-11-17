@@ -108,6 +108,17 @@ const menuOptions = [
                     ),
                 key: "dashboardOrders",
             },
+            {
+                label: () =>
+                    h(
+                        "a",
+                        {
+                            href: route("orders.create"),
+                        },
+                        "Create"
+                    ),
+                key: "dashboardCreate",
+            },
         ],
     },
 ];
@@ -120,6 +131,7 @@ export default defineComponent({
         NMenu,
         NDropdown,
         NButton,
+        NIcon,
     },
     setup() {
         return {

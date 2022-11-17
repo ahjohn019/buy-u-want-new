@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-end items-center pt-2">
+    <div class="flex justify-end items-center pt-2 space-x-3">
         <form :action="route('orders.search')" method="get">
             <input
                 type="text"
@@ -11,16 +11,19 @@
                 >Search</n-button
             >
         </form>
+        <Create />
     </div>
 </template>
 
 <script>
 import { defineComponent } from "vue";
 import { NButton } from "naive-ui";
+import Create from "../Plugins/Button/Selection/Create.vue";
 
 export default defineComponent({
     components: {
         NButton,
+        Create,
     },
 });
 </script>

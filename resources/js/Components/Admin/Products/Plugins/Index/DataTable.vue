@@ -24,7 +24,7 @@ export default defineComponent({
         return {
             columnDefs: [],
             rowData: [],
-            rowSelection: "single",
+            rowSelection: "multiple",
         };
     },
     mounted() {

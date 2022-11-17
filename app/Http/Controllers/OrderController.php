@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\OrderDetails;
 use Illuminate\Http\Request;
 use App\Services\OrderServices;
@@ -28,6 +30,39 @@ class OrderController extends BaseController
         $columns = orderColumnName();
 
         return Inertia::render('Admin/Order/Index',[ "order" => $orderList, "columns" => $columns ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+        $product = new Product();
+        $user = new User();
+        $productList = $product->getActiveProduct()->get();
+        $columns = $product->getFillable();
+        $userList = $user->select('name','email')->get();
+
+        return Inertia::render('Admin/Order/Create',['products' => $productList, 'columns' => $columns,'users' => $userList]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+        try {
+            //code...
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     /**
