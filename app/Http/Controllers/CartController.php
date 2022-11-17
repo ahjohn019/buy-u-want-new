@@ -33,7 +33,7 @@ class CartController extends BaseController
      * @return void
      */
     public function addCart(Product $product, Request $request){
-        \Cart::session(auth()->user()->id)->add([
+        $this->getAuthSession()->add([
             'id' => $product->id,
             'name' => $product->name,
             'price' => $this->discountProcess($product),
@@ -53,7 +53,7 @@ class CartController extends BaseController
      * @return void
      */
     public function updateCart(Request $request, $product){
-        \Cart::session(auth()->user()->id)->update($product,[
+        $this->getAuthSession()->update($product,[
             'quantity' => [
                 'relative' => false,
                 'value' => (int)$request->quantity
@@ -70,7 +70,7 @@ class CartController extends BaseController
      * @return void
      */
     public function removeCart($product){
-        \Cart::session(auth()->user()->id)->remove($product);
+        $this->getAuthSession()->remove($product);
         return back()->withInput();
     }
 

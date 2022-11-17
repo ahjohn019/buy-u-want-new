@@ -5,20 +5,24 @@ namespace App\Traits;
 use Cart;
 
 trait CartTrait{
+    public function getAuthSession(){
+        return Cart::session(auth()->user()->id);
+    }
+
     public function getCartContent(){
-        return Cart::session(auth()->user()->id)->getContent();
+        return $this->getAuthSession()->getContent();
     }
 
     public function getCartTotal(){
-        return number_format(Cart::session(auth()->user()->id)->getTotal(), 2);
+        return number_format($this->getAuthSession()->getTotal(), 2);
     }
 
-    public function getUnitPrice($productId){
-        return number_format(Cart::get($productId)->getPriceSum(), 2);
+    public function getUnitTotal($cartContent){
+        return array_map(function($v){return $v['price'] * $v['quantity'];}, $cartContent->toArray());
     }
 
     public function clearAll(){
-        Cart::session(auth()->user()->id)->clear();
+        $this->getAuthSession()->clear();
     }
 
     public function getQuantity(){
@@ -27,7 +31,7 @@ trait CartTrait{
 
     public function getList(){
         $cartContent = $this->getCartContent();
-        $unitTotal = array_map(function($v){return $v['price'] * $v['quantity'];}, $cartContent->toArray());
+        $unitTotal = $this->getUnitTotal($cartContent);
 
         return [ 'cart'=>$cartContent, 'unitTotal' => $unitTotal];
     }
