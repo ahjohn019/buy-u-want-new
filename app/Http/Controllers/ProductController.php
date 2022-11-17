@@ -74,7 +74,7 @@ class ProductController extends BaseController
             $this->conditionServices->condition($request, $product);
             DB::commit();
   
-            return redirect()->route("products.admin")->with('createProductSuccesMessage', 'Product created successfully');
+            return redirect()->route("products.admin")->with('createProductSuccesMessage', sessionMessage()['createProductSuccesMessage']);
         } catch(\Throwable $e){
             DB::rollback();
             return back()->with('error',$e->getMessage());

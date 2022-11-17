@@ -49,8 +49,12 @@ class StripeController extends BaseController
         StripeCreateCardRequest $cardRequest
     )
     {
-        $confirmPaymentIntents = $this->stripeService->paymentProcess($customerRequest, $cardRequest);
-        return redirect()->route('main.index')->with('checkoutSuccessMessage', 'Payment Successfully');
+        try {
+            $confirmPaymentIntents = $this->stripeService->paymentProcess($customerRequest, $cardRequest);
+            return redirect()->route('main.index')->with('checkoutSuccessMessage', sessionMessage()['checkoutSuccessMessage']);
+        } catch (\Throwable $th) {
+            return back()->with('error',$th->getMessage());
+        }
     }
 
     /**

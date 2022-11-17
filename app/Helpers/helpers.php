@@ -2,20 +2,25 @@
 use App\Services\AttachmentServices;
 use App\Services\VariantServices;
 
-function currencyList($currency) {
-    switch ($currency) {
-        case 'Malaysia':
-            return 'myr';
-            break;
-        case 'Singapore':
-            return 'sgd';
-            break;
-        default:
-            return 'myr';
-            break;
-    }
+/**
+ * List of currency
+ *
+ * @return void
+ */
+function currencyList() {
+    return [
+        'Malaysia' => 'myr',
+        'Singapore' => 'sgd'
+    ];
 }
 
+/**
+ * Attachment Insert Process
+ *
+ * @param [type] $request
+ * @param [type] $product
+ * @return void
+ */
 function attachmentData($request, $product){
     $attachmentList = [
         'name' => $request->attachments->hashName(),
@@ -32,6 +37,11 @@ function attachmentData($request, $product){
     return $attachmentList;
 }
 
+/**
+ * Product Table With Column Name
+ *
+ * @return void
+ */
 function productColumnName(){
     return  [
                 'name',
@@ -45,14 +55,26 @@ function productColumnName(){
             ];
 }
 
+/**
+ * Order Table With Column Name
+ *
+ * @return void
+ */
 function orderColumnName(){
     return ['id','number','created_at','email','status','payment_id','total','items'];
 }
 
+/**
+ * Payment Intent With Data
+ *
+ * @param [type] $cartTotal
+ * @param [type] $customerNew
+ * @return void
+ */
 function paymentIntentData($cartTotal, $customerNew){
     $intentData = [
             'amount' => $cartTotal,
-            'currency' => currencyList('Malaysia'),
+            'currency' => currencyList()['Malaysia'],
             'customer' => auth()->user()->stripeUsers->stripe_customer_id ?? @$customerNew['id'],
             'payment_method_types' => [
                 'card',
@@ -62,26 +84,18 @@ function paymentIntentData($cartTotal, $customerNew){
     return $intentData;
 }
 
-function sessionMessage($session){
-    switch ($session) {
-        case 'orderDeletedMessage':
-            return "Order Deleted Successfully";
-            break;
-
-        case 'refundSuccessMessage':
-            return "Refund Successfully";
-            break;
-
-        case 'orderFulFilledMessage':
-            return "Order Fulfilled Successfully";
-            break;
-
-        case 'orderDeletedMessage':
-            return "Order Deleted Successfully";
-            break;
-            
-        default:
-            # code...
-            break;
-    }
+/**
+ * Session Message List
+ *
+ * @return void
+ */
+function sessionMessage(){
+    return [
+        'orderDeletedMessage' => "Order Deleted Successfully",
+        'refundSuccessMessage' => "Refund Successfully",
+        'orderFulFilledMessage' => "Order Fulfilled Successfully",
+        'addCartSuccessMessage' => "Added Successfully",
+        'checkoutSuccessMessage' => "Payment Successfully",
+        'createProductSuccesMessage' => "Product created successfully"
+    ];
 }

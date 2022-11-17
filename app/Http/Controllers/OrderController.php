@@ -56,7 +56,7 @@ class OrderController extends BaseController
     {
         try{
             $this->order->find($id)->delete();
-            return redirect()->back()->with("orderDeletedMessage",sessionMessage("orderDeletedMessage"));
+            return redirect()->back()->with("orderDeletedMessage",sessionMessage()["orderDeletedMessage"]);
         } catch(\Throwable $e){
             DB::rollback();
             return back()->with('error',$e->getMessage());
@@ -73,7 +73,7 @@ class OrderController extends BaseController
             $orderDetails = $orderServices->handleSelectedRows($request, $this->order, 'fulfilled');
             event(new InvoiceNotification($orderDetails, 'fulfilled'));
 
-            return redirect()->back()->with("orderFulFilledMessage", sessionMessage("orderFulFilledMessage"));
+            return redirect()->back()->with("orderFulFilledMessage", sessionMessage()["orderFulFilledMessage"]);
         } catch (\Throwable $th) {
             return back()->with('error',$th->getMessage());
         }
@@ -90,7 +90,7 @@ class OrderController extends BaseController
     public function archive(Request $request, OrderServices $orderServices, OrderDetails $orderDetails){
         try {
             $orderServices->handleArchive($request, $this->order, $orderDetails);
-            return redirect()->back()->with("orderDeletedMessage", sessionMessage("orderDeletedMessage"));
+            return redirect()->back()->with("orderDeletedMessage", sessionMessage()["orderDeletedMessage"]);
         } catch (\Throwable $th) {
             return back()->with('error',$th->getMessage());
         }
@@ -104,11 +104,11 @@ class OrderController extends BaseController
      */
     public function refund(Request $request, StripeServices $stripeServices, OrderServices $orderServices){
         try {
-            $stripeServices->refund($request);
+            $stripeServices->handleRefund($request);
             $orderDetails = $orderServices->handleSelectedRows($request, $this->order, 'refund');
             event(new InvoiceNotification($orderDetails, 'refund'));
 
-            return redirect()->back()->with("refundSuccessMessage", sessionMessage("refundSuccessMessage"));
+            return redirect()->back()->with("refundSuccessMessage", sessionMessage()["refundSuccessMessage"]);
  
         } catch (\Throwable $th) {
             return redirect()->back()->with("refundFailedMessage",$th->getMessage());

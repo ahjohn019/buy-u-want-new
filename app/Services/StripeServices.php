@@ -112,7 +112,7 @@ class StripeServices
      * @param Request $request
      * @return void
      */
-    public function refund($request){
+    public function handleRefund($request){
         $decodeSelectedRows = json_decode($request->selectedRows);
         
         foreach($decodeSelectedRows as $selected){
