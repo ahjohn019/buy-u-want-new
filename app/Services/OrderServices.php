@@ -72,20 +72,25 @@ class OrderServices
      * @return void
      */
     public function generateOrder($confirmPaymentIntents){
-        $order = Order::create([
-            'number' => 'ORDER-' . uniqid(),
-            'total' => $this->orderCondition()['totalItems'],
-            'grand_total' => $this->orderCondition()['totalItems'],
-            'total_qty' => $this->orderCondition()['totalQty'],
-            'tax' => null,
-            'status' => $confirmPaymentIntents['status'],
-            'user_id' => auth()->user()->id,
-            'payment_id' => $confirmPaymentIntents['id']
-        ]);
+        try {
+            $order = Order::create([
+                'number' => 'ORDER-' . uniqid(),
+                'total' => $this->orderCondition()['totalItems'],
+                'grand_total' => $this->orderCondition()['totalItems'],
+                'total_qty' => $this->orderCondition()['totalQty'],
+                'tax' => null,
+                'status' => $confirmPaymentIntents['status'],
+                'user_id' => auth()->user()->id,
+                'payment_id' => $confirmPaymentIntents['id']
+            ]);
 
-        $this->generateOrderDetails($order->id);
+            $this->generateOrderDetails($order->id);
 
-        return $order;
+            return $order;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        
     }
 
     /**
@@ -111,12 +116,13 @@ class OrderServices
      * @return void
      */
     public function handleArchive($request, $order, $orderDetails){
-        $archiveList = json_decode($request->input("selected"));
-
-        foreach($archiveList as $archive){
-            $selected = $order->find($archive->id);
-            $orderDetails->where('order_id',$archive->id)->delete();
-            $selected->delete();
+        try {
+            $archiveList = json_decode($request->input("selected"));
+            $getListId = array_column($archiveList, 'id');
+            $orderDetails->whereIn('order_id', $getListId)->delete();
+            $order->whereIn('id', $getListId)->delete();
+        } catch (\Throwable $th) {
+            throw $th;
         }
     }
 
@@ -129,12 +135,16 @@ class OrderServices
      * @return void
      */
     public function handleSelectedRows($request, $order, $status){
-        $selectedRows = json_decode($request->selectedRows);
-        $selectedNumber = array_column($selectedRows, 'number');
-        
-        $orderDetails = $order->whereIn('number', $selectedNumber);
-        $orderDetails->update(['status' => $status]);
+        try {
+            $selectedRows = json_decode($request->selectedRows);
+            $selectedNumber = array_column($selectedRows, 'number');
+            
+            $orderDetails = $order->whereIn('number', $selectedNumber);
+            $orderDetails->update(['status' => $status]);
 
-        return $orderDetails;
+            return $orderDetails;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }
