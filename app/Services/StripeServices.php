@@ -7,6 +7,7 @@ use App\Traits\CartTrait;
 use App\Models\StripeUsers;
 use App\Models\OrderDetails;
 use Cartalyst\Stripe\Stripe;
+use Illuminate\Http\Request;
 use App\Services\OrderServices;
 use App\Events\PaymentStripeWasUpdated;
 use App\Http\Requests\StripeCreateCustomerRequest;
@@ -73,11 +74,18 @@ class StripeServices
      * @return void
      */
     public function createPaymentIntents($customerNew = null){
-        $intentData = paymentIntentData($this->getCartTotal(), $customerNew = null);
-        if($intentData['amount'] <= 0) return response()->json(["data" => $intentData, "status" => 0]);
+        try {
+            $total = request()->draft ? request()->draft['total'] : $this->getCartTotal();
+            $intentData = paymentIntentData($total, $customerNew = null);
 
-        $paymentIntent = $this->stripeKey->paymentIntents()->create($intentData);
-        return response()->json(["data" => $paymentIntent, "status" => 1]);
+            if($intentData['amount'] <= 0) return response()->json(["data" => $intentData, "status" => 0]);
+
+            $paymentIntent = $this->stripeKey->paymentIntents()->create($intentData);
+            return response()->json(["data" => $paymentIntent, "status" => 1]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        
     }
 
     /**
@@ -89,21 +97,26 @@ class StripeServices
      * @return void
      */
     public function confirmPaymentIntents($createPaymentIntents, $cardRequest, $customerAddress){
-        return $this->stripeKey->paymentIntents()->confirm($createPaymentIntents->data->id, [
-            'payment_method' => $this->createPaymentMethod($cardRequest),
-            'shipping' => [
-                'address' => [
-                    'city' => $customerAddress['city'],
-                    'country' => $customerAddress['country'],
-                    'line1' => $customerAddress['line1'],
-                    'postal_code' => $customerAddress['postal_code'],
-                    'state' => $customerAddress['state'],
-                ],
-                'name' => "Test",
-                'phone' => "60123771428",
-                'tracking_number' => "TestTracking"
-            ]
-        ]);
+        try {
+            return $this->stripeKey->paymentIntents()->confirm($createPaymentIntents->data->id, [
+                'payment_method' => $this->createPaymentMethod($cardRequest),
+                'shipping' => [
+                    'address' => [
+                        'city' => $customerAddress['city'],
+                        'country' => $customerAddress['country'],
+                        'line1' => $customerAddress['line1'],
+                        'postal_code' => $customerAddress['postal_code'],
+                        'state' => $customerAddress['state'],
+                    ],
+                    'name' => "Test",
+                    'phone' => "60123771428",
+                    'tracking_number' => "TestTracking"
+                ]
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        
     }
 
     /**
@@ -129,22 +142,22 @@ class StripeServices
      * @return void
      */
     public function paymentProcess($customerRequest, $cardRequest){
- 
-        $customerNew = null;
-        $customerAddress = $customerRequest->validated()['address'];
+        try {
+            $customerNew = null;
+            $customerAddress = $customerRequest->validated()['address'];
+            if(empty(auth()->user()->stripeUsers)) $customerNew = $this->createCustomer($customerRequest);
 
-        if(empty(auth()->user()->stripeUsers)) $customerNew = $this->createCustomer($customerRequest);
+            $createPaymentIntents = $this->createPaymentIntents($customerNew)->getData();
+            if($createPaymentIntents->status <= 0) return response()->json(["data" => "Unavailable", "status" => 0]);
+            $confirmPaymentIntents = $this->confirmPaymentIntents($createPaymentIntents, $cardRequest, $customerAddress);
+
+            $orderData = $this->orderServices->generateOrder($confirmPaymentIntents);
+            event(new PaymentStripeWasUpdated($orderData, 'checkout', $this->stripeKey, $createPaymentIntents, $customerRequest));
+
+            $this->clearAll();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
         
-        $createPaymentIntents = $this->createPaymentIntents($customerNew)->getData();
-
-        if($createPaymentIntents->status <= 0) return response()->json(["data" => "Unavailable", "status" => 0]);
-
-        $confirmPaymentIntents = $this->confirmPaymentIntents($createPaymentIntents, $cardRequest, $customerAddress);
-
-        $orderData = $this->orderServices->generateOrder($confirmPaymentIntents);
-
-        event(new PaymentStripeWasUpdated($orderData, 'checkout', $this->stripeKey, $createPaymentIntents, $customerRequest));
-
-        $this->clearAll();
     }
 }

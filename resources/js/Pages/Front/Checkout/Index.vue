@@ -1,6 +1,11 @@
 <template>
     <div class="h-screen grid grid-cols-2">
-        <Show :authentication="authentication" />
+        <Show
+            :cart="cart"
+            :unitTotal="unitTotal"
+            :total="total"
+            :authentication="authentication"
+        />
         <ProductInfo :cart="cart" :unitTotal="unitTotal" :total="total" />
     </div>
 </template>
@@ -16,6 +21,6 @@ export default {
         Show,
         ProductInfo,
     },
-    props: ["cart", "unitTotal", "total", "authentication"]
+    props: ["cart", "unitTotal", "total", "authentication"],
 };
 </script>

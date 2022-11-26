@@ -1,13 +1,72 @@
 <?php
 namespace App\Services;
 
+use Carbon\Carbon;
 use App\Models\Order;
-use App\Models\OrderDetails;
 use App\Traits\CartTrait;
+use App\Models\OrderDetails;
+use Illuminate\Support\Facades\DB;
 
 class OrderServices
 {
     use CartTrait;
+
+    /**
+     * Initialize order info
+     *
+     * @return void
+     */
+    private function orderCondition(){
+        $totalQty = $this->getQuantity();
+        $totalItems = $this->getCartTotal();
+
+        if(request()->draft){
+            $getQuantity = array_column(request()->draft['cart'], 'quantity');
+            $totalQty = array_sum($getQuantity);
+            $totalItems = request()->draft['total'];
+        }
+
+        return ['totalItems' => $totalItems, 'totalQty' => $totalQty];
+    }
+
+    /**
+     * Initialize order details info
+     *
+     * @param [type] $item
+     * @param [type] $orderId
+     * @return void
+     */
+    private function orderDetailsInfo($item, $orderId){
+        return [
+            'quantity' => $item->quantity,
+            'price' => $item->price * $item->quantity,
+            'order_id' => $orderId,
+            'product_id' => $item->id,
+            'shipment_id' => null,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ];
+    }
+
+    /**
+     * Switch to order condition and return order data
+     *
+     * @param [type] $orderId
+     * @return void
+     */
+    private function orderDetailsCondition($orderId){
+        foreach($this->getCartContent() as $item){
+            $getItems[] = $this->orderDetailsInfo($item, $orderId);
+        }
+
+        if(request()->draft['cart']){
+            $getItems = array_map(function($el) use($orderId) {
+                return $this->orderDetailsInfo((object)$el, $orderId);
+            }, request()->draft['cart']);
+        }
+
+        return $getItems;
+    }
 
     /**
      * Create an order after make stripe payment
@@ -18,9 +77,9 @@ class OrderServices
     public function generateOrder($confirmPaymentIntents){
         $order = Order::create([
             'number' => 'ORDER-' . uniqid(),
-            'total' => $this->getCartTotal(),
-            'grand_total' => $this->getCartTotal(),
-            'total_qty' => $this->getQuantity(),
+            'total' => $this->orderCondition()['totalItems'],
+            'grand_total' => $this->orderCondition()['totalItems'],
+            'total_qty' => $this->orderCondition()['totalQty'],
             'tax' => null,
             'status' => $confirmPaymentIntents['status'],
             'user_id' => auth()->user()->id,
@@ -39,15 +98,10 @@ class OrderServices
      * @return void
      */
     public function generateOrderDetails($orderId){
-        $getItems = $this->getCartContent();
-        foreach($getItems as $item){
-            OrderDetails::create([
-                'quantity' => $item->quantity,
-                'price' => $item->price * $item->quantity,
-                'order_id' => $orderId,
-                'product_id' => $item->id,
-                'shipment_id' => null
-            ]);
+        try {
+            DB::table('order_details')->insert($this->orderDetailsCondition($orderId));
+        } catch (\Throwable $th) {
+            throw $th;
         }
     }
 

@@ -3,7 +3,7 @@
         <p>{{ selectedRows.length }} rows selected</p>
     </div>
     <ag-grid-vue
-        style="width: 100%; height: 200px"
+        style="width: 100%; height: 400px"
         class="ag-theme-alpine"
         :columnDefs="columnDefs"
         :rowData="rowData"
@@ -22,7 +22,7 @@
             <InvoiceButton />
         </div>
         <div>
-            <PaymentButton />
+            <PaymentButton :selectedRows="selectedRows" :total="total" />
         </div>
     </div>
 </template>
@@ -65,7 +65,11 @@ export default {
         var columnDefs = this.columnDefs;
 
         this.columns.map(function (column, index) {
-            columnDefs.push({ headerName: column, field: column });
+            columnDefs.push({
+                headerName: column,
+                field: column,
+                sortable: true,
+            });
 
             if (column == "name") {
                 Object.assign(columnDefs[index], {

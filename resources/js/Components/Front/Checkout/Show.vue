@@ -133,7 +133,7 @@ export default {
     components: {
         Link,
     },
-    props: ["authentication"],
+    props: ["authentication", "cart", "unitTotal", "total"],
     data() {
         return {
             cardTest: {
@@ -158,6 +158,11 @@ export default {
                 last_name: this.authentication.name,
                 name: null,
                 phone: null,
+                cartCheckout: {
+                    cart: this.cart,
+                    unitTotal: this.unitTotal,
+                    total: this.total,
+                },
             },
         };
     },
