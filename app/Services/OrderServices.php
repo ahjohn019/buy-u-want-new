@@ -55,14 +55,11 @@ class OrderServices
      * @return void
      */
     private function orderDetailsCondition($orderId){
-        foreach($this->getCartContent() as $item){
-            $getItems[] = $this->orderDetailsInfo($item, $orderId);
-        }
+        $cartList = $this->getCartContent();
+        if(request()->draft) $cartList = request()->draft['cart'];
 
-        if(request()->draft['cart']){
-            $getItems = array_map(function($el) use($orderId) {
-                return $this->orderDetailsInfo((object)$el, $orderId);
-            }, request()->draft['cart']);
+        foreach($cartList as $item) {
+            $getItems[] = $this->orderDetailsInfo((object)$item, $orderId);
         }
 
         return $getItems;
