@@ -1,4 +1,7 @@
 <template>
+    <div class="py-6 border-t-2 mt-6">
+        <h2>Credit Card</h2>
+    </div>
     <div class="grid grid-cols-5 gap-4">
         <div class="w-full col-span-2">
             <label for="cardNumber">Card Number</label>

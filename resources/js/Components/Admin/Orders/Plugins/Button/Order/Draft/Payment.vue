@@ -6,7 +6,7 @@
         <n-modal v-model:show="showModal">
             <n-card
                 style="width: 600px"
-                title="Credit Card"
+                title="Enter Credit Card"
                 :bordered="false"
                 size="huge"
                 role="dialog"

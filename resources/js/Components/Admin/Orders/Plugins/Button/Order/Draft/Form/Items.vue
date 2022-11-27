@@ -1,42 +1,45 @@
 <template>
+    <div class="py-3">
+        <h2>Order Details</h2>
+    </div>
     <n-collapse default-expanded-names="1" accordion>
-        <n-collapse-item title="Item Details" name="1">
+        <n-collapse-item title="Show" name="1">
             <div>
-                <n-table :bordered="false" :single-line="false">
-                    <thead>
-                        <tr>
-                            <th>Product</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
+                <n-scrollbar style="max-height: 300px">
+                    <n-table :bordered="false" :single-line="false">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                        <tr
-                            v-for="(selected, index) in selectedRows"
-                            :key="index"
-                            ref="items"
-                        >
-                            <td>
-                                <div>
-                                    <div class="font-bold">
-                                        {{ selected.name }}
-                                    </div>
+                        <tbody>
+                            <tr
+                                v-for="(selected, index) in selectedRows"
+                                :key="index"
+                            >
+                                <td>
                                     <div>
-                                        {{ selected.sku }}
+                                        <div class="font-bold">
+                                            {{ selected.name }}
+                                        </div>
+                                        <div>
+                                            {{ selected.sku }}
+                                        </div>
+                                        <div>MYR {{ selected.price }}</div>
                                     </div>
-                                    <div>MYR {{ selected.price }}</div>
-                                </div>
-                            </td>
-
-                            <UnitTotal
-                                :selected="selected"
-                                :index="index"
-                                @unitTotalSelected="unitTotalSelected"
-                            />
-                        </tr>
-                    </tbody>
-                </n-table>
+                                </td>
+                                <UnitTotal
+                                    :selected="selected"
+                                    :index="index"
+                                    @unitTotalSelected="unitTotalSelected"
+                                />
+                            </tr>
+                        </tbody>
+                    </n-table>
+                </n-scrollbar>
             </div>
             <div class="flex justify-between my-4 font-bold items-center">
                 <div>
@@ -52,7 +55,7 @@
 </template>
 
 <script>
-import { NCollapse, NCollapseItem, NTable } from "naive-ui";
+import { NCollapse, NCollapseItem, NTable, NScrollbar } from "naive-ui";
 import { defineComponent } from "vue";
 import UnitTotal from "../Form/UnitTotal.vue";
 
@@ -62,6 +65,7 @@ export default defineComponent({
         NCollapseItem,
         NTable,
         UnitTotal,
+        NScrollbar,
     },
     props: ["selectedRows", "total"],
     emits: ["finalAmount"],
@@ -70,27 +74,19 @@ export default defineComponent({
             finalAmount: this.total,
         };
     },
-
+    mounted() {
+        this.selectedRows.map((el) => (el.unitTotal = el.price));
+        this.selectedRows.map((el) => (el.quantity = 1));
+    },
     methods: {
-        calculateQuantity(value) {
-            const quantityList = this.$refs.items.map(function (el) {
-                return parseInt(el.cells[1].innerText);
-            });
-            quantityList[value.index] = value.quantity;
-            return quantityList;
-        },
-        calculateAmount(value) {
-            const unitTotalList = this.$refs.items.map((el) =>
-                parseInt(el.cells[el.cells.length - 1].innerText)
-            );
-            unitTotalList[value.index] = value.total;
+        calculateAmount() {
+            const unitTotalList = this.selectedRows.map((el) => el.unitTotal);
             this.finalAmount = unitTotalList.reduce((a, b) => a + b, 0);
             return this.finalAmount;
         },
-        unitTotalSelected(value) {
+        unitTotalSelected() {
             this.$emit("finalAmount", {
-                amount: this.calculateAmount(value),
-                quantity: this.calculateQuantity(value),
+                amount: this.calculateAmount(),
             });
         },
     },

@@ -33,32 +33,19 @@ export default {
     methods: {
         calculateUnitTotal(price, quantity) {
             this.unitTotal = price * quantity;
-            return this.unitTotal;
-        },
-        emitUnitTotalSelected(index, unitTotal, quantity) {
-            this.$emit("unitTotalSelected", {
-                index: index,
-                total: unitTotal,
-                quantity: quantity,
-            });
+            this.selected.unitTotal = this.unitTotal;
         },
         decrement() {
             if (this.quantity > 1) this.quantity--;
+            this.selected.quantity = this.quantity;
             this.calculateUnitTotal(this.selected.price, this.quantity);
-            this.emitUnitTotalSelected(
-                this.index,
-                this.unitTotal,
-                this.quantity
-            );
+            this.$emit("unitTotalSelected");
         },
         increment() {
             this.quantity++;
+            this.selected.quantity = this.quantity;
             this.calculateUnitTotal(this.selected.price, this.quantity);
-            this.emitUnitTotalSelected(
-                this.index,
-                this.unitTotal,
-                this.quantity
-            );
+            this.$emit("unitTotalSelected");
         },
     },
 };

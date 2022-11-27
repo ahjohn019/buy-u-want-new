@@ -69,23 +69,10 @@ export default defineComponent({
     },
     methods: {
         updateFinalAmount(value) {
-            this.handleQuantity = true;
-
-            this.selectedRows.map((el, index) => {
-                el.quantity = value.quantity[index];
-            });
-
             this.users.draft.total = value.amount;
         },
         submit() {
-            if (this.handleQuantity === false) {
-                this.selectedRows.map((el) => {
-                    el.quantity = 1;
-                });
-            }
-
             this.updateFinalAmount;
-
             this.$inertia.post(
                 route("stripe.finalPayments", [this.users, this.cardList], {
                     onError: (errors) => {
