@@ -12,6 +12,7 @@
                                 <th>Product</th>
                                 <th>Quantity</th>
                                 <th>Total</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
 
@@ -36,6 +37,18 @@
                                     :index="index"
                                     @unitTotalSelected="unitTotalSelected"
                                 />
+                                <td>
+                                    <div>
+                                        <n-button
+                                            attr-type="button"
+                                            @click="handleDelete(index)"
+                                            type="error"
+                                            class="bg-red-600"
+                                        >
+                                            Delete
+                                        </n-button>
+                                    </div>
+                                </td>
                             </tr>
                         </tbody>
                     </n-table>
@@ -55,7 +68,13 @@
 </template>
 
 <script>
-import { NCollapse, NCollapseItem, NTable, NScrollbar } from "naive-ui";
+import {
+    NCollapse,
+    NCollapseItem,
+    NTable,
+    NScrollbar,
+    NButton,
+} from "naive-ui";
 import { defineComponent } from "vue";
 import UnitTotal from "../Form/UnitTotal.vue";
 
@@ -66,6 +85,7 @@ export default defineComponent({
         NTable,
         UnitTotal,
         NScrollbar,
+        NButton,
     },
     props: ["selectedRows", "total"],
     emits: ["finalAmount"],
@@ -83,6 +103,10 @@ export default defineComponent({
             const unitTotalList = this.selectedRows.map((el) => el.unitTotal);
             this.finalAmount = unitTotalList.reduce((a, b) => a + b, 0);
             return this.finalAmount;
+        },
+        handleDelete(index) {
+            this.selectedRows.splice(index, 1);
+            this.calculateAmount();
         },
         unitTotalSelected() {
             this.$emit("finalAmount", {

@@ -6,7 +6,7 @@
                     <font-awesome-icon icon="fa-solid fa-minus" />
                 </button>
             </div>
-            <div>{{ quantity }}</div>
+            <div>{{ selected.quantity }}</div>
 
             <div>
                 <button @click="increment()" type="button">
@@ -16,7 +16,7 @@
         </div>
     </td>
     <td>
-        {{ unitTotal }}
+        {{ selected.unitTotal }}
     </td>
 </template>
 
