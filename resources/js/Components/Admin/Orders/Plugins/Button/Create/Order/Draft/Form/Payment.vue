@@ -11,6 +11,7 @@
             attr-type="submit"
             type="primary"
             class="bg-green-600 mt-4 float-right"
+            :disabled="disabled"
         >
             Submit
         </n-button>
@@ -66,7 +67,13 @@ export default defineComponent({
 
             errors: [],
             handleQuantity: false,
+            disabled: false,
         };
+    },
+    mounted() {
+        if (this.selectedRows.length <= 0) {
+            this.disabled = true;
+        }
     },
     methods: {
         updateFinalAmount(value) {
