@@ -18,7 +18,7 @@
 <script>
 import { defineComponent } from "vue";
 import { NButton } from "naive-ui";
-import Create from "../Plugins/Button/Selection/Create.vue";
+import Create from "../Button/Index/Selection/Create.vue";
 
 export default defineComponent({
     components: {

@@ -44,7 +44,7 @@ class OrderController extends BaseController
         $user = new User();
         $productList = $product->getActiveProduct()->get();
         $columns = $product->getFillable();
-        $userList = $user->select('name','email')->get();
+        $userList = $user->with(['address'])->get();
 
         return Inertia::render('Admin/Order/Create',['products' => $productList, 'columns' => $columns,'users' => $userList]);
     }

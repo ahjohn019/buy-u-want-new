@@ -6,7 +6,7 @@
             @finalAmount="updateFinalAmount"
         />
         <CreditCardForm :cardList="cardList" />
-        <UserForm :users="users" />
+        <UserForm :users="users" :selectedUser="selectedUser" />
         <n-button
             attr-type="submit"
             type="primary"
@@ -33,7 +33,7 @@ export default defineComponent({
         UserForm,
         ItemsForm,
     },
-    props: ["selectedRows", "total"],
+    props: ["selectedRows", "total", "selectedUser"],
     data() {
         return {
             cardList: {
@@ -48,14 +48,15 @@ export default defineComponent({
 
             users: {
                 address: {
-                    line1: "332, Jalan E4",
-                    city: "abc",
-                    country: "abc",
-                    state: "abc",
-                    postal_code: "53100",
+                    line1: "",
+                    city: "",
+                    country: "",
+                    state: "",
+                    postal_code: "",
                 },
-                email: "xxjohn019xx@gmail.com",
-                name: "abc123",
+                email:
+                    this.selectedUser !== null ? this.selectedUser.email : "",
+                name: this.selectedUser !== null ? this.selectedUser.name : "",
                 phone: "0192140561",
                 draft: {
                     cart: this.selectedRows,

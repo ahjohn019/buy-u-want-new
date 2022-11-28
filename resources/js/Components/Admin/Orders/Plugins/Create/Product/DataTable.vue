@@ -22,7 +22,11 @@
             <InvoiceButton />
         </div>
         <div>
-            <PaymentButton :selectedRows="selectedRows" :total="total" />
+            <PaymentButton
+                :selectedRows="selectedRows"
+                :total="total"
+                :selectedUser="selectedUser"
+            />
         </div>
     </div>
 </template>
@@ -32,8 +36,8 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { AgGridVue } from "ag-grid-vue3";
 import PaymentTable from "../Product/Payment.vue";
-import PaymentButton from "../Button/Order/Draft/Payment.vue";
-import InvoiceButton from "../Button/Order/Draft/Invoice.vue";
+import PaymentButton from "../../Button/Create/Order/Draft/Payment.vue";
+import InvoiceButton from "../../Button/Create/Order/Draft/Invoice.vue";
 import { NDropdown, NButton } from "naive-ui";
 
 export default {
@@ -46,7 +50,7 @@ export default {
         NDropdown,
         NButton,
     },
-    props: ["products", "columns"],
+    props: ["products", "columns", "selectedUser"],
 
     data() {
         return {

@@ -29,12 +29,19 @@
                 />
             </div>
             <div class="col-span-2">
-                <label for="address">Address</label>
-                <input
-                    type="text"
-                    class="w-full rounded"
-                    v-model="users.address.line1"
-                />
+                <label class="address">Address</label>
+                <multiselect
+                    v-model="value"
+                    deselect-label="Can't remove this value"
+                    :allow-empty="false"
+                    track-by="id"
+                    label="id"
+                    placeholder="Select one"
+                    :options="options"
+                    :custom-label="nameWithAddress"
+                    @select="handleAddress($event)"
+                >
+                </multiselect>
             </div>
             <div>
                 <label for="city">City</label>
@@ -73,7 +80,32 @@
 </template>
 
 <script>
+import Multiselect from "vue-multiselect";
+
 export default {
-    props: ["users"],
+    components: {
+        Multiselect,
+    },
+    props: ["users", "selectedUser"],
+    data() {
+        return {
+            value: null,
+            options:
+                this.selectedUser !== null ? this.selectedUser.address : "",
+        };
+    },
+    methods: {
+        handleAddress(event) {
+            this.users.address.line1 =
+                event.address_line_one + " " + event.address_line_two;
+            this.users.address.postal_code = event.postcode;
+            this.users.address.city = event.city;
+            this.users.address.country = event.country;
+            this.users.address.state = event.state;
+        },
+        nameWithAddress({ address_line_one, address_line_two }) {
+            return `${address_line_one}` + " " + `${address_line_two}`;
+        },
+    },
 };
 </script>

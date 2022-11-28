@@ -12,7 +12,11 @@
                 role="dialog"
                 aria-modal="true"
             >
-                <PaymentForm :selectedRows="selectedRows" :total="total" />
+                <PaymentForm
+                    :selectedRows="selectedRows"
+                    :total="total"
+                    :selectedUser="selectedUser"
+                />
             </n-card>
         </n-modal>
     </div>
@@ -31,7 +35,7 @@ export default defineComponent({
         NCard,
         PaymentForm,
     },
-    props: ["selectedRows", "total"],
+    props: ["selectedRows", "total", "selectedUser"],
     data() {
         return {
             options: [],

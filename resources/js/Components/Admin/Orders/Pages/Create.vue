@@ -7,20 +7,27 @@
             </div>
 
             <div class="mt-2">
-                <DataTable :products="products" :columns="columns" />
+                <DataTable
+                    :products="products"
+                    :columns="columns"
+                    :selectedUser="selectedUser"
+                />
             </div>
         </div>
 
         <div>
-            <Customer :users="users" />
+            <Customer
+                :users="users"
+                @handleUserSelected="handleChildUserSelected"
+            />
         </div>
     </div>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import DataTable from "../Plugins/Product/DataTable.vue";
-import Customer from "../Plugins/Product/Customer.vue";
+import DataTable from "../Plugins/Create/Product/DataTable.vue";
+import Customer from "../Plugins/Create/Product/Customer.vue";
 import { NButton } from "naive-ui";
 
 export default defineComponent({
@@ -30,5 +37,15 @@ export default defineComponent({
         Customer,
     },
     props: ["products", "columns", "users"],
+    data() {
+        return {
+            selectedUser: null,
+        };
+    },
+    methods: {
+        handleChildUserSelected(value) {
+            this.selectedUser = value;
+        },
+    },
 });
 </script>
