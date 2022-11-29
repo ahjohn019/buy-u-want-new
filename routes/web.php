@@ -105,5 +105,10 @@ Route::group(['prefix'=>'admin', 'middleware' => ['admin','verified']], function
     Route::post('/orders/fulfilled',[OrderController::class,'fulfillStatus'])->name('orders.fulfilled');
 });
 
+//Test Pinia
+Route::get('/test/pinia', function () {
+    return Inertia::render('Stores/TestTwo');
+});
+
 
 require __DIR__.'/auth.php';

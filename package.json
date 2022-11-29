@@ -37,6 +37,7 @@
         "ag-grid-vue3": "^28.1.1",
         "chart.js": "^3.9.1",
         "flowbite": "^1.5.2",
+        "pinia": "^2.0.27",
         "sweetalert2": "^11.4.14",
         "swiper": "^8.3.1",
         "vue-chartjs": "^4.1.1",

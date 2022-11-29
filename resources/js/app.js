@@ -44,9 +44,12 @@ library.add(
     faCircleInfo,
     faBars
 );
+import { createPinia } from "pinia";
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
+
+const pinia = createPinia();
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -54,6 +57,7 @@ createInertiaApp({
     setup({ el, app, props, plugin }) {
         return createApp({ render: () => h(app, props) })
             .use(plugin)
+            .use(pinia)
             .component("FontAwesomeIcon", FontAwesomeIcon)
             .mixin({ methods: { route } })
             .mount(el);
