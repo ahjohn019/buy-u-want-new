@@ -60,8 +60,8 @@ Route::group(['prefix'=>'charts','middleware'=>'admin'], function () {
 });
 
 Route::prefix('users')->group(function(){
-    Route::get('/',[UserController::class,'index']);
-    Route::get('/{id}',[UserController::class,'show']);
+    Route::get('/',[UserController::class,'index'])->name('users.index')->middleware(['admin', 'verified']);
+    Route::get('/{id}',[UserController::class,'show'])->name('users.show');
     Route::put('/{id}',[UserController::class,'update']);
     Route::post('/details',[UserController::class,'storeDetails']);
     Route::post('/address',[UserController::class,'storeAddress']);

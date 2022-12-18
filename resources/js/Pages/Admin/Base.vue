@@ -121,6 +121,24 @@ const menuOptions = [
             },
         ],
     },
+
+    {
+        label: "Users",
+        key: "users",
+        children: [
+            {
+                label: () =>
+                    h(
+                        "a",
+                        {
+                            href: route("users.index"),
+                        },
+                        "Index"
+                    ),
+                key: "dashboardUsers",
+            },
+        ],
+    },
 ];
 
 export default defineComponent({

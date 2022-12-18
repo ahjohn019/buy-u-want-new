@@ -84,6 +84,21 @@ class User extends Authenticatable
         return $this->hasOne(StripeUsers::class);
     }
 
+    //display admin index information
+    public function scopeDisplayAdminInfo($query){
+        return $query->select('users.id as id','users.email as email','users.name as fullname','bio.birth_date as birthdate',
+                        'users.created_at as created_at','role.name as role')
+                    ->leftJoin('biographies as bio', function($query){
+                        $query->on('users.id','=','bio.user_id');
+                    })
+                    ->leftjoin('model_has_roles as model_roles', function($query){
+                        $query->on('users.id','=','model_roles.model_id');
+                    })
+                    ->leftJoin('roles as role', function($query){
+                        $query->on('model_roles.role_id','=','role.id');
+                    });
+    }
+
     //many to many relationship (biography, address)
     public function pivotBiography(){
         return $this->belongsToMany(Biography::class, 'user_biography');

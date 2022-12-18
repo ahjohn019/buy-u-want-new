@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Inertia\Inertia;
 use App\Models\Biography;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,8 +19,9 @@ class UserController extends BaseController
      * @return void
      */
     public function index(){
-        $getUser = $this->user::all();
-        return response()->json(['data' => $getUser]);
+        $getUser = $this->user::displayAdminInfo()->get();
+
+        return Inertia::render("Admin/User/Index",["users" => $getUser]);
     }
 
     /**
@@ -29,8 +31,8 @@ class UserController extends BaseController
      * @return void
      */
     public function show($id){
-        $findUser = $this->user::find($id);
-        return response()->json(['User' => $findUser]);
+        $findUser = $this->user::select('id','email','name','created_at')->with('address','biography')->find($id);
+        return response()->json(['user' => $findUser]);
     }
     
     /**
