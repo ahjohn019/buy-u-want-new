@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserDetailsRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +26,11 @@ class UserDetailsRequest extends FormRequest
     public function rules()
     {
         return [
-            'gender' => 'required|string',
-            'birth_date' => 'required|date_format:d-m-Y',
-            'role' => 'required|string',
-            'user_id' => 'required',
+            //
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6',
+            
         ];
     }
 }

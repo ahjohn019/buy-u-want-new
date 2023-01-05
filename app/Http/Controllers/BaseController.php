@@ -19,7 +19,6 @@ class BaseController extends Controller
     //
     protected $variant;
     protected $order;
-    protected $user;
     protected $biography;
     protected $category;
     protected $discount;
@@ -29,7 +28,6 @@ class BaseController extends Controller
         VariantServices $variantServices, 
         Variant $variant, 
         Order $order,
-        User $user, 
         Biography $biography,
         Category $category,
         Address $address,
@@ -40,7 +38,6 @@ class BaseController extends Controller
         $this->variantServices = $variantServices;
         $this->variant = $variant;
         $this->order = $order;
-        $this->user = $user;
         $this->biography = $biography;
         $this->category = $category;
         $this->address = $address;

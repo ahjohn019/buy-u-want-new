@@ -52,7 +52,7 @@ class UserSeeder extends Seeder
 
         $create_user_one_details = [
             'gender' => 'male',
-            'birth_date' => '30/6/1996',
+            'birth_date' => '1996-06-30',
             'role' => 'user',
             'home_number' => '0341614322',
             'mobile_number' => '0123771428',
@@ -63,7 +63,7 @@ class UserSeeder extends Seeder
 
         $create_user_two_details = [
             'gender' => 'male',
-            'birth_date' => '30/6/1998',
+            'birth_date' => '1998-06-30',
             'role' => 'admin',
             'home_number' => '0341614322',
             'mobile_number' => '0123771428',

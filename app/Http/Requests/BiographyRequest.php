@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Biography;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserAddressRequest extends FormRequest
+class BiographyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +25,11 @@ class UserAddressRequest extends FormRequest
     public function rules()
     {
         return [
-            //
-            'address_line_one' => 'required',
-            'address_line_two' => 'nullable',
-            'postcode' => 'required|integer',
-            'user_id' => 'required',
-            'city' => 'required',
-            'state' => 'required',
-            'country' => 'required',
+            'gender' => 'required|string',
+            'birth_date' => 'required|date_format:Y-m-d',
+            'role' => 'required|string',
+            'home_number' => 'nullable',
+            'phone_number' => 'nullable',
             'user_id' => 'nullable'
         ];
     }

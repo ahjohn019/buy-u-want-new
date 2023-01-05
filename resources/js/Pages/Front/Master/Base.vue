@@ -8,7 +8,7 @@ defineProps(["auth"]);
 </script>
 <template>
     <Head title="Index" />
-    <div class="min-h-screen flex flex-col">
+    <div class="min-h-screen flex flex-col bg-gray-100">
         <NavBar :auth="auth" />
         <Session />
         <slot name="content"></slot>

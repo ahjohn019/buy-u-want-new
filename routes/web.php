@@ -10,6 +10,7 @@ use App\Http\Controllers\ChartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VariantController;
 use App\Http\Controllers\CategoryController;
@@ -43,6 +44,9 @@ Route::resource('orders', OrderController::class);
 Route::resource('discounts', DiscountController::class);
 Route::resource('coupons',CouponController::class);
 Route::resource('attachments', AttachmentController::class)->middleware('admin');
+Route::resource('users', UserController::class)->middleware(['admin','verified']);
+Route::resource('biography', BiographyController::class);
+Route::resource('address', AddressController::class);
 
 
 Route::post('/archive', [OrderController::class, 'archive'])->name('orders.archive')->middleware(['auth', 'verified']);
@@ -58,18 +62,6 @@ Route::get('/checkout', [StripeController::class, 'checkoutIndex'])->name('check
 Route::group(['prefix'=>'charts','middleware'=>'admin'], function () {
     Route::get('/orders',[ChartController::class,'orders'])->name('chart.orders');
 });
-
-Route::prefix('users')->group(function(){
-    Route::get('/',[UserController::class,'index'])->name('users.index')->middleware(['admin', 'verified']);
-    Route::get('/{id}',[UserController::class,'show'])->name('users.show');
-    Route::put('/{id}',[UserController::class,'update']);
-    Route::post('/details',[UserController::class,'storeDetails']);
-    Route::post('/address',[UserController::class,'storeAddress']);
-    Route::put('/details/{id}',[UserController::class,'updateDetails']);
-    Route::put('/address/{id}',[UserController::class,'updateAddress']);
-    Route::delete('/details/{id}',[UserController::class,'destroyDetails']);
-});
-
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

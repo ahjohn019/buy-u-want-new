@@ -131,11 +131,21 @@ const menuOptions = [
                     h(
                         "a",
                         {
+                            href: route("users.create"),
+                        },
+                        "Create"
+                    ),
+                key: "userCreate",
+            },
+            {
+                label: () =>
+                    h(
+                        "a",
+                        {
                             href: route("users.index"),
                         },
                         "Index"
                     ),
-                key: "dashboardUsers",
             },
         ],
     },

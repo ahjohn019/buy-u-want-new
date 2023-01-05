@@ -4,154 +4,142 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Inertia\Inertia;
+use App\Models\Address;
 use App\Models\Biography;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\BaseController;
-use App\Http\Requests\UserAddressRequest;
-use App\Http\Requests\UserDetailsRequest;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\UserCompleteFormRequest;
 
-class UserController extends BaseController
+class UserController extends Controller
 {
-    /**
-     * Display All User
-     *
-     * @return void
-     */
-    public function index(){
-        $getUser = $this->user::displayAdminInfo()->get();
+    private $user;
 
+    public function __construct(User $user, Biography $biography, Address $address){
+        $this->user = $user;
+        $this->biography = $biography;
+        $this->address = $address;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+        $getUser = $this->user::displayAdminInfo()->get();
         return Inertia::render("Admin/User/Index",["users" => $getUser]);
     }
 
     /**
-     * Display Specific User
+     * Show the form for creating a new resource.
      *
-     * @param integer $id
-     * @return void
+     * @return \Illuminate\Http\Response
      */
-    public function show($id){
+    public function create()
+    {
+        //
+        return Inertia::render("Admin/User/Create");
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(UserCompleteFormRequest $request)
+    {
+        //
+        try {
+            $userInput = $request->validated();
+            $userInput['password'] = bcrypt($userInput['password']);
+            $createdUser = $this->user->create($userInput);
+            $bioUser = $this->biography->create(['user_id' => $createdUser->id] + $userInput);
+            $this->address->create(['user_id' => $createdUser->id] + $userInput);
+            $createdUser->assignRole($bioUser->role);
+
+            return redirect()->route("users.index")->with('createUserMessage', sessionMessage()['createUserMessage']);
+        } catch (\Throwable $th) {
+            //throw $th;
+            dd($th);
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
         $findUser = $this->user::select('id','email','name','created_at')->with('address','biography')->find($id);
         return response()->json(['user' => $findUser]);
     }
-    
-    /**
-     * Update Specific User
-     *
-     * @param User $id
-     * @param Request $request
-     * @return void
-     */
-    public function update(User $id, Request $request){
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255'
-        ]);
 
-        try{
-            $id->update($validatedData);
-            return response()->json(['data' => 'Updated Successfully','status' => 1]);
-        } catch (\Throwable $e){
-            return back()->with('error',$e->getMessage());
-        }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+        $findUser = $this->user->with(['biography', 'address'])->find($id);
+        return Inertia::render("Admin/User/Edit",['user'=>$findUser]);
     }
 
     /**
-     * Store User Details
+     * Update the specified resource in storage.
      *
-     * @param UserDetailsRequest $request
-     * @return void
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function storeDetails(UserDetailsRequest $request){
-        try{
-            $getUserDetails =  $this->biography->where('user_id', auth()->user()->id)->first();
-
-            if(!is_null($getUserDetails)){
-                return response()->json(['data' => 'User Details Already Exist','status' => 0]);
-            }
-
-            DB::beginTransaction();
-            $userDetails = $this->biography->create($request->validated());
-            $this->biography->where('id', $userDetails->id)->update(['user_id'=> auth()->user()->id]);
-
-            $getUser = $this->user::find(auth()->user()->id);
-            $getUser->pivotBiography()->sync($userDetails->id);
-            
-            DB::commit();
-
-            return response()->json(['data' => 'User Details Created Successfully','status' => 1]);
-        } catch(\Throwable $e){
-            DB::rollback();
-            return back()->with('error',$e->getMessage());
-        }
-    }
-
-    /**
-     * Store User Address
-     *
-     * @param Request $request
-     * @return void
-     */
-    public function storeAddress(UserAddressRequest $request){
+    public function update(Request $request, $id)
+    {
         //
         try {
-            DB::beginTransaction();
-            $userDetails = $this->address->create($request->validated());
-            $this->address->where('id', $userDetails->id)->update(['user_id'=> auth()->user()->id]);
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'email' => 'required|email',
+                'biography.home_number' => 'required',
+                'biography.gender' => 'required|string',
+                'biography.birth_date' => 'required|date_format:Y-m-d',
+                'biography.role' => 'required|string',
+                'biography.mobile_number' => 'required',
+            ]);
 
-            $getUser = $this->user::find(auth()->user()->id);
-            $getUser->pivotAddress()->sync($userDetails->id);
+            if($validator->fails()){
+                return redirect()->route('users.edit', $id)->withErrors($validator);
+            }
+
+            $bioUser = $this->biography::find($id);
+            $findUser = $this->user::find($id);
+
+            $bioUser->update($validator->validated()['biography']);
+            $findUser->update($validator->validated());
+
+            return redirect()->back();
             
-            DB::commit();
-
         } catch (\Throwable $e) {
             dd($e);
-            DB::rollback();
-            return back()->with('error',$e->getMessage());
         }
     }
 
     /**
-     * Update Specific User Details
+     * Remove the specified resource from storage.
      *
-     * @param Biography $id
-     * @param UserDetailsRequest $request
-     * @return void
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function updateDetails(User $id, UserDetailsRequest $request){
-        try{
-            $id->biography->update($request->validated());
-            return response()->json(['data' => 'User Details Updated Successfully','status' => 1]);
-        } catch (\Throwable $e){
-            return back()->with('error',$e->getMessage());
-        }
+    public function destroy($id)
+    {
+        //
     }
-
-    /**
-     * Update Specific User Address
-     *
-     * @param Address $id
-     * @param UserDetailsRequest $request
-     * @return void
-     */
-    public function updateAddress(User $id, UserAddressRequest $addressRequest){
-        try {
-            $inputAddress = request()->input('address_id');
-            $findAddress = $id->address->where('id',$inputAddress)->first();
-            $findAddress->update($addressRequest->validated());
-            return response()->json(['data' => 'User Address Updated Successfully','status' => 1]);
-        } catch (\Throwable $e) {
-            return back()->with('error',$e->getMessage());
-        }
-    }
-
-    //delete user details only
-    public function destroyDetails($id){
-        try{
-            $this->biography->find($id)->delete();
-            return true;
-        } catch(Exception $e){
-            return back()->with('error',$e->getMessage());
-        }
-    }
-
 }
