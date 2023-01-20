@@ -1,5 +1,10 @@
 <template>
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div
+        class="grid grid-cols-2 lg:grid-cols-4 gap-4"
+        data-aos="fade-up"
+        data-aos-delay="50"
+        data-aos-duration="1000"
+    >
         <div
             v-for="category in categories"
             class="m-auto"
