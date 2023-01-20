@@ -12,10 +12,10 @@
 </template>
 
 <script>
-import NavBar from "../../../Components/Master/NavBar.vue";
-import Show from "../../../Components/Front/Products/Show.vue";
-import Footer from "../../../Components/Master/Footer.vue";
-import Base from "../Master/Base.vue";
+import NavBar from "@web/Master/NavBar.vue";
+import Show from "@web/Front/Products/Show.vue";
+import Footer from "@web/Master/Footer.vue";
+import Base from "@master-pages/Base.vue";
 
 export default {
     components: {

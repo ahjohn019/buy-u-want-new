@@ -20,6 +20,8 @@ mix.js("resources/js/app.js", "public/js")
     ])
     .alias({
         "@": "resources/js",
+        "@web": "resources/js/Components",
+        "@master-pages": "resources/js/Pages/Front/Master",
     });
 
 if (mix.inProduction()) {

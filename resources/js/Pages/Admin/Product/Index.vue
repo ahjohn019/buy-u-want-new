@@ -18,8 +18,8 @@
 
 <script>
 import Base from "../Base.vue";
-import Index from "../../../Components/Admin/Products/Pages/Index.vue";
-import Header from "../../../Components/Master/Admin/Header.vue";
+import Index from "@web/Admin/Products/Pages/Index.vue";
+import Header from "@web/Master/Admin/Header.vue";
 
 export default {
     components: {

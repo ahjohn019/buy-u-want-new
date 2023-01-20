@@ -1,7 +1,7 @@
 <script setup>
 import Base from "../Base.vue";
-import Header from "../../../Components/Master/Admin/Header.vue";
-import Edit from "../../../Components/Admin/User/Pages/Edit.vue";
+import Header from "@web/Master/Admin/Header.vue";
+import Edit from "@web/Admin/User/Pages/Edit.vue";
 
 const props = defineProps(["user"]);
 

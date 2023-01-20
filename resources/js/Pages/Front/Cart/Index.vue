@@ -18,10 +18,10 @@
 </template>
 
 <script>
-import NavBar from "../../../Components/Master/NavBar.vue";
-import Cart from "../../../Components/Front/Cart/index.vue";
-import Footer from "../../../Components/Master/Footer.vue";
-import Base from "../Master/Base.vue";
+import NavBar from "@web/Master/NavBar.vue";
+import Cart from "@web/Front/Cart/index.vue";
+import Footer from "@web/Master/Footer.vue";
+import Base from "@master-pages/Base.vue";
 
 export default {
     components: {

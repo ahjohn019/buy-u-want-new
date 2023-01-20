@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import Show from "../../../Components/Front/Category/Show.vue";
-import Base from "../Master/Base.vue";
+import Show from "@web/Front/Category/Show.vue";
+import Base from "@master-pages/Base.vue";
 
 export default {
     components: {

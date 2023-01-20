@@ -1,8 +1,8 @@
 <script setup>
 import { Head } from "@inertiajs/inertia-vue3";
-import Footer from "../../../Components/Master/Footer.vue";
-import NavBar from "../../../Components/Master/NavBar.vue";
-import Session from "../../../Components/Master/Session.vue";
+import Footer from "@web/Master/Footer.vue";
+import NavBar from "@web/Master/NavBar.vue";
+import Session from "@web/Master/Session.vue";
 
 defineProps(["auth"]);
 </script>

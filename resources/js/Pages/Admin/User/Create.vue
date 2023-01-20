@@ -1,7 +1,7 @@
 <script setup>
 import Base from "../Base.vue";
-import Header from "../../../Components/Master/Admin/Header.vue";
-import Create from "../../../Components/Admin/User/Pages/Create.vue";
+import Header from "@web/Master/Admin/Header.vue";
+import Create from "@web/Admin/User/Pages/Create.vue";
 
 function header() {
     return "Create Users";
