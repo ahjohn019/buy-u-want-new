@@ -19,23 +19,23 @@ defineProps(["auth"]);
                 data-aos="fade-right"
                 data-aos-delay="50"
                 data-aos-duration="1000"
+                class="pb-8"
             >
                 <Carousel />
             </div>
-            <br />
-            <div class="container mx-auto px-8">
-                <Categories />
-                <br />
-                <hr />
-                <br />
-                <div data-aos="zoom-in" data-aos-duration="1000">
+            <div class="container mx-auto px-8 space-y-6">
+                <div class="border-b-2 pb-4">
+                    <Categories />
+                </div>
+                <div
+                    class="border-b-2"
+                    data-aos="zoom-in"
+                    data-aos-duration="1000"
+                >
                     <Featured />
                 </div>
-                <br />
-                <hr />
-                <br />
                 <div
-                    class="grid grid-cols-1 md:grid-cols-2 gap-4 py-4"
+                    class="grid grid-cols-1 md:grid-cols-2 gap-4"
                     data-aos="flip-left"
                     data-aos-duration="1000"
                 >

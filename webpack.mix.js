@@ -22,6 +22,7 @@ mix.js("resources/js/app.js", "public/js")
         "@": "resources/js",
         "@web": "resources/js/Components",
         "@master-pages": "resources/js/Pages/Front/Master",
+        "@custom-css": "resources/css",
     });
 
 if (mix.inProduction()) {

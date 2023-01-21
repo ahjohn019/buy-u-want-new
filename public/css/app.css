@@ -876,9 +876,6 @@ select {
 .h-3 {
   height: 0.75rem;
 }
-.h-600px {
-  height: 600px;
-}
 .h-10 {
   height: 2.5rem;
 }
@@ -1398,14 +1395,17 @@ select {
 .pt-6 {
   padding-top: 1.5rem;
 }
+.pb-8 {
+  padding-bottom: 2rem;
+}
+.pb-4 {
+  padding-bottom: 1rem;
+}
 .pb-32 {
   padding-bottom: 8rem;
 }
 .pl-4 {
   padding-left: 1rem;
-}
-.pb-4 {
-  padding-bottom: 1rem;
 }
 .text-left {
   text-align: left;
