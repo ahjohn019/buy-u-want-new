@@ -21,7 +21,7 @@ class CreateUsersAddressTable extends Migration
             $table->string('city');
             $table->string('state');
             $table->string('country');
-            $table->integer('user_id');
+            $table->integer('user_id')->nullable();
             $table->timestamps();
         });
     }

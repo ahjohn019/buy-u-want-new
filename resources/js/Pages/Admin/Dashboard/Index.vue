@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import Dashboard from "../../../Components/Admin/Dashboard/Pages/Dashboard.vue";
-import Header from "../../../Components/Master/Admin/Header.vue";
+import Dashboard from "@web/Admin/Dashboard/Pages/Dashboard.vue";
+import Header from "@web/Master/Admin/Header.vue";
 import Base from "../Base.vue";
 
 export default {

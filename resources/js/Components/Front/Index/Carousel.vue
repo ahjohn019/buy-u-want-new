@@ -8,17 +8,10 @@
             clickable: true,
         }"
         :modules="modules"
-        class="w-full h-600px"
     >
-        <swiper-slide
-            ><img src="https://picsum.photos/1000/1000"
-        /></swiper-slide>
-        <swiper-slide
-            ><img src="https://picsum.photos/1200/1000"
-        /></swiper-slide>
-        <swiper-slide
-            ><img src="https://picsum.photos/1300/1000"
-        /></swiper-slide>
+        <swiper-slide v-for="(p, idx) in path" :key="idx" style="height: 700px">
+            <img :src="p.name" alt="" />
+        </swiper-slide>
     </swiper>
 </template>
 <script>
@@ -31,7 +24,7 @@ import "swiper/css/effect-fade";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import "../../../../../resources/css/customStyle.css";
+import "@custom-css/customStyle.css";
 
 // import required modules
 import { EffectFade, Navigation, Pagination } from "swiper";
@@ -44,7 +37,15 @@ export default {
     setup() {
         return {
             modules: [EffectFade, Navigation, Pagination],
+            path: [],
         };
+    },
+    created() {
+        this.path = [
+            { name: "https://picsum.photos/1000/1000" },
+            { name: "https://picsum.photos/1200/1000" },
+            { name: "https://picsum.photos/1300/1000" },
+        ];
     },
 };
 </script>

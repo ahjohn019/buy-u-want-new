@@ -170,7 +170,12 @@ export default {
         paymentForm() {
             this.form.name = this.form.first_name + " " + this.form.last_name;
             this.$inertia.post(
-                route("stripe.finalPayments", [this.form, this.cardTest])
+                route("stripe.finalPayments", [this.form, this.cardTest]),
+                {
+                    onSuccess: (res) => {
+                        console.log(res);
+                    },
+                }
             );
         },
     },

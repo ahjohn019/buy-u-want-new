@@ -27,11 +27,12 @@ class UserAddressRequest extends FormRequest
             //
             'address_line_one' => 'required',
             'address_line_two' => 'nullable',
-            'postcode' => 'required',
+            'postcode' => 'required|integer',
             'user_id' => 'required',
             'city' => 'required',
             'state' => 'required',
-            'country' => 'required'
+            'country' => 'required',
+            'user_id' => 'nullable'
         ];
     }
 }

@@ -17,7 +17,7 @@
                         />
                     </Link>
                 </div>
-                <div class="py-5 md:p-5" style="width: 200px">
+                <div class="py-5 md:p-5">
                     <Link :href="route('products.show', product.id)">
                         <p class="md:text-2xl font-bold">{{ product.name }}</p>
                         <p class="md:text-sm text-gray-500 font-bold">
@@ -35,13 +35,10 @@
                         >
                             <button
                                 type="button"
-                                class="flex justify-center items-center space-x-3"
+                                class="flex justify-center items-center space-x-3 uppercase"
                                 @click="addCart(product)"
                             >
-                                <font-awesome-icon
-                                    icon="fa-solid fa-plus"
-                                    class="fa-lg"
-                                />
+                                add cart
                             </button>
                         </div>
                     </div>

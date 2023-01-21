@@ -24,6 +24,8 @@ import {
     faBars,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 library.add(
     faMagnifyingGlass,
@@ -58,6 +60,7 @@ createInertiaApp({
         return createApp({ render: () => h(app, props) })
             .use(plugin)
             .use(pinia)
+            .use(AOS.init())
             .component("FontAwesomeIcon", FontAwesomeIcon)
             .mixin({ methods: { route } })
             .mount(el);

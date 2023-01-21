@@ -96,6 +96,7 @@ function sessionMessage(){
         'orderFulFilledMessage' => "Order Fulfilled Successfully",
         'addCartSuccessMessage' => "Added Successfully",
         'checkoutSuccessMessage' => "Payment Successfully",
-        'createProductSuccesMessage' => "Product created successfully"
+        'createProductSuccesMessage' => "Product created successfully",
+        'createUserMessage' => "Create User Successfully",
     ];
 }
