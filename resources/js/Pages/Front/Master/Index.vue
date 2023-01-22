@@ -8,6 +8,8 @@ import OnSales from "@web/Front/Index/OnSale.vue";
 import Latest from "@web/Front/Index/Latest.vue";
 import Footer from "@web/Master/Footer.vue";
 import Base from "./Base.vue";
+import Navigation from "@web/Master/Navigation.vue";
+import "@custom-css/customStyle.css";
 
 defineProps(["auth"]);
 </script>
@@ -16,6 +18,7 @@ defineProps(["auth"]);
     <Base :auth="auth">
         <template #content>
             <div
+                id="carousel"
                 data-aos="fade-right"
                 data-aos-delay="50"
                 data-aos-duration="1000"
@@ -23,11 +26,13 @@ defineProps(["auth"]);
             >
                 <Carousel />
             </div>
-            <div class="container mx-auto px-8 space-y-6">
-                <div class="border-b-2 pb-4">
+            <Navigation />
+            <div class="container mx-auto px-4 space-y-6">
+                <div class="border-b-2 py-8">
                     <Categories />
                 </div>
                 <div
+                    id="featured"
                     class="border-b-2"
                     data-aos="zoom-in"
                     data-aos-duration="1000"
@@ -35,7 +40,8 @@ defineProps(["auth"]);
                     <Featured />
                 </div>
                 <div
-                    class="grid grid-cols-1 md:grid-cols-2 gap-4"
+                    id="latest"
+                    class="grid grid-cols-1 md:grid-cols-2 gap-4 h-550px content-center"
                     data-aos="flip-left"
                     data-aos-duration="1000"
                 >

@@ -20,7 +20,7 @@ module.exports = {
             },
             height: {
                 "3.5em": "3.5em",
-                "600px": "600px",
+                "550px": "550px",
             },
         },
     },

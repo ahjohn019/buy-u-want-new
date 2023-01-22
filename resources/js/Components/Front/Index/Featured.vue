@@ -1,71 +1,74 @@
 <template>
     <p class="text-xl md:text-4xl text-center">Featured Products</p>
-    <swiper
-        :slidesPerView="3"
-        :spaceBetween="30"
-        :loop="true"
-        :navigation="true"
-        :pagination="{
-            clickable: true,
-        }"
-        :modules="modules"
-        :breakpoints="{
-            340: {
-                slidesPerView: 1,
-                spaceBetween: 10,
-            },
-            640: {
-                slidesPerView: 2,
-                spaceBetween: 10,
-            },
-            768: {
-                slidesPerView: 3,
-                spaceBetween: 30,
-            },
-            1024: {
-                slidesPerView: 3,
-                spaceBetween: 40,
-            },
-        }"
-        class="featured-swiper-list"
-    >
-        <swiper-slide
-            class="featured-slide"
-            v-for="(product, index) in products"
-            :key="index"
+    <div class="flex justify-center items-center h-550px">
+        <swiper
+            :slidesPerView="3"
+            :spaceBetween="30"
+            :loop="true"
+            :navigation="true"
+            :pagination="{
+                clickable: true,
+            }"
+            :modules="modules"
+            :breakpoints="{
+                340: {
+                    slidesPerView: 1,
+                    spaceBetween: 10,
+                },
+                640: {
+                    slidesPerView: 2,
+                    spaceBetween: 10,
+                },
+                768: {
+                    slidesPerView: 3,
+                    spaceBetween: 30,
+                },
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 40,
+                },
+            }"
+            class="featured-swiper-list"
         >
-            <Link :href="route('products.show', product.id)">
-                <img
-                    src="../../../../images/addidas_duramo.png"
-                    alt=""
-                    class="shadow-xl border border-gray-300 rounded-lg"
-                />
-            </Link>
-            <div
-                class="flex justify-between items-center mt-6 w-3/4"
-                style="margin: 1.25rem auto"
+            <swiper-slide
+                class="featured-slide"
+                v-for="(product, index) in products"
+                :key="index"
             >
-                <Link :href="route('products.show', product.id)"
-                    ><div class="text-left">
-                        <p class="font-bold md:text-3xl">{{ product.name }}</p>
-                        <p class="font-bold">RM {{ product.price }}</p>
-                    </div></Link
-                >
-
+                <Link :href="route('products.show', product.id)">
+                    <img
+                        src="../../../../images/addidas_duramo.png"
+                        alt=""
+                        class="shadow-xl border border-gray-300 rounded-lg"
+                    />
+                </Link>
                 <div
-                    class="bg-green-400 text-white rounded-full p-2 shadow-xl w-10"
+                    class="flex justify-between items-center mt-6 w-3/4"
+                    style="margin: 1.25rem auto"
                 >
-                    <button
-                        type="button"
-                        class="add-to-cart"
-                        @click="addCart(product)"
+                    <Link :href="route('products.show', product.id)"
+                        ><div class="text-left">
+                            <p class="font-bold md:text-3xl">
+                                {{ product.name }}
+                            </p>
+                            <p class="font-bold">RM {{ product.price }}</p>
+                        </div></Link
                     >
-                        <font-awesome-icon icon="fa-solid fa-plus" />
-                    </button>
+                    <div
+                        class="bg-green-400 text-white rounded-full p-2 shadow-xl w-10"
+                    >
+                        <button
+                            type="button"
+                            class="add-to-cart"
+                            @click="addCart(product)"
+                        >
+                            <font-awesome-icon icon="fa-solid fa-plus" />
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </swiper-slide>
-    </swiper>
+            </swiper-slide>
+        </swiper>
+    </div>
 </template>
 <script>
 // Import Swiper Vue.js components
