@@ -1,9 +1,6 @@
 <template>
     <div class="bg-gray-50 border-l-2">
-        <div
-            class="container"
-            style="width: 550px; margin-left: 3.5em; margin-top: 3.5em"
-        >
+        <div class="container px-6 md:w-3/4">
             <div
                 class="grid grid-cols-6 my-4"
                 v-for="cartDetails in cart"

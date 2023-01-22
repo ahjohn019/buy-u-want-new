@@ -1,5 +1,5 @@
 <template>
-    <div class="h-screen grid grid-cols-2">
+    <div class="h-screen grid md:grid-cols-2">
         <Show
             :cart="cart"
             :unitTotal="unitTotal"

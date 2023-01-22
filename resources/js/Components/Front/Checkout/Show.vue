@@ -1,9 +1,6 @@
 <template>
     <form @submit.prevent="paymentForm">
-        <div
-            class="container ml-auto mt-4"
-            style="width: 550px; margin-right: 3.5em; margin-top: 3.5em"
-        >
+        <div class="container ml-auto mt-4 md:w-3/4 px-6">
             <p class="text-4xl">Buy U Want</p>
             <div class="grid grid-cols-2 mt-4">
                 <div class="text-lg">Contact Information</div>
