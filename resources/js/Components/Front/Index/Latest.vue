@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col">
-        <p class="text-xl text-center md:text-4xl">Latest Product</p>
+        <p class="text-xl text-center md:text-4xl mb-8">Latest Product</p>
         <div class="grid grid-cols-2 gap-4 my-2">
             <div
                 class="flex flex-col md:flex-row justify-center"

@@ -41,7 +41,7 @@ defineProps(["auth"]);
                 </div>
                 <div
                     id="latest"
-                    class="grid grid-cols-1 md:grid-cols-2 gap-4 h-550px content-center"
+                    class="grid grid-cols-1 md:grid-cols-2 gap-4 md:h-550px content-center"
                     data-aos="flip-left"
                     data-aos-duration="1000"
                 >

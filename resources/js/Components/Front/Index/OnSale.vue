@@ -1,6 +1,6 @@
 <template>
     <div class="on-sale-container text-center">
-        <p class="text-xl md:text-4xl">On Sale</p>
+        <p class="text-xl md:text-4xl mb-8">On Sale</p>
         <swiper
             :slidesPerView="1"
             :loop="true"
