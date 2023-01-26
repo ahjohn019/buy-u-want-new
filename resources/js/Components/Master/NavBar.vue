@@ -8,7 +8,7 @@
             <Link :href="route('main.index')" class="flex items-center">
                 <span
                     class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
-                    >Buy U Wants</span
+                    >Buy U Want</span
                 >
             </Link>
 
