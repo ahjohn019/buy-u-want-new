@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Inertia\Inertia;
 use App\Models\Order;
 use App\Models\Coupon;
 use App\Models\Address;
@@ -43,5 +44,13 @@ class BaseController extends Controller
         $this->address = $address;
         $this->discount = $discount;
         $this->coupon = $coupon;
+    }
+
+    public function index(){
+        return Inertia::render('Front/Master/Index',['auth'=>auth()->user(), 'roles'=> auth()->user() ? auth()->user()->roles->first()->name : null ]);
+    }
+
+    public function dashboard(){
+        return Inertia::render('Dashboard');
     }
 }

@@ -4,6 +4,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\BaseController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChartController;
@@ -53,9 +54,7 @@ Route::post('/archive', [OrderController::class, 'archive'])->name('orders.archi
 Route::post('/refund',[OrderController::class, 'refund'])->name('orders.refund')->middleware(['auth', 'verified']);
 Route::get('/search',[OrderController::class, 'search'])->name('orders.search')->middleware(['auth', 'verified']);
 
-Route::get('/', function () {
-    return Inertia::render('Front/Master/Index',['auth'=>auth()->user(), 'roles'=> auth()->user() ? auth()->user()->roles->first()->name : null ]);
-})->name('main.index');
+Route::get('/', [BaseController::class, 'index'])->name('main.index');
 
 Route::get('/checkout', [StripeController::class, 'checkoutIndex'])->name('checkout.index')->middleware(['auth', 'verified']);
 
@@ -63,10 +62,7 @@ Route::group(['prefix'=>'charts','middleware'=>'admin'], function () {
     Route::get('/orders',[ChartController::class,'orders'])->name('chart.orders');
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
+Route::get('/dashboard',[BaseController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
 //Cart Controller
 Route::prefix('carts')->group(function(){
