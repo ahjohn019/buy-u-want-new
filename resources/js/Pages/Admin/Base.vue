@@ -17,22 +17,13 @@
                         :collapsed="collapsed"
                         :collapsed-width="32"
                         :collapsed-icon-size="22"
-                        :options="menuOptions"
+                        :options="menu"
                     />
                 </n-layout-sider>
                 <n-layout>
                     <div class="flex justify-between">
                         <div><slot name="title"></slot></div>
-                        <div class="mr-6 flex items-center block md:hidden">
-                            <n-dropdown trigger="click" :options="menuOptions">
-                                <n-button
-                                    ><n-icon
-                                        ><font-awesome-icon
-                                            icon="fa-solid fa-bars"
-                                            class="fa-lg" /></n-icon
-                                ></n-button>
-                            </n-dropdown>
-                        </div>
+                        <SideBar :options="menu" />
                     </div>
                     <slot name="admin"></slot>
                 </n-layout>
@@ -43,17 +34,9 @@
 
 <script>
 import { ref, defineComponent, h } from "vue";
-import {
-    NSpace,
-    NLayout,
-    NLayoutSider,
-    NMenu,
-    NDropdown,
-    NButton,
-    NIcon,
-} from "naive-ui";
+import SideBar from "@web/Master/SideBar.vue";
 
-const menuOptions = [
+const menu = [
     {
         label: () =>
             h(
@@ -153,17 +136,11 @@ const menuOptions = [
 
 export default defineComponent({
     components: {
-        NSpace,
-        NLayout,
-        NLayoutSider,
-        NMenu,
-        NDropdown,
-        NButton,
-        NIcon,
+        SideBar,
     },
     setup() {
         return {
-            menuOptions,
+            menu,
             collapsed: ref(false),
         };
     },

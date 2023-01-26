@@ -51,43 +51,92 @@
                     </li>
                 </ul>
             </div>
+            <SideBar :options="options" />
         </div>
     </nav>
 </template>
 
 <script>
 import { defineComponent, h } from "vue";
-import { NDropdown, NButton } from "naive-ui";
 import { Link } from "@inertiajs/inertia-vue3";
+import SideBar from "./SideBar.vue";
 
 export default defineComponent({
     components: {
         Link,
-        NDropdown,
-        NButton,
+        SideBar,
     },
-    props: ["auth"],
+    props: ["auth", "roles"],
     setup() {
         return {
             options: [],
+            display: false,
         };
     },
+
+    methods: {
+        handleResize() {
+            this.display =
+                window.getComputedStyle(document.getElementById("navBar"))
+                    .display == "flex"
+                    ? true
+                    : false;
+            this.options.find((e) => e.key == "cartMain").show = this.display;
+        },
+    },
     mounted() {
-        this.options.push({
-            label: () =>
-                this.auth === null
-                    ? h(
-                          "a",
-                          {
-                              href: route("login"),
-                          },
-                          "Login"
-                      )
-                    : h("form", { method: "post", action: route("logout") }, [
-                          h("input", { type: "submit", value: "Logout" }),
-                      ]),
-            key: this.auth === null ? "login" : "logout",
-        });
+        var navBarDisplay = window.getComputedStyle(
+            document.getElementById("navBar")
+        ).display;
+
+        window.addEventListener("resize", this.handleResize);
+
+        if (this.roles == "admin") {
+            this.options.push({
+                label: () =>
+                    h(
+                        "a",
+                        {
+                            href: route("admin.index"),
+                        },
+                        "Admin"
+                    ),
+                key: "admin",
+            });
+        }
+
+        this.options.push(
+            {
+                label: () =>
+                    this.auth === null
+                        ? h(
+                              "a",
+                              {
+                                  href: route("login"),
+                              },
+                              "Login"
+                          )
+                        : h(
+                              "form",
+                              { method: "post", action: route("logout") },
+                              [h("input", { type: "submit", value: "Logout" })]
+                          ),
+                key: this.auth === null ? "login" : "logout",
+            },
+            {
+                label: () =>
+                    h(
+                        "a",
+                        {
+                            href: route("cart.index"),
+                        },
+                        "Cart"
+                    ),
+
+                key: "cartMain",
+                show: navBarDisplay == "flex" ? true : false,
+            }
+        );
     },
 });
 </script>

@@ -54,7 +54,7 @@ Route::post('/refund',[OrderController::class, 'refund'])->name('orders.refund')
 Route::get('/search',[OrderController::class, 'search'])->name('orders.search')->middleware(['auth', 'verified']);
 
 Route::get('/', function () {
-    return Inertia::render('Front/Master/Index',['auth'=>auth()->user()]);
+    return Inertia::render('Front/Master/Index',['auth'=>auth()->user(), 'roles'=> auth()->user() ? auth()->user()->roles->first()->name : null ]);
 })->name('main.index');
 
 Route::get('/checkout', [StripeController::class, 'checkoutIndex'])->name('checkout.index')->middleware(['auth', 'verified']);

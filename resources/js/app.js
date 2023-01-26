@@ -49,6 +49,7 @@ library.add(
     faDotCircle
 );
 import { createPinia } from "pinia";
+import naive from "naive-ui";
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
@@ -63,6 +64,7 @@ createInertiaApp({
             .use(plugin)
             .use(pinia)
             .use(AOS.init())
+            .use(naive)
             .component("FontAwesomeIcon", FontAwesomeIcon)
             .mixin({ methods: { route } })
             .mount(el);

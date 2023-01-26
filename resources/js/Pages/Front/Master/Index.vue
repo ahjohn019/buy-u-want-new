@@ -11,11 +11,11 @@ import Base from "./Base.vue";
 import Navigation from "@web/Master/Navigation.vue";
 import "@custom-css/customStyle.css";
 
-defineProps(["auth"]);
+defineProps(["auth", "roles"]);
 </script>
 
 <template>
-    <Base :auth="auth">
+    <Base :auth="auth" :roles="roles">
         <template #content>
             <div
                 id="carousel"
