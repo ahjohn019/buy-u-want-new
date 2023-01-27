@@ -25,7 +25,7 @@
                 <input
                     type="text"
                     class="w-full rounded"
-                    v-model="address.postal_code"
+                    v-model="users.address.postal_code"
                 />
             </div>
             <div class="col-span-2">
@@ -48,7 +48,7 @@
                 <input
                     type="text"
                     class="w-full rounded"
-                    v-model="address.city"
+                    v-model="users.address.city"
                 />
             </div>
             <div>
@@ -56,7 +56,7 @@
                 <input
                     type="text"
                     class="w-full rounded"
-                    v-model="address.country"
+                    v-model="users.address.country"
                 />
             </div>
             <div>
@@ -64,7 +64,7 @@
                 <input
                     type="text"
                     class="w-full rounded"
-                    v-model="address.state"
+                    v-model="users.address.state"
                 />
             </div>
             <div>
@@ -92,7 +92,12 @@ export default {
         return {
             value: null,
             options: this.selected !== null ? this.selected.address : "",
-            address: null,
+            addressSelected: {
+                postal_code: null,
+                state: null,
+                country: null,
+                city: null,
+            },
         };
     },
     methods: {
@@ -108,7 +113,7 @@ export default {
                 state: event.state,
             };
 
-            this.address = address;
+            this.users.address = address;
         },
         nameWithAddress({ address_line_one, address_line_two }) {
             return `${address_line_one}` + " " + `${address_line_two}`;
