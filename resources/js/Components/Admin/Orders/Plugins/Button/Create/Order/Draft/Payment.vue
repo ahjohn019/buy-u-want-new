@@ -60,20 +60,15 @@ export default defineComponent({
     methods: {
         handleSelect(key) {
             if (key == "enterCreditCard") {
-                const selectedRows =
-                    this.selectedRows.length > 0 ? this.selectedRows : null;
+                if (!this.selectedUser) {
+                    Swal.fire(Custom.customerMissing());
+                }
 
-                const orderList = [selectedRows, this.selectedUser];
+                if (this.selectedRows.length <= 0) {
+                    Swal.fire(Custom.productEmpty());
+                }
 
-                if (orderList.includes(null)) {
-                    if (this.selectedUser == null) {
-                        Swal.fire(Custom.customerMissing());
-                    }
-
-                    if (this.selectedRows.length <= 0) {
-                        Swal.fire(Custom.productEmpty());
-                    }
-
+                if (!this.selectedUser || this.selectedRows.length <= 0) {
                     this.showModal = ref(false);
                     return this.showModal;
                 }
