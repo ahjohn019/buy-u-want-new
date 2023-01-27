@@ -8,6 +8,7 @@
             label="name"
             track-by="name"
             @select="handleUser($event)"
+            @remove="handleRemoveUser($event)"
         ></multiselect>
 
         <div v-if="value !== null" class="border mt-4 p-4 font-bold" style="">
@@ -101,10 +102,19 @@ export default {
     },
     methods: {
         handleUser(selected) {
-            this.$emit("handleUserSelected", selected);
+            this.$emit("handleUserSelected", {
+                selectUser: selected,
+                displayUser: true,
+            });
         },
         nameWithLang({ name, email }) {
             return `${name} — ${email}`;
+        },
+        handleRemoveUser(selected) {
+            this.$emit("handleUserSelected", {
+                selectUser: selected,
+                displayUser: false,
+            });
         },
     },
 };

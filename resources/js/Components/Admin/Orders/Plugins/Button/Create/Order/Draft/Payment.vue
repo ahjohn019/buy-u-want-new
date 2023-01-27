@@ -12,11 +12,7 @@
                 role="dialog"
                 aria-modal="true"
             >
-                <PaymentForm
-                    :selectedRows="selectedRows"
-                    :total="total"
-                    :selectedUser="selectedUser"
-                />
+                <PaymentForm :selectedRows="selectedRows" :total="total" />
             </n-card>
         </n-modal>
     </div>
@@ -24,7 +20,7 @@
 
 <script>
 import { NDropdown, NButton, NModal, NCard } from "naive-ui";
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, computed } from "vue";
 import PaymentForm from "../Draft/Form/Payment.vue";
 import Swal from "sweetalert2";
 import Custom from "@/custom";
@@ -38,13 +34,18 @@ export default defineComponent({
         PaymentForm,
     },
     props: ["selectedRows", "total", "selectedUser"],
+    inject: ["displayUser"],
     data() {
         return {
             options: [],
             showModal: ref(false),
         };
     },
-
+    provide() {
+        return {
+            selected: computed(() => this.selectedUser),
+        };
+    },
     mounted() {
         this.options = [
             {
@@ -60,7 +61,7 @@ export default defineComponent({
     methods: {
         handleSelect(key) {
             if (key == "enterCreditCard") {
-                if (!this.selectedUser) {
+                if (!this.selectedUser || this.displayUser != true) {
                     Swal.fire(Custom.customerMissing());
                 }
 
@@ -68,7 +69,11 @@ export default defineComponent({
                     Swal.fire(Custom.productEmpty());
                 }
 
-                if (!this.selectedUser || this.selectedRows.length <= 0) {
+                if (
+                    !this.selectedUser ||
+                    this.selectedRows.length <= 0 ||
+                    this.displayUser != true
+                ) {
                     this.showModal = ref(false);
                     return this.showModal;
                 }

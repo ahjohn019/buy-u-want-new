@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
 import DataTable from "../Plugins/Create/Product/DataTable.vue";
 import Customer from "../Plugins/Create/Product/Customer.vue";
 
@@ -38,11 +38,18 @@ export default defineComponent({
     data() {
         return {
             selectedUser: null,
+            remove: null,
+        };
+    },
+    provide() {
+        return {
+            displayUser: computed(() => this.remove),
         };
     },
     methods: {
         handleChildUserSelected(value) {
-            this.selectedUser = value;
+            this.selectedUser = value.selectUser;
+            this.remove = value.displayUser;
         },
     },
 });

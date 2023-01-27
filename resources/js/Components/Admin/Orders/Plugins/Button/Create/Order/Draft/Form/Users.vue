@@ -25,7 +25,7 @@
                 <input
                     type="text"
                     class="w-full rounded"
-                    v-model="users.address.postal_code"
+                    v-model="address.postal_code"
                 />
             </div>
             <div class="col-span-2">
@@ -48,7 +48,7 @@
                 <input
                     type="text"
                     class="w-full rounded"
-                    v-model="users.address.city"
+                    v-model="address.city"
                 />
             </div>
             <div>
@@ -56,7 +56,7 @@
                 <input
                     type="text"
                     class="w-full rounded"
-                    v-model="users.address.country"
+                    v-model="address.country"
                 />
             </div>
             <div>
@@ -64,7 +64,7 @@
                 <input
                     type="text"
                     class="w-full rounded"
-                    v-model="users.address.state"
+                    v-model="address.state"
                 />
             </div>
             <div>
@@ -86,22 +86,29 @@ export default {
     components: {
         Multiselect,
     },
-    props: ["users", "selectedUser"],
+    props: ["users"],
+    inject: ["selected"],
     data() {
         return {
             value: null,
-            options:
-                this.selectedUser !== null ? this.selectedUser.address : "",
+            options: this.selected !== null ? this.selected.address : "",
+            address: null,
         };
     },
     methods: {
         handleAddress(event) {
-            this.users.address.line1 =
-                event.address_line_one + " " + event.address_line_two;
-            this.users.address.postal_code = event.postcode;
-            this.users.address.city = event.city;
-            this.users.address.country = event.country;
-            this.users.address.state = event.state;
+            var address = this.users.address;
+
+            address = {
+                ...address,
+                line1: event.address_line_one + " " + event.address_line_two,
+                postal_code: event.postcode,
+                city: event.city,
+                country: event.country,
+                state: event.state,
+            };
+
+            this.address = address;
         },
         nameWithAddress({ address_line_one, address_line_two }) {
             return `${address_line_one}` + " " + `${address_line_two}`;

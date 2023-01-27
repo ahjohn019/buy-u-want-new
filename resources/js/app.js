@@ -61,8 +61,9 @@ createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => require(`./Pages/${name}.vue`),
     setup({ el, app, props, plugin }) {
-        return createApp({ render: () => h(app, props) })
-            .use(plugin)
+        const VueApp = createApp({ render: () => h(app, props) });
+        VueApp.config.unwrapInjectedRef = true;
+        VueApp.use(plugin)
             .use(pinia)
             .use(AOS.init())
             .use(naive)
