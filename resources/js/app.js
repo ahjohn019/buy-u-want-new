@@ -50,6 +50,7 @@ library.add(
 );
 import { createPinia } from "pinia";
 import naive from "naive-ui";
+import VueCookies from "vue-cookies";
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
@@ -65,6 +66,7 @@ createInertiaApp({
             .use(pinia)
             .use(AOS.init())
             .use(naive)
+            .use(VueCookies, { expires: "7d" })
             .component("FontAwesomeIcon", FontAwesomeIcon)
             .mixin({ methods: { route } })
             .mount(el);

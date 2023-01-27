@@ -28,12 +28,10 @@
 import { defineComponent } from "vue";
 import DataTable from "../Plugins/Create/Product/DataTable.vue";
 import Customer from "../Plugins/Create/Product/Customer.vue";
-import { NButton } from "naive-ui";
 
 export default defineComponent({
     components: {
         DataTable,
-        NButton,
         Customer,
     },
     props: ["products", "columns", "users"],

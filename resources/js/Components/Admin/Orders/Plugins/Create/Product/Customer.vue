@@ -2,7 +2,7 @@
     <div>
         <multiselect
             v-model="value"
-            :options="options"
+            :options="customerSelection"
             :custom-label="nameWithLang"
             placeholder="Select one"
             label="name"
@@ -96,7 +96,7 @@ export default {
     data() {
         return {
             value: null,
-            options: this.users,
+            customerSelection: this.users,
         };
     },
     methods: {

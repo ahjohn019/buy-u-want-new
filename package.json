@@ -43,6 +43,7 @@
         "sweetalert2": "^11.4.14",
         "swiper": "^8.3.1",
         "vue-chartjs": "^4.1.1",
+        "vue-cookies": "^1.8.2",
         "vue-multiselect": "^3.0.0-alpha.2"
     }
 }

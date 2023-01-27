@@ -26,6 +26,8 @@
 import { NDropdown, NButton, NModal, NCard } from "naive-ui";
 import { defineComponent, ref } from "vue";
 import PaymentForm from "../Draft/Form/Payment.vue";
+import Swal from "sweetalert2";
+import Custom from "@/custom";
 
 export default defineComponent({
     components: {
@@ -58,6 +60,24 @@ export default defineComponent({
     methods: {
         handleSelect(key) {
             if (key == "enterCreditCard") {
+                const selectedRows =
+                    this.selectedRows.length > 0 ? this.selectedRows : null;
+
+                const orderList = [selectedRows, this.selectedUser];
+
+                if (orderList.includes(null)) {
+                    if (this.selectedUser == null) {
+                        Swal.fire(Custom.customerMissing());
+                    }
+
+                    if (this.selectedRows.length <= 0) {
+                        Swal.fire(Custom.productEmpty());
+                    }
+
+                    this.showModal = ref(false);
+                    return this.showModal;
+                }
+
                 this.showModal = ref(true);
             }
         },
