@@ -1,5 +1,5 @@
 <script setup>
-import DataTable from "../Plugins/Index/DataTable.vue";
+import DataTable from "@admin-plugins/User/Index/DataTable.vue";
 
 defineProps(["users"]);
 </script>

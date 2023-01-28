@@ -18,7 +18,7 @@
 
 <script>
 import Base from "../Base.vue";
-import Index from "@web/Admin/Products/Pages/Index.vue";
+import Index from "@web/Admin/Products/Index.vue";
 import Header from "@web/Master/Admin/Header.vue";
 
 export default {

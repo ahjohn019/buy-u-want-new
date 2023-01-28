@@ -25,7 +25,7 @@
                         <div><slot name="title"></slot></div>
                         <SideBar :options="menu" />
                     </div>
-                    <slot name="admin"></slot>
+                    <slot name="admin" class="container mx-auto px-6"></slot>
                 </n-layout>
             </n-layout>
         </n-space>
@@ -35,6 +35,7 @@
 <script>
 import { ref, defineComponent, h } from "vue";
 import SideBar from "@web/Master/SideBar.vue";
+import { Link } from "@inertiajs/inertia-vue3";
 
 const menu = [
     {
@@ -137,6 +138,7 @@ const menu = [
 export default defineComponent({
     components: {
         SideBar,
+        Link,
     },
     setup() {
         return {

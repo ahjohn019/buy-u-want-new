@@ -14,8 +14,8 @@
 
 <script>
 import Base from "../Base.vue";
-import Index from "@web/Admin/Products/Pages/Index.vue";
-import Create from "@web/Admin/Products/Pages/Create.vue";
+import Index from "@web/Admin/Products/Index.vue";
+import Create from "@web/Admin/Products/Create.vue";
 import Header from "@web/Master/Admin/Header.vue";
 
 export default {

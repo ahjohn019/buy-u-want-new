@@ -13,7 +13,7 @@
 <script>
 import Base from "../Base.vue";
 import Header from "@web/Master/Admin/Header.vue";
-import Create from "@web/Admin/Orders/Pages/Create.vue";
+import Create from "@web/Admin/Orders/Create.vue";
 
 export default {
     components: {

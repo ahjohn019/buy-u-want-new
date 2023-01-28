@@ -10,7 +10,12 @@
         :modules="modules"
     >
         <swiper-slide v-for="(p, idx) in path" :key="idx" style="height: 700px">
-            <img :src="p.name" alt="" />
+            <n-image
+                :key="idx"
+                lazy
+                :src="p.name"
+                style="width: 100%"
+            ></n-image>
         </swiper-slide>
     </swiper>
 </template>

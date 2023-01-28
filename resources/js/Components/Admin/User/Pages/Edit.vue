@@ -220,7 +220,7 @@
 <script>
 import { defineComponent, ref } from "vue";
 import { NButton, NModal, NCard } from "naive-ui";
-import CreateAddressButton from "../Plugins/Button/Create/Address.vue";
+import CreateAddressButton from "@admin-plugins/User/Create/Address.vue";
 import Swal from "sweetalert2";
 
 export default defineComponent({
