@@ -24,10 +24,9 @@
 
 <script>
 import { NDropdown, NButton, NModal, NCard } from "naive-ui";
-import { defineComponent, ref, computed } from "vue";
+import { defineComponent, ref } from "vue";
 import PaymentForm from "./PaymentDraft.vue";
-import Swal from "sweetalert2";
-import Custom from "@/custom";
+import Custom from "@/CustomSweetAlert";
 
 export default defineComponent({
     components: {
@@ -59,13 +58,16 @@ export default defineComponent({
     },
     methods: {
         handleSelect(key) {
+            var message;
             if (key == "enterCreditCard") {
                 if (!this.selectedUser || this.displayUser != true) {
-                    Swal.fire(Custom.customerMissing());
+                    message = "Customer Details Is Empty";
+                    Custom.errorMessage(message);
                 }
 
                 if (this.selectedRows.length <= 0) {
-                    Swal.fire(Custom.productEmpty());
+                    message = "Product Is Empty";
+                    Custom.errorMessage(message);
                 }
 
                 if (

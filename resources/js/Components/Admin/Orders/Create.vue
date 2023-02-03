@@ -50,7 +50,6 @@ export default defineComponent({
         handleChildUserSelected(value) {
             this.selectedUser = value.selectUser;
             this.remove = value.displayUser;
-            console.log(this.selectedUser);
         },
     },
 });

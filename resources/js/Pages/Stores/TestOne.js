@@ -9,7 +9,6 @@ export const useCounterStore = defineStore("counter", {
             this.count++;
         },
         decrement(value) {
-            console.log(value);
             this.count--;
         },
     },

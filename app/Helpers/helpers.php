@@ -98,5 +98,7 @@ function sessionMessage(){
         'checkoutSuccessMessage' => "Payment Successfully",
         'createProductSuccesMessage' => "Product created successfully",
         'createUserMessage' => "Create User Successfully",
+        'updateProductSuccessMessage' => "Update Products Successfully",
+        'deleteProductSuccessMessage' => "Delete Product Successfully",
     ];
 }

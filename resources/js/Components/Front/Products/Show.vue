@@ -32,14 +32,14 @@
                     </div>
                 </div>
                 <p class="md:text-lg text-center md:text-left">
-                    {{ category.name }}
+                    {{ products.category.name }}
                 </p>
                 <p class="md:text-3xl text-center md:text-left">
                     RM {{ products.price }}
                 </p>
                 <div class="flex space-x-2 justify-center md:justify-start">
                     <div v-for="variant in variants" :key="variant.id">
-                        <p>{{ variant.name }}</p>
+                        <p>{{ products.variant.name }}</p>
                     </div>
                 </div>
                 <Cart :products="products" />

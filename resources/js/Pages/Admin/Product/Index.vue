@@ -10,6 +10,7 @@
                     :products="products"
                     :columns="columns"
                     :maxPrice="maxPrice"
+                    :status="status"
                 />
             </div>
         </template>
@@ -27,7 +28,7 @@ export default {
         Index,
         Header,
     },
-    props: ["products", "columns", "maxPrice"],
+    props: ["products", "columns", "maxPrice", "status"],
     data() {
         return {
             title: "Products",

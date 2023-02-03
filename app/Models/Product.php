@@ -59,12 +59,15 @@ class Product extends Model
         return $query->leftJoin('categories as category','category.id','=','products.category_id')
                      ->leftJoin('status','status.id','=','products.status')
                      ->select(
+                            'products.id as products_id',
                             'products.name',
                             'products.description',
                             'category.name as category',
+                            'category.id as category_id',
                             'products.sku',
                             'products.price',
                             'products.image',
+                            'status.id as status_id',
                             'status.name as status',
                             'products.created_at',
                      );

@@ -1,9 +1,26 @@
 <template>
     <n-space>
-        <n-button type="info" class="bg-blue-600">Show</n-button>
-        <n-button type="primary" class="bg-green-600">Edit</n-button>
-        <n-button type="error" class="bg-red-600">Delete</n-button>
+        <Show :parameter="parameter" />
+        <Edit :parameter="parameter" :status="status" />
+        <Delete :parameter="parameter" />
     </n-space>
 </template>
 
-<script></script>
+<script>
+import Show from "./Show.vue";
+import Edit from "./Edit.vue";
+import Delete from "./Delete.vue";
+export default {
+    components: {
+        Show,
+        Edit,
+        Delete,
+    },
+    data() {
+        return {
+            parameter: this.params.data,
+            status: this.params.status,
+        };
+    },
+};
+</script>

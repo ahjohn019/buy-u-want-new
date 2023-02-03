@@ -5,6 +5,8 @@
         :columnDefs="columnDefs"
         :rowData="rowData"
         :rowSelection="rowSelection"
+        @grid-ready="onGridReady"
+        @selection-changed="onSelectionChanged"
     >
     </ag-grid-vue>
 </template>
@@ -21,12 +23,14 @@ export default defineComponent({
         AgGridVue,
         Index,
     },
-    props: ["products", "columns"],
+    props: ["products", "columns", "status"],
     data() {
         return {
             columnDefs: [],
             rowData: [],
             rowSelection: "multiple",
+            selectedRows: null,
+            gridApi: null,
         };
     },
     mounted() {
@@ -42,7 +46,7 @@ export default defineComponent({
                     sortable: true,
                 });
 
-                if (column == "id") {
+                if (column == "name") {
                     Object.assign(columnDefs[index], {
                         headerCheckboxSelection: true,
                         checkboxSelection: true,
@@ -67,11 +71,23 @@ export default defineComponent({
                 sortable: true,
                 headerName: "Action",
                 cellRenderer: "Index",
+                cellRendererParams: {
+                    status: this.status,
+                },
                 width: 250,
             });
         } catch (error) {
             console.error(error);
         }
+    },
+    methods: {
+        onSelectionChanged() {
+            var selectedRows = this.gridApi.getSelectedRows();
+            this.selectedRows = selectedRows;
+        },
+        onGridReady(params) {
+            this.gridApi = params.api;
+        },
     },
 });
 </script>

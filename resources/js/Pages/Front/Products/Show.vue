@@ -1,12 +1,7 @@
 <template>
     <Base>
         <template #content>
-            <Show
-                :products="products"
-                :category="productsCategory"
-                :variants="productsVariant"
-                :attachments="productsAttachment"
-            />
+            <Show :products="products" />
         </template>
     </Base>
 </template>
@@ -25,11 +20,6 @@ export default {
         Base,
     },
 
-    props: [
-        "products",
-        "productsCategory",
-        "productsVariant",
-        "productsAttachment",
-    ],
+    props: ["products"],
 };
 </script>

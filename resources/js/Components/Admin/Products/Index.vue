@@ -44,6 +44,7 @@
             <DataTable
                 :products="products"
                 :columns="columns"
+                :status="status"
                 class="col-span-3"
             />
         </div>
@@ -64,6 +65,6 @@ export default defineComponent({
         NButton,
         Link,
     },
-    props: ["products", "columns", "maxPrice"],
+    props: ["products", "columns", "maxPrice", "status"],
 });
 </script>

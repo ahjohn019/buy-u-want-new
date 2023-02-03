@@ -47,7 +47,14 @@ class BaseController extends Controller
     }
 
     public function index(){
-        return Inertia::render('Front/Master/Index',['auth'=>auth()->user(), 'roles'=> auth()->user() ? auth()->user()->roles->first()->name : null ]);
+        $authUser = auth()->user();
+        $roles = null;
+
+        if($authUser){
+            $roles = $authUser->roles->first()->name; 
+        }
+
+        return Inertia::render('Front/Master/Index',['auth'=> $authUser, 'roles'=> $roles ]);
     }
 
     public function dashboard(){

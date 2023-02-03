@@ -90,13 +90,9 @@ class ProductController extends BaseController
     public function show($id)
     {
         //
-        $productShow = $this->product->find($id); 
+        $productShow = $this->product->with('category','variant','attachments')->find($id); 
 
-        return Inertia::render('Front/Products/Show', ["products" => $productShow, 
-                "productsCategory" => $productShow->category, 
-                "productsVariant" => $productShow->variant,
-                "productsAttachment" => $productShow->attachments
-            ]);
+        return Inertia::render('Front/Products/Show', ["products" => $productShow]);
     }
 
     /**
@@ -120,14 +116,21 @@ class ProductController extends BaseController
     public function update(ProductRequest $request, $id)
     {
         try{
-            if(!Gate::inspect('update', $this->product->find($id))->allowed()) return abort(403);
+            // if(!Gate::inspect('update', $this->product->find($id))->allowed()) return abort(403);
+
             DB::beginTransaction();
-            $product = $this->product->where('id',$id)->update($request->validated());
-            
+            $status = DB::table('status')->where('name', $request->status)->first();
+            $requestValidated = $request->validated();
+            $requestValidated['status'] = $status->id;
+
+            $product = $this->product->where('id',$id)->update($requestValidated);
             
             DB::commit();
-            return response()->json(["data" => "Updated Successfully"]);
+
+            return redirect()->back()->with(['updateProductSuccessMessage' => sessionMessage()['updateProductSuccessMessage']]);
+            // return response()->json(["data" => "Updated Successfully"]);
         } catch(\Throwable $e){
+            dd($e);
             DB::rollback();
             return back()->with('error',$e->getMessage());
         }
@@ -143,9 +146,10 @@ class ProductController extends BaseController
     {
         //
         try{
-            if(!Gate::inspect('delete', $this->product->find($id))->allowed()) return abort(403);
+            // if(!Gate::inspect('delete', $this->product->find($id))->allowed()) return abort(403);
             $this->product->find($id)->delete();
-            return response()->json(["data" => "Deleted Successfully"]);
+            return redirect()->back()->with(['deleteProductSuccessMessage' => sessionMessage()['deleteProductSuccessMessage']]);
+            // return response()->json(["data" => "Deleted Successfully"]);
         } catch(\Throwable $e){
             DB::rollback();
             return back()->with('error',$e->getMessage());
@@ -161,8 +165,14 @@ class ProductController extends BaseController
 
         $productList = $this->productServices->inputCondition($request);
         $getMaxPrice = $this->productServices->getMaxPrice();
+        $status = DB::table('status')->get();
 
-        return Inertia::render('Admin/Product/Index', ['products' => $productList, 'columns' => productColumnName(), 'maxPrice' => $getMaxPrice ]);
+        return Inertia::render('Admin/Product/Index', [
+            'products' => $productList, 
+            'columns' => productColumnName(), 
+            'maxPrice' => $getMaxPrice,
+            'status' => $status 
+        ]);
     }
 
 }
