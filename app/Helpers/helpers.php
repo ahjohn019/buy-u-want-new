@@ -47,7 +47,6 @@ function productColumnName(){
                 'name',
                 'description',
                 'category',
-                'sku',
                 'price',
                 'image',
                 'status',

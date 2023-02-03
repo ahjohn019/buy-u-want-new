@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\Order;
 use App\Models\Address;
 use App\Models\Payment;
@@ -49,6 +50,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getCreatedAtAttribute($value) {
+        return Carbon::parse($value)->format('d-m-Y H:i:s');
+    }
 
     //one user has one biography
     public function biography(){

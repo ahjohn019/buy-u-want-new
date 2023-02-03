@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Variant;
 use App\Models\Category;
@@ -18,6 +19,10 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = ['name','description','sku','price','image','tags','category_id','user_id','discount_id','status'];
+
+    public function getCreatedAtAttribute($value) {
+        return Carbon::parse($value)->format('d-m-Y H:i:s');
+    }
 
     //each products belongs to one category
     public function category(){

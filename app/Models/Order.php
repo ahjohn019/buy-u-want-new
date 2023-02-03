@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Payment;
 use App\Models\OrderDetails;
@@ -16,6 +17,10 @@ class Order extends Model
     use Notifiable;
 
     protected $fillable = ['number','total','grand_total','total_qty','tax','status','payment_id','user_id'];
+
+    public function getCreatedAtAttribute($value) {
+        return Carbon::parse($value)->format('d-m-Y H:i:s');
+    }
 
     //each order belongs to one user
     public function user(){
