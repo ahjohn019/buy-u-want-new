@@ -69,3 +69,8 @@ body {
     object-fit: cover;
     margin: 0.75rem auto;
 }
+
+
+.n-image{
+    height:100%;
+}

@@ -1,10 +1,11 @@
 <template>
     <ag-grid-vue
-        style="width: 100%"
+        style="height: 100%; width: 100%"
         class="ag-theme-alpine"
         :columnDefs="columnDefs"
         :rowData="rowData"
         :rowSelection="rowSelection"
+        :row-height="150"
         @grid-ready="onGridReady"
         @selection-changed="onSelectionChanged"
     >
@@ -17,11 +18,14 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import { AgGridVue } from "ag-grid-vue3";
 import { defineComponent } from "vue";
 import Index from "./Button.vue";
+import Image from "./Image.vue";
+import "@custom-css/customStyle.css";
 
 export default defineComponent({
     components: {
         AgGridVue,
         Index,
+        Image,
     },
     props: ["products", "columns", "status"],
     data() {
@@ -38,8 +42,9 @@ export default defineComponent({
             const filterText = ["name", "description", "sku"];
             var columnDefs = this.columnDefs;
             this.rowData = this.products;
+            var rowData = this.rowData;
 
-            this.columns.map(function (column, index) {
+            this.columns.forEach(function (column, index) {
                 columnDefs.push({
                     headerName: column,
                     field: column,
@@ -56,6 +61,12 @@ export default defineComponent({
                 if (column == "status" || column == "price") {
                     Object.assign(columnDefs[index], {
                         width: 90,
+                    });
+                }
+
+                if (column == "image") {
+                    Object.assign(columnDefs[index], {
+                        cellRenderer: "Image",
                     });
                 }
 

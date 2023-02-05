@@ -80,6 +80,17 @@
                             </n-radio>
                         </n-form-item>
                     </n-gi>
+                    <n-gi>
+                        <n-form-item label="Images" path="product.images">
+                            <n-upload
+                                ref="upload"
+                                action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f"
+                                @change="handleChangeImage"
+                            >
+                                <n-button>Upload File</n-button>
+                            </n-upload>
+                        </n-form-item>
+                    </n-gi>
                     <n-gi :span="2">
                         <n-form-item>
                             <div class="w-full flex justify-end">
@@ -144,6 +155,9 @@ export default defineComponent({
                 this.categories = response.data.categories;
                 this.handleCategoryList(this.categories);
             });
+        },
+        handleChangeImage(data) {
+            console.log(data);
         },
         handleProductEdit(e) {
             e.preventDefault();
