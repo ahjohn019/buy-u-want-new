@@ -21,18 +21,14 @@ function currencyList() {
  * @param [type] $product
  * @return void
  */
-function attachmentData($request, $product){
+function attachmentData($request){
     $attachmentList = [
         'name' => $request->attachments->hashName(),
         'extension' => $request->attachments->extension(),
         'mime_type' => $request->attachments->getClientMimeType(),
-        'size' => $request->attachments->getSize()
+        'size' => $request->attachments->getSize(),
+        'product_id' => $request->id
     ];
-
-    if($request->type == 'create'){
-        $productId = ['product_id' => $product->id];
-        $attachmentList = array_merge($attachmentList, $productId);
-    }
 
     return $attachmentList;
 }

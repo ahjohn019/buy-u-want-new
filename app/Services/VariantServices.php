@@ -13,7 +13,7 @@ class VariantServices
      * @param array $product
      * @return void
      */
-    public function save($request, $product){
+    public function save($request){
 
         foreach($request->variants as $key => $value){
             $value = array_column($value, $key);
@@ -22,7 +22,7 @@ class VariantServices
                 Variant::create([
                     'name' => $key,
                     'type' => $a,
-                    'product_id' => $product->id,
+                    'product_id' => $request->id,
                     'status' => 1
                 ]);
             }

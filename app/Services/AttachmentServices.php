@@ -15,10 +15,10 @@ class AttachmentServices{
         ];
     }
     
-    public function save($request, $product){
+    public function save($request){
         $attachments = $request->file('attachments');
         Storage::disk('public')->putFile('file',$attachments);
-        $attachmentData = attachmentData($request, $product);
+        $attachmentData = attachmentData($request);
         Attachment::create($attachmentData);
     }
 }

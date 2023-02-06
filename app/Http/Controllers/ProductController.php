@@ -70,8 +70,8 @@ class ProductController extends BaseController
 
             $validated = $this->productServices->validated($request);
             $product = $this->product->create($validated);
-       
-            $this->conditionServices->condition($request, $product);
+            $request['id'] = $product->id;
+            $this->conditionServices->condition($request);
             DB::commit();
   
             return redirect()->route("products.admin")->with('createProductSuccesMessage', sessionMessage()['createProductSuccesMessage']);
