@@ -52,7 +52,7 @@ class AttachmentController extends Controller
     {
         //
         try {
-            $attachments = $request->file('attachments')[0]['file'];
+            $attachments = $request->file('attachments');
             $products = $request->product_id;
             $selected = $this->attachments->where('product_id',$products);
 

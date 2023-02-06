@@ -85,14 +85,7 @@
                             label="attachments"
                             path="product.attachments"
                         >
-                            <n-upload
-                                action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f"
-                                @change="handleUploadChange"
-                                :file-list="formValue.attachments"
-                                @update:file-list="handleUploadRefChange"
-                            >
-                                <n-button>Upload File</n-button>
-                            </n-upload>
+                            <input type="file" @change="handleUploadChange" />
                         </n-form-item>
                     </n-gi>
                     <n-gi :span="2">
@@ -163,7 +156,7 @@ export default defineComponent({
             });
         },
         handleUploadChange(e) {
-            this.formValue.attachments = e.file.file;
+            this.formValue.attachments = e.target.files[0];
         },
         handleProductEdit(e) {
             e.preventDefault();
@@ -189,13 +182,6 @@ export default defineComponent({
                     },
                 }
             );
-        },
-        handleUploadRefChange(fileList) {
-            const length = fileList?.length || 0;
-            if (length > 1) {
-                fileList = [fileList[length - 1]];
-            }
-            this.formValue.attachments = fileList;
         },
         handleCategoryList(categories) {
             categories.forEach((el) => {
