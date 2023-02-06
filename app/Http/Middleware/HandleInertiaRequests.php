@@ -53,6 +53,7 @@ class HandleInertiaRequests extends Middleware
                 'createUserMessage' => session('createUserMessage'),
                 'updateProductSuccessMessage' => session('updateProductSuccessMessage'),
                 'deleteProductSuccessMessage' => session('deleteProductSuccessMessage'),
+                'imageIsEmpty' => session('imageIsEmpty'),
                 'error' => session('error')
             ]
         ]);

@@ -45,10 +45,10 @@ function attachmentData($request, $product){
 function productColumnName(){
     return  [
                 'name',
+                'attachments',
                 'description',
                 'category',
                 'price',
-                'image',
                 'status',
                 'created_at'
             ];
@@ -99,5 +99,6 @@ function sessionMessage(){
         'createUserMessage' => "Create User Successfully",
         'updateProductSuccessMessage' => "Update Products Successfully",
         'deleteProductSuccessMessage' => "Delete Product Successfully",
+        'imageIsEmpty' => "Image Is Empty",
     ];
 }

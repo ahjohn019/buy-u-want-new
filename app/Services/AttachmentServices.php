@@ -5,13 +5,16 @@ use App\Models\Attachment;
 use Illuminate\Support\Facades\Storage;
 
 class AttachmentServices{
-    /**
-     * Save the attachment to public folder
-     *
-     * @param array $request
-     * @param array $product
-     * @return void
-     */
+    public function attributes($attachments, $products) {
+        return [
+            'name' => $attachments->hashName(),
+            'extension' => $attachments->extension(),
+            'mime_type' => $attachments->getMimeType(),
+            'size' => $attachments->getSize(),
+            'product_id' => $products
+        ];
+    }
+    
     public function save($request, $product){
         $attachments = $request->file('attachments');
         Storage::disk('public')->putFile('file',$attachments);

@@ -42,7 +42,6 @@ export default defineComponent({
             const filterText = ["name", "description", "sku"];
             var columnDefs = this.columnDefs;
             this.rowData = this.products;
-            var rowData = this.rowData;
 
             this.columns.forEach(function (column, index) {
                 columnDefs.push({
@@ -64,7 +63,7 @@ export default defineComponent({
                     });
                 }
 
-                if (column == "image") {
+                if (column == "attachments") {
                     Object.assign(columnDefs[index], {
                         cellRenderer: "Image",
                     });

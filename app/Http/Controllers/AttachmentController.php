@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Models\Product;
 use App\Models\Attachment;
 use Illuminate\Http\Request;
+use App\Services\AttachmentServices;
 use Illuminate\Support\Facades\Storage;
 
 class AttachmentController extends Controller
@@ -13,8 +14,9 @@ class AttachmentController extends Controller
 
     protected $attachments;
 
-    public function __construct(Attachment $attachments){
+    public function __construct(Attachment $attachments, AttachmentServices $services){
         $this->attachments = $attachments;
+        $this->services = $services;
     }
 
     /**
@@ -50,20 +52,21 @@ class AttachmentController extends Controller
     {
         //
         try {
-            $attachments = $request->file('attachments');
-            $products = $request->input('product_id');
-                        
-            if(empty($attachments)) return "Image Is Empty";
+            $attachments = $request->file('attachments')[0]['file'];
+            $products = $request->product_id;
+            $selected = $this->attachments->where('product_id',$products);
+
+            if(empty($attachments)) return redirect()->back()->with(['imageIsEmpty' => sessionMessage()['imageIsEmpty']]);
             Storage::disk('public')->putFile('file',$attachments);
 
-            if($request->update){
-                $attachmentsName = $this->attachments->where('id',$request->products)->first()->name;
-                Storage::disk('public')->delete('file/'. $attachmentsName);
-                $this->attachments->where('id', $request->input('products'))->update(imagesList($request));
+            if($request->update && isset($selected->first()->name)){
+                Storage::disk('public')->delete('file/'. $selected->first()->name);
+                $selected->update($this->services->attributes($attachments, $products));
                 return redirect()->back();
             }
 
-            $this->attachments->create(imagesList($request));
+            $this->attachments->create($this->services->attributes($attachments, $products));
+
             return redirect()->back();
         } catch (\Throwable $th) {
             throw $th;

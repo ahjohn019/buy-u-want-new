@@ -18,7 +18,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','description','sku','price','image','tags','category_id','user_id','discount_id','status'];
+    protected $fillable = ['name','description','sku','price','tags','category_id','user_id','discount_id','status'];
 
     public function getCreatedAtAttribute($value) {
         return Carbon::parse($value)->format('d-m-Y H:i:s');
@@ -63,6 +63,7 @@ class Product extends Model
     public function scopeGetAdminIndex($query){
         return $query->leftJoin('categories as category','category.id','=','products.category_id')
                      ->leftJoin('status','status.id','=','products.status')
+                     ->leftJoin('attachments','attachments.product_id','=','products.id')
                      ->select(
                             'products.id as products_id',
                             'products.name',
@@ -71,11 +72,13 @@ class Product extends Model
                             'category.id as category_id',
                             'products.sku',
                             'products.price',
-                            'products.image',
                             'status.id as status_id',
                             'status.name as status',
                             'products.created_at',
-                     );
+                            'attachments.name as attachments',
+                     )
+                     ->orderBy('products.created_at','desc')
+                     ;
                      
     }
 

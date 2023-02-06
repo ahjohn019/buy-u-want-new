@@ -128,7 +128,6 @@ class ProductController extends BaseController
             DB::commit();
 
             return redirect()->back()->with(['updateProductSuccessMessage' => sessionMessage()['updateProductSuccessMessage']]);
-            // return response()->json(["data" => "Updated Successfully"]);
         } catch(\Throwable $e){
             dd($e);
             DB::rollback();

@@ -19,7 +19,6 @@ class CreateProductTable extends Migration
             $table->text('description')->nullable();
             $table->string('sku');
             $table->double('price');
-            $table->text('image')->nullable();
             $table->integer('status');
             $table->string('tags')->nullable();
             $table->integer('category_id');

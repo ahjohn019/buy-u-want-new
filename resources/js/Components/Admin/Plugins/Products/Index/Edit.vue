@@ -81,11 +81,15 @@
                         </n-form-item>
                     </n-gi>
                     <n-gi>
-                        <n-form-item label="Images" path="product.images">
+                        <n-form-item
+                            label="attachments"
+                            path="product.attachments"
+                        >
                             <n-upload
-                                ref="upload"
                                 action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f"
-                                @change="handleChangeImage"
+                                @change="handleUploadChange"
+                                :file-list="formValue.attachments"
+                                @update:file-list="handleUploadRefChange"
                             >
                                 <n-button>Upload File</n-button>
                             </n-upload>
@@ -131,6 +135,7 @@ export default defineComponent({
                     price: "",
                     sku: "",
                 },
+                update: true,
             }),
             size: ref("medium"),
             categoriesList: [],
@@ -146,6 +151,7 @@ export default defineComponent({
         this.formValue.product.sku = this.parameter.sku;
         this.formValue.product.category_id = this.parameter.category_id;
         this.formValue.product.status = this.parameter.status;
+        this.formValue.product_id = this.parameter.products_id;
     },
     methods: {
         displayModal() {
@@ -156,8 +162,8 @@ export default defineComponent({
                 this.handleCategoryList(this.categories);
             });
         },
-        handleChangeImage(data) {
-            console.log(data);
+        handleUploadChange(e) {
+            this.formValue.attachments = e.file.file;
         },
         handleProductEdit(e) {
             e.preventDefault();
@@ -166,12 +172,14 @@ export default defineComponent({
                 this.formValue.product,
                 {
                     onSuccess: (response) => {
+                        this.$inertia.post(
+                            route("attachments.store"),
+                            this.formValue
+                        );
                         const routeName = "products.admin";
-                        const sessionMessage =
-                            response.props.flash.updateProductSuccessMessage;
                         this.showModal = ref(false);
                         Custom.redirectMessage(
-                            sessionMessage,
+                            response.props.flash.updateProductSuccessMessage,
                             this.$inertia,
                             routeName
                         );
@@ -181,6 +189,13 @@ export default defineComponent({
                     },
                 }
             );
+        },
+        handleUploadRefChange(fileList) {
+            const length = fileList?.length || 0;
+            if (length > 1) {
+                fileList = [fileList[length - 1]];
+            }
+            this.formValue.attachments = fileList;
         },
         handleCategoryList(categories) {
             categories.forEach((el) => {
