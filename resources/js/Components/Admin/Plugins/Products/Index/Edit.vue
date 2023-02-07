@@ -144,7 +144,7 @@ export default defineComponent({
         this.formValue.product.sku = this.parameter.sku;
         this.formValue.product.category_id = this.parameter.category_id;
         this.formValue.product.status = this.parameter.status;
-        this.formValue.product_id = this.parameter.products_id;
+        this.formValue.id = this.parameter.products_id;
     },
     methods: {
         displayModal() {

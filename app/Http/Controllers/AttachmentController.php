@@ -52,21 +52,14 @@ class AttachmentController extends Controller
     {
         //
         try {
-            $attachments = $request->file('attachments');
-            $products = $request->product_id;
-            $selected = $this->attachments->where('product_id',$products);
+            $selected = $this->attachments->where('product_id',$request->id)->first();
 
-            if(empty($attachments)) return redirect()->back()->with(['imageIsEmpty' => sessionMessage()['imageIsEmpty']]);
-            Storage::disk('public')->putFile('file',$attachments);
-
-            if($request->update && isset($selected->first()->name)){
-                Storage::disk('public')->delete('file/'. $selected->first()->name);
-                $selected->update($this->services->attributes($attachments, $products));
+            if($request->update && !empty($selected)){
+                $this->services->update($request, $selected);
                 return redirect()->back();
             }
 
-            $this->attachments->create($this->services->attributes($attachments, $products));
-
+            $this->services->save($request);
             return redirect()->back();
         } catch (\Throwable $th) {
             throw $th;
