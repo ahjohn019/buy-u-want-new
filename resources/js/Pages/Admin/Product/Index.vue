@@ -5,7 +5,7 @@
         </template>
 
         <template #admin>
-            <div class="container mx-auto px-6">
+            <div class="container mx-auto">
                 <Index
                     :products="products"
                     :columns="columns"
