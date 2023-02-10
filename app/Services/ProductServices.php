@@ -10,10 +10,10 @@ class ProductServices{
     public function inputCondition($request){
         $productQuery = Product::query();
         $productAdminIndex = $productQuery->GetAdminIndex();
-        $productList = $productAdminIndex->get();
- 
-        $search = $request->productSearch;
-        $priceRange = $request->priceRange;
+        $productList = $productAdminIndex->get(); 
+        
+        $search = $request->search;
+        $priceRange = $request->price;
 
         if($search) $productList = $this->searchByAdmin($search,  $productAdminIndex);
         if($priceRange) $productList = $productAdminIndex->filterPrice($priceRange)->get();
@@ -29,7 +29,8 @@ class ProductServices{
 
     public function searchByAdmin($search, $products){
        $columns = productColumnName();
-       $search = $products->searchProductByAdmin($search, $columns)->get();
+       $searchContent = array_diff($columns,['attachments']);
+       $search = $products->searchProductByAdmin($search, $searchContent)->get();
 
        return $search;
     }

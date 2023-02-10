@@ -5,7 +5,7 @@
     >
         <p>Price</p>
         <n-space vertical>
-            <form :action="route('products.admin')" method="get">
+            <form @submit.prevent="submit">
                 <input type="hidden" name="priceRange" :value="value" />
                 <n-slider
                     :step="10"
@@ -22,28 +22,8 @@
 
 <script>
 import { defineComponent, ref } from "vue";
-import {
-    NDivider,
-    NSlider,
-    NSpace,
-    NCheckboxGroup,
-    NGi,
-    NCheckbox,
-    NGrid,
-    NButton,
-} from "naive-ui";
 
 export default defineComponent({
-    components: {
-        NDivider,
-        NSlider,
-        NSpace,
-        NCheckboxGroup,
-        NGi,
-        NGrid,
-        NCheckbox,
-        NButton,
-    },
     props: ["products", "columns", "maxPrice"],
     data() {
         return {
@@ -56,6 +36,11 @@ export default defineComponent({
         let maxPriceSlider = parseInt(this.maxPrice);
         this.marks = { 0: "0", [maxPriceSlider]: this.maxPrice };
         this.value = ref(this.maxPrice);
+    },
+    methods: {
+        submit() {
+            this.$inertia.get(route("products.admin", { price: this.value }));
+        },
     },
 });
 </script>

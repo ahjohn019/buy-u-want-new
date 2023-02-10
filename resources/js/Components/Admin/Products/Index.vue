@@ -10,17 +10,19 @@
             </span>
         </div>
         <div class="flex justify-end items-center pt-2">
-            <form method="get" :action="route('products.admin')">
+            <form @submit.prevent="submit">
                 <input
                     type="text"
                     name="productSearch"
                     class="rounded border border-gray-200 outline-none focus:outline focus:transition"
                     placeholder="Input Your Product"
+                    v-model="productSearch"
                 />
                 <n-button attr-type="submit" value="search" class="ml-4"
                     >Search</n-button
                 >
             </form>
+
             <Link
                 :href="route('products.create')"
                 class="bg-blue-600 ml-4 text-white py-2 px-3 hover:bg-blue-800 rounded"
@@ -66,5 +68,17 @@ export default defineComponent({
         Link,
     },
     props: ["products", "columns", "maxPrice", "status"],
+    data() {
+        return {
+            productSearch: null,
+        };
+    },
+    methods: {
+        submit() {
+            this.$inertia.get(
+                route("products.admin", { search: this.productSearch })
+            );
+        },
+    },
 });
 </script>
