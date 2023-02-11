@@ -21,7 +21,9 @@
                     />
                 </n-layout-sider>
                 <n-layout>
-                    <div class="flex justify-between">
+                    <div
+                        class="container mx-auto p-6 md:px-0 flex justify-between"
+                    >
                         <div><slot name="title"></slot></div>
                         <SideBar :options="menu" />
                     </div>

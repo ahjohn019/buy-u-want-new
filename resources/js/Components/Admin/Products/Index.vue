@@ -1,5 +1,5 @@
 <template>
-    <div class="relative">
+    <div class="relative px-6 md:px-0">
         <div
             v-if="$page.props.flash.createProductSuccesMessage"
             class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
@@ -34,9 +34,8 @@
         </div>
 
         <div
-            class="grid grid-cols-1 mt-4"
+            class="grid grid-cols-1 mt-4 md:grid-cols-7 grid-rows-4 md:grid-rows-1"
             style="min-height: 650px"
-            :class="[products.length > 0 ? 'md:grid-cols-7' : 'md:grid-cols-3']"
         >
             <Filter
                 :products="products"
@@ -47,7 +46,7 @@
                 :products="products"
                 :columns="columns"
                 :status="status"
-                class="col-span-6"
+                class="col-span-6 row-span-3"
             />
         </div>
     </div>

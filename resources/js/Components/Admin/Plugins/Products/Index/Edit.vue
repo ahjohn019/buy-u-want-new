@@ -88,6 +88,19 @@
                             <input type="file" @change="handleUploadChange" />
                         </n-form-item>
                     </n-gi>
+                    <n-gi>
+                        <n-image
+                            width="150"
+                            object-fit="contain"
+                            :src="
+                                isUploadChange === false &&
+                                parameter.attachments !== null
+                                    ? '/storage/file/' + parameter.attachments
+                                    : attachmentUrl
+                            "
+                            alt=""
+                        />
+                    </n-gi>
                     <n-gi :span="2">
                         <n-form-item>
                             <div class="w-full flex justify-end">
@@ -133,6 +146,8 @@ export default defineComponent({
             size: ref("medium"),
             categoriesList: [],
             statusChecked: this.parameter.status,
+            attachmentUrl: null,
+            isUploadChange: false,
         };
     },
     props: ["parameter", "status"],
@@ -157,6 +172,10 @@ export default defineComponent({
         },
         handleUploadChange(e) {
             this.formValue.attachments = e.target.files[0];
+            this.attachmentUrl = URL.createObjectURL(
+                this.formValue.attachments
+            );
+            this.isUploadChange = true;
         },
         handleProductEdit(e) {
             e.preventDefault();

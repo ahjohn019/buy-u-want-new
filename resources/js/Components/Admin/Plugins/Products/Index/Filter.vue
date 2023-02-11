@@ -1,8 +1,5 @@
 <template>
-    <div
-        class="bg-white py-6 px-4 mb-2 md:mr-2 border"
-        v-if="products.length > 0"
-    >
+    <div class="bg-white py-6 px-4 mb-2 md:mr-2 border">
         <p>Price</p>
         <n-space vertical>
             <form @submit.prevent="submit">
