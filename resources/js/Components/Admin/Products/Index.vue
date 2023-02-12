@@ -23,6 +23,8 @@
                 >
             </form>
 
+            <ExportButton :products="products" />
+
             <Link
                 :href="route('products.create')"
                 class="bg-blue-600 ml-4 text-white py-2 px-3 hover:bg-blue-800 rounded"
@@ -56,15 +58,15 @@
 import { defineComponent } from "vue";
 import Filter from "@admin-plugins/Products/Index/Filter.vue";
 import DataTable from "@admin-plugins/Products/Index/DataTable.vue";
-import { NButton } from "naive-ui";
+import ExportButton from "@admin-plugins/Products/Index/Export.vue";
 import { Link } from "@inertiajs/inertia-vue3";
 
 export default defineComponent({
     components: {
         Filter,
         DataTable,
-        NButton,
         Link,
+        ExportButton,
     },
     props: ["products", "columns", "maxPrice", "status"],
     data() {

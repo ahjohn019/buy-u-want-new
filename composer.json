@@ -17,6 +17,7 @@
         "laravel/socialite": "^5.5",
         "laravel/telescope": "^4.9",
         "laravel/tinker": "^2.5",
+        "rap2hpoutre/fast-excel": "^5.1",
         "spatie/laravel-permission": "^5.5",
         "tightenco/ziggy": "^1.0"
     },

@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ProductController;
@@ -91,6 +92,7 @@ Route::group(['prefix'=>'admin', 'middleware' => ['admin','verified']], function
     })->name('admin.index');
     Route::get('/products', [ProductController::class,'admin'])->name('products.admin');
     Route::post('/orders/fulfilled',[OrderController::class,'fulfillStatus'])->name('orders.fulfilled');
+    Route::get('/exports',[ExportController::class,'exports'])->name('exports.index');
 });
 
 //Test Pinia

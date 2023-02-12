@@ -66,8 +66,8 @@ class ProductController extends BaseController
     {
         try{
             if(!Gate::inspect('create', $this->product)->allowed()) return abort(403);
+
             DB::beginTransaction();
-            // dd($request->all());
             $validated = $this->productServices->validated($request);
             $product = $this->product->create($validated);
             $request['id'] = $product->id;
@@ -76,7 +76,6 @@ class ProductController extends BaseController
   
             return redirect()->route("products.admin")->with('createProductSuccesMessage', sessionMessage()['createProductSuccesMessage']);
         } catch(\Throwable $e){
-            dd($e);
             DB::rollback();
             return back()->with('error',$e->getMessage());
         }
@@ -130,7 +129,6 @@ class ProductController extends BaseController
 
             return redirect()->back()->with(['updateProductSuccessMessage' => sessionMessage()['updateProductSuccessMessage']]);
         } catch(\Throwable $e){
-            dd($e);
             DB::rollback();
             return back()->with('error',$e->getMessage());
         }
