@@ -32,6 +32,7 @@ class ProductServices{
 
     public function validated($request){
         $getTagsOnly = array_column($request->tags, 'tags');
+        array_walk($getTagsOnly, function(&$value){$value = strtolower($value);});
         $productData = ['user_id' => auth()->user()->id, 'image' => optional($request->attachments)->hashName(), 'tags' => json_encode($getTagsOnly)];
         $validated = array_merge($request->validated(), $productData);
         $validated['sku'] = strtoupper($validated['sku']);
