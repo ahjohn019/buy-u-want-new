@@ -74,6 +74,32 @@ export default defineComponent({
                         filter: "agTextColumnFilter",
                     });
                 }
+
+                if (column == "category") {
+                    Object.assign(columnDefs[index], {
+                        valueGetter: (params) => {
+                            return params.data.category.name;
+                        },
+                    });
+                }
+
+                if (column == "status") {
+                    Object.assign(columnDefs[index], {
+                        valueGetter: (params) => {
+                            return params.data.status.name;
+                        },
+                    });
+                }
+
+                if (column == "attachments") {
+                    Object.assign(columnDefs[index], {
+                        valueGetter: (params) => {
+                            return params.data.attachments.length > 0
+                                ? params.data.attachments[0].name
+                                : null;
+                        },
+                    });
+                }
             });
 
             columnDefs.push({

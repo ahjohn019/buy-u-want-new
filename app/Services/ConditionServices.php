@@ -9,7 +9,8 @@ use App\Http\Requests\VariantRequest;
 class ConditionServices{
     public function condition($request){
         if($request->attachments){
-            AttachmentServices::save($request);
+            $attachments = new AttachmentServices;
+            $attachments->save($request);
         }
 
         $colorsCheck = count($request->variants['colors']) - 1;

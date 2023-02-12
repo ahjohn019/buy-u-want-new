@@ -8,16 +8,19 @@ use Illuminate\Support\Facades\Schema;
 class ProductServices{
 
     public function inputCondition($request){
-        $productQuery = Product::query();
-        $productAdminIndex = $productQuery->GetAdminIndex();
-        $productList = $productAdminIndex->get(); 
-        
         $search = $request->search;
         $priceRange = $request->price;
+        $productModel = Product::with('attachments','category','status');
+        $productList =  $productModel->get();
 
-        if($search) $productList = $this->searchByAdmin($search,  $productAdminIndex);
-        if($priceRange) $productList = $productAdminIndex->filterPrice($priceRange)->get();
+        if($search) $productList = $productModel
+                                        ->searchProduct($search)
+                                        ->get(); 
         
+        if($priceRange) $productList = $productModel
+                                        ->filterPrice($priceRange)
+                                        ->get();
+
         return $productList;
     }
 
@@ -25,14 +28,6 @@ class ProductServices{
         $product = Product::all();
         $price = empty($product->pluck('price')->toArray()) ? 0 : max($product->pluck('price')->toArray());
         return $price;
-    }
-
-    public function searchByAdmin($search, $products){
-       $columns = productColumnName();
-       $searchContent = array_diff($columns,['attachments']);
-       $search = $products->searchProductByAdmin($search, $searchContent)->get();
-
-       return $search;
     }
 
     public function validated($request){

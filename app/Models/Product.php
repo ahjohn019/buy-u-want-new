@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Status;
 use App\Models\Variant;
 use App\Models\Category;
 use App\Models\Discount;
@@ -49,6 +50,10 @@ class Product extends Model
         return $this->hasMany(Attachment::class);
     }
 
+    //one products has one status
+    public function status(){
+        return $this->hasOne(Status::class, 'id', 'status');
+    }
 
     public function discount(){
         return $this->belongsTo(Discount::class);
@@ -59,44 +64,24 @@ class Product extends Model
         return $query->where('status', 1)->orderBy('created_at', 'DESC');
     }
 
-    //filter important data for admin index
-    public function scopeGetAdminIndex($query){
-        return $query->leftJoin('categories as category','category.id','=','products.category_id')
-                     ->leftJoin('status','status.id','=','products.status')
-                     ->leftJoin('attachments','attachments.product_id','=','products.id')
-                     ->select(
-                            'products.id as products_id',
-                            'products.name',
-                            'products.description',
-                            'category.name as category',
-                            'category.id as category_id',
-                            'products.sku',
-                            'products.price',
-                            'status.id as status_id',
-                            'status.name as status',
-                            'products.created_at',
-                            'attachments.name as attachments',
-                     )
-                     ->orderBy('products.created_at','desc')
-                     ;
-                     
-    }
-
     //get filter product prices
     public function scopefilterPrice($query, $priceRange){
         return $query->whereBetween('price',[0, (int)$priceRange]);
     }
 
-    //search the product information
-    public function scopeSearchProductByAdmin($query, $search, $columns){
-        return $query->where(function($query) use($search, $columns){ 
-                        foreach($columns as $column){
-                            $column = "products." . $column;
-                            if($column == "products.category") $column = "category.name";
-                            if($column == "products.status") $column = "status.name";
-                            $query->orWhere($column, 'like', '%'. $search.'%');
-                        }
-                    });
-  
+    //search product information
+    public function scopeSearchProduct($query, $search){
+        return $query->orWhere(function($query) use($search){
+                    $columns = ['name','description','sku', 'price', 'tags'];
+                    foreach($columns as $column){
+                        $query->orWhere($column, 'like', '%'. $search .'%');
+                    }
+                })
+                ->orWhereHas('category', function($query) use($search){ 
+                    $query->where('name', 'like', '%'. $search .'%');
+                })
+                ->orWhereHas('status', function($query) use($search){ 
+                    $query->where('name', 'like', '%'. $search .'%');
+                });
     }
 }

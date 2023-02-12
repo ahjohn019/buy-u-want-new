@@ -94,8 +94,9 @@
                             object-fit="contain"
                             :src="
                                 isUploadChange === false &&
-                                parameter.attachments !== null
-                                    ? '/storage/file/' + parameter.attachments
+                                parameter.attachments.length > 0
+                                    ? '/storage/file/' +
+                                      parameter.attachments[0].name
                                     : attachmentUrl
                             "
                             alt=""
@@ -145,7 +146,7 @@ export default defineComponent({
             }),
             size: ref("medium"),
             categoriesList: [],
-            statusChecked: this.parameter.status,
+            statusChecked: this.parameter.status.name,
             attachmentUrl: null,
             isUploadChange: false,
         };
@@ -154,12 +155,12 @@ export default defineComponent({
     created() {
         this.formValue.product.name = this.parameter.name;
         this.formValue.product.description = this.parameter.description;
-        this.formValue.product.categories = ref(this.parameter.category);
+        this.formValue.product.categories = ref(this.parameter.category.name);
         this.formValue.product.price = this.parameter.price;
         this.formValue.product.sku = this.parameter.sku;
-        this.formValue.product.category_id = this.parameter.category_id;
-        this.formValue.product.status = this.parameter.status;
-        this.formValue.id = this.parameter.products_id;
+        this.formValue.product.category_id = this.parameter.category.id;
+        this.formValue.product.status = this.parameter.status.name;
+        this.formValue.id = this.parameter.id;
     },
     methods: {
         displayModal() {
@@ -180,7 +181,7 @@ export default defineComponent({
         handleProductEdit(e) {
             e.preventDefault();
             this.$inertia.put(
-                route("products.update", this.parameter.products_id),
+                route("products.update", this.parameter.id),
                 this.formValue.product,
                 {
                     onSuccess: (response) => {
