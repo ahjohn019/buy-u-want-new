@@ -23,7 +23,7 @@
                 >
             </form>
 
-            <ExportButton :products="products" />
+            <n-button class="ml-4" @click="handleClick"> Export </n-button>
 
             <Link
                 :href="route('products.create')"
@@ -49,6 +49,7 @@
                 :columns="columns"
                 :status="status"
                 class="col-span-6 row-span-3"
+                @gridApi="handleGridApi"
             />
         </div>
     </div>
@@ -58,7 +59,6 @@
 import { defineComponent } from "vue";
 import Filter from "@admin-plugins/Products/Index/Filter.vue";
 import DataTable from "@admin-plugins/Products/Index/DataTable.vue";
-import ExportButton from "@admin-plugins/Products/Index/Export.vue";
 import { Link } from "@inertiajs/inertia-vue3";
 
 export default defineComponent({
@@ -66,12 +66,14 @@ export default defineComponent({
         Filter,
         DataTable,
         Link,
-        ExportButton,
     },
     props: ["products", "columns", "maxPrice", "status"],
     data() {
         return {
             productSearch: null,
+            gridProduct: null,
+            productList: [],
+            isPushed: 0,
         };
     },
     methods: {
@@ -79,6 +81,20 @@ export default defineComponent({
             this.$inertia.get(
                 route("products.admin", { search: this.productSearch })
             );
+        },
+        handleGridApi(value) {
+            this.gridProduct = value;
+        },
+        handleClick() {
+            if (this.isPushed > 0) this.productList = [];
+
+            this.gridProduct.forEachNodeAfterFilterAndSort((rowNode) => {
+                this.productList.push(rowNode.data);
+            });
+
+            this.isPushed++;
+
+            window.location.href = route("exports.index", [this.productList]);
         },
     },
 });

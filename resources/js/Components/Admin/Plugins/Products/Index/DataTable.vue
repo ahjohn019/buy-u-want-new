@@ -123,6 +123,7 @@ export default defineComponent({
         },
         onGridReady(params) {
             this.gridApi = params.api;
+            this.$emit("gridApi", this.gridApi);
         },
     },
 });
