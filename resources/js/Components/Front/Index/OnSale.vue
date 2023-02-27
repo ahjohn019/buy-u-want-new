@@ -87,7 +87,6 @@ export default {
                     "onsale"
                 );
             });
-
             this.products = salesProduct;
         });
     },

@@ -64,20 +64,18 @@ class ProductController extends BaseController
      */
     public function store(ProductRequest $request)
     {
-        try{
-            if(!Gate::inspect('create', $this->product)->allowed()) return abort(403);
+        if(!Gate::inspect('create', $this->product)->allowed()) return abort(403);
 
-            DB::beginTransaction();
-            $validated = $this->productServices->validated($request);
-            $product = $this->product->create($validated);
-            $request['id'] = $product->id;
-            $this->conditionServices->condition($request);
-            DB::commit();
-  
+        try {
+            DB::transaction(function() use($request) {
+                $validated = $this->productServices->validated($request);
+                $product = $this->product->create($validated);
+                $request['id'] = $product->id;
+                $this->conditionServices->condition($request);
+            });
             return redirect()->route("products.admin")->with('createProductSuccesMessage', sessionMessage()['createProductSuccesMessage']);
-        } catch(\Throwable $e){
-            DB::rollback();
-            return back()->with('error',$e->getMessage());
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
         }
     }
 
@@ -118,18 +116,17 @@ class ProductController extends BaseController
         try{
             // if(!Gate::inspect('update', $this->product->find($id))->allowed()) return abort(403);
 
-            DB::beginTransaction();
-            $status = DB::table('status')->where('name', $request->status)->first();
-            $requestValidated = $request->validated();
-            $requestValidated['status'] = $status->id;
+            DB::transaction(function() use($request, $id){
+                $status = DB::table('status')->where('name', $request->status)->first();
+                $requestValidated = $request->validated();
+                $requestValidated['status'] = $status->id;
 
-            $product = $this->product->where('id',$id)->update($requestValidated);
-            
-            DB::commit();
+                $product = $this->product->where('id',$id)->update($requestValidated);
+            });
 
             return redirect()->back()->with(['updateProductSuccessMessage' => sessionMessage()['updateProductSuccessMessage']]);
         } catch(\Throwable $e){
-            DB::rollback();
+            dd($e);
             return back()->with('error',$e->getMessage());
         }
     }

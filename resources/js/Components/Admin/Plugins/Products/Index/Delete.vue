@@ -18,7 +18,6 @@ export default {
         handleDeleteProduct() {
             Custom.deleteConfirmationMessage().then((result) => {
                 if (result.isConfirmed) {
-                    console.log(this.parameter);
                     this.$inertia.delete(
                         route("products.destroy", this.parameter.id),
                         {

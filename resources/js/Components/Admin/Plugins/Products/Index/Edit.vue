@@ -185,11 +185,15 @@ export default defineComponent({
                 this.formValue.product,
                 {
                     onSuccess: (response) => {
-                        this.$inertia.post(
-                            route("attachments.store"),
-                            this.formValue
-                        );
                         const routeName = "products.admin";
+
+                        if (this.isUploadChange == true) {
+                            this.$inertia.post(
+                                route("attachments.store"),
+                                this.formValue
+                            );
+                        }
+
                         this.showModal = ref(false);
                         Custom.redirectMessage(
                             response.props.flash.updateProductSuccessMessage,
