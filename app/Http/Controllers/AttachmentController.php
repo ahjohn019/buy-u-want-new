@@ -52,13 +52,6 @@ class AttachmentController extends Controller
     {
         //
         try {
-            $selected = $this->attachments->where('product_id',$request->id)->first();
-
-            if($request->update && !empty($selected)){
-                $this->services->update($request, $selected);
-                return redirect()->back();
-            }
-
             $this->services->save($request);
             return redirect()->back();
         } catch (\Throwable $th) {

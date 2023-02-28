@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Services\ConditionServices;
 
 class Product extends Model
 {
@@ -83,5 +84,17 @@ class Product extends Model
                 ->orWhereHas('status', function($query) use($search){ 
                     $query->where('name', 'like', '%'. $search .'%');
                 });
+    }
+
+    //firing events
+    public static function boot()
+    {
+        parent::boot();
+      
+        static::created(function(Product $product) {
+            $conditionServices = new ConditionServices;
+            request()['id'] = $product->id;
+            $conditionServices->condition(request());
+        });
     }
 }
