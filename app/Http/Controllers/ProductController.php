@@ -142,7 +142,6 @@ class ProductController extends BaseController
             // if(!Gate::inspect('delete', $this->product->find($id))->allowed()) return abort(403);
             $this->product->find($id)->delete();
             return redirect()->back()->with(['deleteProductSuccessMessage' => sessionMessage()['deleteProductSuccessMessage']]);
-            // return response()->json(["data" => "Deleted Successfully"]);
         } catch(\Throwable $e){
             DB::rollback();
             return back()->with('error',$e->getMessage());

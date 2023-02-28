@@ -11,7 +11,7 @@
                     show-trigger
                     @collapse="collapsed = true"
                     @expand="collapsed = false"
-                    class="hidden md:block"
+                    class="hidden md:block bg-blue-300"
                 >
                     <n-menu
                         :collapsed="collapsed"
@@ -38,104 +38,9 @@
 import { ref, defineComponent, h } from "vue";
 import SideBar from "@web/Master/SideBar.vue";
 import { Link } from "@inertiajs/inertia-vue3";
+import Menu from "@/CustomAdminSideMenu";
 
-const menu = [
-    {
-        label: () =>
-            h(
-                "a",
-                {
-                    href: route("admin.index"),
-                },
-                "Dashboard"
-            ),
-        key: "dashboardMain",
-    },
-    {
-        label: "Products",
-        key: "products",
-        children: [
-            {
-                label: () =>
-                    h(
-                        "a",
-                        {
-                            href: route("products.admin"),
-                        },
-                        "Dashboard"
-                    ),
-                key: "dashboardProducts",
-            },
-            {
-                label: () =>
-                    h(
-                        "a",
-                        {
-                            href: route("products.create"),
-                        },
-                        "Create"
-                    ),
-                key: "createProducts",
-            },
-        ],
-    },
-    {
-        label: "Orders",
-        key: "orders",
-        children: [
-            {
-                label: () =>
-                    h(
-                        "a",
-                        {
-                            href: route("orders.index"),
-                        },
-                        "Dashboard"
-                    ),
-                key: "dashboardOrders",
-            },
-            {
-                label: () =>
-                    h(
-                        "a",
-                        {
-                            href: route("orders.create"),
-                        },
-                        "Create"
-                    ),
-                key: "dashboardCreate",
-            },
-        ],
-    },
-
-    {
-        label: "Users",
-        key: "users",
-        children: [
-            {
-                label: () =>
-                    h(
-                        "a",
-                        {
-                            href: route("users.create"),
-                        },
-                        "Create"
-                    ),
-                key: "userCreate",
-            },
-            {
-                label: () =>
-                    h(
-                        "a",
-                        {
-                            href: route("users.index"),
-                        },
-                        "Index"
-                    ),
-            },
-        ],
-    },
-];
+const menu = Menu();
 
 export default defineComponent({
     components: {

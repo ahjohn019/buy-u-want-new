@@ -11,7 +11,6 @@
 
 <script>
 import Dashboard from "./Dashboard.vue";
-// import Dashboard from "@web/Admin/Dashboard/Dashboard.vue";
 import Header from "@web/Master/Admin/Header.vue";
 import Base from "../Base.vue";
 
