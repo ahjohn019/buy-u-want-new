@@ -6,14 +6,16 @@ export default function () {
     return [
         {
             label: () =>
-                h(
-                    "a",
-                    {
-                        href: route("admin.index"),
-                        class: sideMenuStyle,
-                    },
-                    "Dashboard"
-                ),
+                h("div", [
+                    h(
+                        "a",
+                        {
+                            href: route("admin.index"),
+                            class: sideMenuStyle,
+                        },
+                        "Dashboard"
+                    ),
+                ]),
             key: "dashboardMain",
         },
         {

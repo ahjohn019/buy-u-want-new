@@ -13,6 +13,15 @@
                     @expand="collapsed = false"
                     class="hidden md:block bg-blue-300"
                 >
+                    <a :href="route('admin.index')">
+                        <img
+                            :src="'/images/logo-buyuwant.png'"
+                            alt=""
+                            class="p-4 mx-auto"
+                            width="150"
+                        />
+                    </a>
+
                     <n-menu
                         :collapsed="collapsed"
                         :collapsed-width="32"
@@ -35,7 +44,7 @@
 </template>
 
 <script>
-import { ref, defineComponent, h } from "vue";
+import { ref, defineComponent } from "vue";
 import SideBar from "@web/Master/SideBar.vue";
 import { Link } from "@inertiajs/inertia-vue3";
 import Menu from "@/CustomAdminSideMenu";

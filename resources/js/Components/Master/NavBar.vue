@@ -6,10 +6,11 @@
             class="container flex flex-wrap justify-between items-center mx-auto"
         >
             <Link :href="route('main.index')" class="flex items-center">
-                <span
+                <!-- <span
                     class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
                     >Buy U Want</span
-                >
+                > -->
+                <img :src="'/images/logo-buyuwant.png'" alt="" width="100" />
             </Link>
 
             <div class="hidden w-full md:block md:w-auto" id="navbar-default">
