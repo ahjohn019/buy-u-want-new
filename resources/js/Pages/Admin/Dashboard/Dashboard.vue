@@ -8,9 +8,9 @@
                 <LineCharts />
                 <BarCharts />
             </div>
-            <div class="flex flex-wrap">
+            <!-- <div class="flex flex-wrap">
                 <TableOne />
-            </div>
+            </div> -->
         </div>
     </div>
 </template>

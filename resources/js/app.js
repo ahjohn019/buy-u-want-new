@@ -23,6 +23,7 @@ import {
     faCircleInfo,
     faBars,
     faDotCircle,
+    faSadCry,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import AOS from "aos";
@@ -46,7 +47,8 @@ library.add(
     faTrash,
     faCircleInfo,
     faBars,
-    faDotCircle
+    faDotCircle,
+    faSadCry
 );
 import { createPinia } from "pinia";
 import naive from "naive-ui";

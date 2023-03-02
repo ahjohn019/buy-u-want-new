@@ -1,7 +1,7 @@
 <template>
     <div class="xl:w-8/12 mb-12 xl:mb-0 px-4 w-full">
         <div
-            class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-gray-700 text-white"
+            class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-gray-700 text-white h-full"
         >
             <div class="rounded-t mb-0 px-4 py-3 bg-transparent">
                 <div class="flex flex-wrap items-center">
@@ -13,17 +13,34 @@
                     </div>
                 </div>
             </div>
-            <Line
-                :chart-options="chartOptions"
-                :chart-data="chartData"
-                :chart-id="chartId"
-                :dataset-id-key="datasetIdKey"
-                :plugins="plugins"
-                :css-classes="cssClasses"
-                :styles="styles"
-                :width="width"
-                :height="height"
-            />
+            <div v-if="this.chartData.datasets.length > 0">
+                <Line
+                    :chart-options="chartOptions"
+                    :chart-data="chartData"
+                    :chart-id="chartId"
+                    :dataset-id-key="datasetIdKey"
+                    :plugins="plugins"
+                    :css-classes="cssClasses"
+                    :styles="styles"
+                    :width="width"
+                    :height="height"
+                />
+            </div>
+            <div
+                v-else
+                class="h-full flex justify-center items-center uppercase font-bold space-x-4"
+            >
+                <div>
+                    <h1>No Data Displayed</h1>
+                </div>
+
+                <div>
+                    <font-awesome-icon
+                        icon="fa-solid fa-sad-cry"
+                        class="text-4xl"
+                    />
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -120,18 +137,19 @@ export default {
     },
     mounted() {
         try {
-            axios.get(route("chart.orders")).then((response) => {
-                let result = response.data.ordersData;
-                this.chartData.labels = response.data.monthList;
-                for (const [key, value] of Object.entries(result)) {
-                    this.chartData.datasets.push({
-                        label: key,
-                        backgroundColor: Object.values(value.months),
-                        data: value.months,
-                        borderColor: value.colors,
-                    });
-                }
-            });
+            if (this.chartData.datasets.length > 0) {
+                axios.get(route("chart.orders")).then((response) => {
+                    this.chartData.labels = response.data.monthList;
+                    for (const [key, value] of Object.entries(result)) {
+                        this.chartData.datasets.push({
+                            label: key,
+                            backgroundColor: Object.values(value.months),
+                            data: value.months,
+                            borderColor: value.colors,
+                        });
+                    }
+                });
+            }
         } catch (error) {}
     },
 };
