@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\BaseController;
-use App\Services\ConditionServices;
 
 class ProductController extends BaseController
 {
@@ -24,11 +23,10 @@ class ProductController extends BaseController
     protected $category;
     protected $variantService;
 
-    public function __construct(Product $product, Category $category, ProductServices $productServices, ConditionServices $conditionServices){
+    public function __construct(Product $product, Category $category, ProductServices $productServices){
         $this->product = $product;
         $this->productServices = $productServices;
         $this->category = $category;
-        $this->conditionServices = $conditionServices;
     }
 
     /**

@@ -108,11 +108,11 @@ class UserController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
                 'email' => 'required|email',
-                'biography.home_number' => 'required',
-                'biography.gender' => 'required|string',
-                'biography.birth_date' => 'required|date_format:Y-m-d',
-                'biography.role' => 'required|string',
-                'biography.mobile_number' => 'required',
+                'home_number' => 'nullable',
+                'gender' => 'required|string',
+                'birth_date' => 'required|date_format:Y-m-d',
+                'role' => 'required|string',
+                'mobile_number' => 'nullable',
             ]);
 
             if($validator->fails()){
@@ -122,7 +122,18 @@ class UserController extends Controller
             $bioUser = $this->biography::find($id);
             $findUser = $this->user::find($id);
 
-            $bioUser->update($validator->validated()['biography']);
+            $findUser->syncRoles($validator->validated()['role']);
+
+            $bioUser->update(
+                [
+                    'home_number' => $validator->validated()['home_number'],
+                    'gender' => $validator->validated()['gender'],
+                    'birth_date' => $validator->validated()['birth_date'],
+                    'role' => $validator->validated()['role'],
+                    'mobile_number' => $validator->validated()['mobile_number']
+                ]
+            );
+
             $findUser->update($validator->validated());
 
             return redirect()->back();

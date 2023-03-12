@@ -1,22 +1,20 @@
 <template>
     <n-space>
         <Show :params="params" />
-        <n-button>Edit</n-button>
+        <EditButton :params="params" />
     </n-space>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import { NButton, NSpace, NModal, NCard } from "naive-ui";
 import Show from "./Show.vue";
+import EditButton from "./Edit/Button.vue";
 
 export default defineComponent({
     components: {
-        NButton,
-        NSpace,
-        NModal,
-        NCard,
         Show,
+        EditButton,
     },
+    props: ["params"],
 });
 </script>
