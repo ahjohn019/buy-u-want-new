@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Order;
-use App\Models\Address;
 use App\Models\Product;
 use App\Models\Variant;
 use App\Models\Category;
@@ -60,7 +59,6 @@ class ModelTest extends TestCase
             'Biography' =>  new Biography, 
             'Category' =>  new Category, 
             'Product' => new Product, 
-            'Address' => new Address,
             'Order'=> new Order,
             'OrderDetails' => new OrderDetails,
             'Discount' => new Discount,

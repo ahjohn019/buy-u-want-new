@@ -70,6 +70,57 @@
                     />
                 </n-form-item>
             </n-gi>
+            <n-gi>
+                <n-form-item label="Address One" path="user.address_line_one">
+                    <n-input
+                        v-model:value="formValue.address_line_one"
+                        placeholder="Address One"
+                    >
+                    </n-input>
+                </n-form-item>
+            </n-gi>
+            <n-gi>
+                <n-form-item label="Address Two" path="user.address_line_two">
+                    <n-input
+                        v-model:value="formValue.address_line_two"
+                        placeholder="Address Two"
+                    >
+                    </n-input>
+                </n-form-item>
+            </n-gi>
+            <n-gi>
+                <n-form-item label="Postcode" path="user.postcode">
+                    <n-input
+                        v-model:value="formValue.postcode"
+                        placeholder="Postcode"
+                    >
+                    </n-input>
+                </n-form-item>
+            </n-gi>
+            <n-gi>
+                <n-form-item label="City" path="user.city">
+                    <n-input v-model:value="formValue.city" placeholder="City">
+                    </n-input>
+                </n-form-item>
+            </n-gi>
+            <n-gi>
+                <n-form-item label="State" path="user.state">
+                    <n-input
+                        v-model:value="formValue.state"
+                        placeholder="State"
+                    >
+                    </n-input>
+                </n-form-item>
+            </n-gi>
+            <n-gi>
+                <n-form-item label="Country" path="user.country">
+                    <n-input
+                        v-model:value="formValue.country"
+                        placeholder="Country"
+                    >
+                    </n-input>
+                </n-form-item>
+            </n-gi>
             <n-gi :span="2">
                 <n-form-item>
                     <div class="w-full flex justify-end">
@@ -114,8 +165,14 @@ export default defineComponent({
                 role: props.params.data.role,
                 gender: genderRef.value,
                 birth_date: props.params.data.birthdate,
-                home_number: props.params.data.home_number ?? null,
+                home_number: props.params.data.home_number,
                 mobile_number: props.params.data.mobile_number ?? null,
+                address_line_one: props.params.data.address_line_one ?? null,
+                address_line_two: props.params.data.address_line_two ?? null,
+                postcode: props.params.data.postcode ?? null,
+                city: props.params.data.city ?? null,
+                state: props.params.data.state ?? null,
+                country: props.params.data.country ?? null,
             }),
         };
     },
@@ -123,6 +180,8 @@ export default defineComponent({
     methods: {
         handleUserEdit(e) {
             e.preventDefault();
+            console.log(this.formValue);
+
             this.$inertia.put(
                 route("users.update", this.params.data.id),
                 this.formValue,

@@ -20,6 +20,12 @@ class CreateUsersDetailsTable extends Migration
             $table->string('role');
             $table->string('home_number')->nullable();
             $table->string('mobile_number')->nullable();
+            $table->string('address_line_one')->nullable();
+            $table->string('address_line_two')->nullable();
+            $table->integer('postcode')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('country')->nullable();
             $table->integer('user_id')->nullable();
             $table->timestamps();
         });

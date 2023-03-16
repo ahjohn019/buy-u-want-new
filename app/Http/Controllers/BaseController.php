@@ -6,7 +6,6 @@ use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Order;
 use App\Models\Coupon;
-use App\Models\Address;
 use App\Models\Product;
 use App\Models\Variant;
 use App\Models\Category;
@@ -31,7 +30,6 @@ class BaseController extends Controller
         Order $order,
         Biography $biography,
         Category $category,
-        Address $address,
         Discount $discount,
         Coupon $coupon
     ){
@@ -41,7 +39,6 @@ class BaseController extends Controller
         $this->order = $order;
         $this->biography = $biography;
         $this->category = $category;
-        $this->address = $address;
         $this->discount = $discount;
         $this->coupon = $coupon;
     }

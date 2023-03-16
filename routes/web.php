@@ -47,14 +47,11 @@ Route::resource('discounts', DiscountController::class);
 Route::resource('coupons',CouponController::class);
 Route::resource('attachments', AttachmentController::class)->middleware('admin');
 Route::resource('users', UserController::class)->middleware(['admin','verified']);
-Route::resource('biography', BiographyController::class);
-Route::resource('address', AddressController::class);
 
 
 Route::post('/archive', [OrderController::class, 'archive'])->name('orders.archive')->middleware(['auth', 'verified']);
 Route::post('/refund',[OrderController::class, 'refund'])->name('orders.refund')->middleware(['auth', 'verified']);
 Route::get('/search',[OrderController::class, 'search'])->name('orders.search')->middleware(['auth', 'verified']);
-
 Route::get('/', [BaseController::class, 'index'])->name('main.index');
 
 Route::get('/checkout', [StripeController::class, 'checkoutIndex'])->name('checkout.index')->middleware(['auth', 'verified']);

@@ -36,26 +36,43 @@ export default defineComponent({
             this.gridApi = params.api;
         },
         userData() {
-            const userColumnTable = [];
+            const columnDefs = [
+                {
+                    headerName: "name",
+                    field: "name",
+                    sortable: true,
+                    flex: 2,
+                },
+                {
+                    headerName: "email",
+                    field: "email",
+                    sortable: true,
+                    flex: 2,
+                },
+                {
+                    headerName: "created_at",
+                    field: "created_at",
+                    sortable: true,
+                    flex: 1,
+                },
+                {
+                    headerName: "Action",
+                    field: "Action",
+                    cellRenderer: "Action",
+                    flex: 1,
+                },
+            ];
 
-            if (this.usersColumn !== null) {
-                this.usersColumn.forEach(function (el) {
-                    userColumnTable.push({
-                        headerName: el,
-                        field: el,
-                        sortable: true,
-                    });
+            const rowData = [];
+
+            this.users.forEach(function (el) {
+                rowData.push({
+                    id: el.id,
+                    name: el.name,
+                    email: el.email,
+                    created_at: el.created_at,
                 });
-            }
-
-            userColumnTable.push({
-                headerName: "Action",
-                field: "Action",
-                cellRenderer: "Action",
             });
-
-            const columnDefs = userColumnTable;
-            const rowData = this.users;
 
             return { columns: columnDefs, rows: rowData };
         },

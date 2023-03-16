@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\User;
-use App\Models\Address;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -11,7 +10,20 @@ class Biography extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['gender','birth_date','role','home_number','mobile_number','user_id'];
+    protected $fillable = [
+        'gender',
+        'birth_date',
+        'role',
+        'home_number',
+        'mobile_number',
+        'address_line_one',
+        'address_line_two',
+        'postcode',
+        'city',
+        'state',
+        'country',
+        'user_id'
+    ];
 
     //one biography belongs to one user
     public function user(){

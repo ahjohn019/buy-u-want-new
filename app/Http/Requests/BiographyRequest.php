@@ -25,12 +25,19 @@ class BiographyRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'home_number' => 'nullable',
             'gender' => 'required|string',
             'birth_date' => 'required|date_format:Y-m-d',
             'role' => 'required|string',
-            'home_number' => 'nullable',
-            'phone_number' => 'nullable',
-            'user_id' => 'nullable'
+            'mobile_number' => 'nullable',
+            'address_line_one' => 'nullable',
+            'address_line_two' => 'nullable',
+            'postcode' => 'nullable',
+            'city' => 'nullable',
+            'state' => 'nullable',
+            'country' => 'nullable'
         ];
     }
 }

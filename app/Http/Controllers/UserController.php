@@ -4,21 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Inertia\Inertia;
-use App\Models\Address;
 use App\Models\Biography;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use App\Http\Requests\BiographyRequest;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\UserDetailResource;
 use App\Http\Requests\UserCompleteFormRequest;
 
 class UserController extends Controller
 {
     private $user;
 
-    public function __construct(User $user, Biography $biography, Address $address){
+    public function __construct(User $user, Biography $biography){
         $this->user = $user;
         $this->biography = $biography;
-        $this->address = $address;
     }
 
     /**
@@ -29,7 +30,8 @@ class UserController extends Controller
     public function index()
     {
         //
-        $getUser = $this->user::displayAdminInfo()->get();
+        $getUser = User::with('biography')->get();
+        
         return Inertia::render("Admin/User/Index",["users" => $getUser]);
     }
 
@@ -77,7 +79,7 @@ class UserController extends Controller
     public function show($id)
     {
         //
-        $findUser = $this->user::select('id','email','name','created_at')->with('address','biography')->find($id);
+        $findUser = $this->user->with('biography')->find($id);
         return response()->json(['user' => $findUser]);
     }
 
@@ -101,40 +103,34 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BiographyRequest $request, $id)
     {
         //
         try {
-            $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:255',
-                'email' => 'required|email',
-                'home_number' => 'nullable',
-                'gender' => 'required|string',
-                'birth_date' => 'required|date_format:Y-m-d',
-                'role' => 'required|string',
-                'mobile_number' => 'nullable',
-            ]);
+            DB::transaction(function () use ($request, $id){
+                $user = User::find($id);
 
-            if($validator->fails()){
-                return redirect()->route('users.edit', $id)->withErrors($validator);
-            }
+                $user->syncRoles($request->validated()['role']);
 
-            $bioUser = $this->biography::find($id);
-            $findUser = $this->user::find($id);
+                $user->update([
+                    'name' => $request->validated()['name'],
+                    'email' => $request->validated()['email'],
+                ]);
 
-            $findUser->syncRoles($validator->validated()['role']);
-
-            $bioUser->update(
-                [
-                    'home_number' => $validator->validated()['home_number'],
-                    'gender' => $validator->validated()['gender'],
-                    'birth_date' => $validator->validated()['birth_date'],
-                    'role' => $validator->validated()['role'],
-                    'mobile_number' => $validator->validated()['mobile_number']
-                ]
-            );
-
-            $findUser->update($validator->validated());
+                $user->biography()->update([
+                        'home_number' => $request->validated()['home_number'],
+                        'gender' => $request->validated()['gender'],
+                        'birth_date' => $request->validated()['birth_date'],
+                        'role' => $request->validated()['role'],
+                        'mobile_number' => $request->validated()['mobile_number'],
+                        'address_line_one' => $request->validated()['address_line_one'],
+                        'address_line_two' => $request->validated()['address_line_two'],
+                        'postcode' => $request->validated()['postcode'],
+                        'city' => $request->validated()['city'],
+                        'state' => $request->validated()['state'],
+                        'country' => $request->validated()['country'],
+                ]);
+            });
 
             return redirect()->back();
             
