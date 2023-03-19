@@ -1,6 +1,6 @@
 <script setup>
 import Base from "../Base.vue";
-import Index from "@web/Admin/User/Pages/Index.vue";
+import Index from "@web/Admin/User/Index.vue";
 import Header from "@web/Master/Admin/Header.vue";
 
 defineProps(["users"]);

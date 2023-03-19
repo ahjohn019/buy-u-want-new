@@ -109,22 +109,10 @@ export default function () {
                         h(
                             "a",
                             {
-                                href: route("users.create"),
-                                class: sideMenuStyle,
-                            },
-                            "Create"
-                        ),
-                    key: "userCreate",
-                },
-                {
-                    label: () =>
-                        h(
-                            "a",
-                            {
                                 href: route("users.index"),
                                 class: sideMenuStyle,
                             },
-                            "Index"
+                            "Dashboard"
                         ),
                 },
             ],
