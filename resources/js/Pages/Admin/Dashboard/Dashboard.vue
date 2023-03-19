@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import LineCharts from "@admin-plugins/Dashboard/LineChart.vue";
-import Summaries from "@admin-plugins/Dashboard/Summaries.vue";
-import BarCharts from "@admin-plugins/Dashboard/BarChart.vue";
-import TableOne from "@admin-plugins/Dashboard/TableOne.vue";
+import LineCharts from "@admin/Main/Resources/LineChart.vue";
+import Summaries from "@admin/Main/Resources/Summaries.vue";
+import BarCharts from "@admin/Main/Resources/BarChart.vue";
+import TableOne from "@admin/Main/Resources/TableOne.vue";
 
 export default {
     components: {
