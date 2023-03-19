@@ -57,8 +57,8 @@
 
 <script>
 import { defineComponent } from "vue";
-import Filter from "@admin-plugins/Products/Index/Filter.vue";
-import DataTable from "@admin-plugins/Products/Index/DataTable.vue";
+import Filter from "@admin/Products/Resources/Index/Filter.vue";
+import DataTable from "@admin/Products/Resources/Index/DataTable.vue";
 import { Link } from "@inertiajs/inertia-vue3";
 
 export default defineComponent({

@@ -32,14 +32,14 @@
 import { defineComponent } from "vue";
 
 import VueMultiselect from "vue-multiselect";
-import BasicInfo from "@admin-plugins/Products/Create/BasicInfo.vue";
-import Price from "@admin-plugins/Products/Create/Price.vue";
-import Inventory from "@admin-plugins/Products/Create/Inventory.vue";
-import Status from "@admin-plugins/Products/Create/Status.vue";
-import Category from "@admin-plugins/Products/Create/Category.vue";
-import Attachments from "@admin-plugins/Products/Create/Attachments.vue";
-import Variants from "@admin-plugins/Products/Create/Variants.vue";
-import Tags from "@admin-plugins/Products/Create/Tags.vue";
+import BasicInfo from "@admin/Products/Resources/Create/BasicInfo.vue";
+import Price from "@admin/Products/Resources/Create/Price.vue";
+import Inventory from "@admin/Products/Resources/Create/Inventory.vue";
+import Status from "@admin/Products/Resources/Create/Status.vue";
+import Category from "@admin/Products/Resources/Create/Category.vue";
+import Attachments from "@admin/Products/Resources/Create/Attachments.vue";
+import Variants from "@admin/Products/Resources/Create/Variants.vue";
+import Tags from "@admin/Products/Resources/Create/Tags.vue";
 
 export default defineComponent({
     components: {
