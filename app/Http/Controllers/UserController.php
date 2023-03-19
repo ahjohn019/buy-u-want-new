@@ -54,7 +54,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BiographyRequest $request)
     {
         //
         try {
@@ -62,8 +62,6 @@ class UserController extends Controller
                 $user = User::create([
                     'name' => $request->name,
                     'email' => $request->email,
-                    'password' => Hash::make('1111aaaa'),
-                    'password_confirmation' => Hash::make('1111aaaa')
                 ]);
 
                 $user->assignRole($request->role);
