@@ -26,8 +26,8 @@
 
 <script>
 import { defineComponent, computed } from "vue";
-import DataTable from "@admin-plugins/Orders/Create/DataTable.vue";
-import Customer from "@admin-plugins/Orders/Create/Customer.vue";
+import DataTable from "@admin/Orders/Resources/Create/DataTable.vue";
+import Customer from "@admin/Orders/Resources/Create/Customer.vue";
 
 export default defineComponent({
     components: {

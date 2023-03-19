@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import DataTable from "@admin-plugins/Orders/Index/DataTable.vue";
-import Filter from "@admin-plugins/Orders/Index/Filter.vue";
-import Session from "@admin-plugins/Orders/Index/Session.vue";
+import DataTable from "@admin/Orders/Resources/Index/DataTable.vue";
+import Filter from "@admin/Orders/Resources/Index/Filter.vue";
+import Session from "@admin/Orders/Resources/Index/Session.vue";
 import { defineComponent } from "vue";
 
 export default defineComponent({

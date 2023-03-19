@@ -31,9 +31,9 @@
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { AgGridVue } from "ag-grid-vue3";
-import PaymentTable from "@admin-plugins/Orders/Create/Draft/PaymentDraft.vue";
-import PaymentButton from "@admin-plugins/Orders/Create/Draft/PaymentButton.vue";
-import InvoiceButton from "@admin-plugins/Orders/Create/Draft/InvoiceButton.vue";
+import PaymentTable from "@admin/Orders/Resources/Create/Draft/PaymentDraft.vue";
+import PaymentButton from "@admin/Orders/Resources/Create/Draft/PaymentButton.vue";
+import InvoiceButton from "@admin/Orders/Resources/Create/Draft/InvoiceButton.vue";
 import { NDropdown, NButton } from "naive-ui";
 
 export default {

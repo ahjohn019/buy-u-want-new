@@ -22,10 +22,10 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { AgGridVue } from "ag-grid-vue3";
 import { defineComponent } from "vue";
-import Fulfilled from "@admin-plugins/Orders/Index/Selection/Fulfilled.vue";
-import Archive from "@admin-plugins/Orders/Index/Selection/Archive.vue";
-import Refund from "@admin-plugins/Orders/Index/Selection/Refund.vue";
-import Action from "@admin-plugins/Orders/Index/Details/Action.vue";
+import Fulfilled from "@admin/Orders/Resources/Index/Selection/Fulfilled.vue";
+import Archive from "@admin/Orders/Resources/Index/Selection/Archive.vue";
+import Refund from "@admin/Orders/Resources/Index/Selection/Refund.vue";
+import Action from "@admin/Orders/Resources/Index/Details/Action.vue";
 
 export default defineComponent({
     components: {
