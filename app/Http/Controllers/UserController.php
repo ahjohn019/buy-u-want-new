@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Biography;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\BiographyRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\UserDetailResource;
-use App\Http\Requests\UserCompleteFormRequest;
+// use App\Http\Requests\UserCompleteFormRequest;
 
 class UserController extends Controller
 {
@@ -52,18 +54,37 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserCompleteFormRequest $request)
+    public function store(Request $request)
     {
         //
         try {
-            $userInput = $request->validated();
-            $userInput['password'] = bcrypt($userInput['password']);
-            $createdUser = $this->user->create($userInput);
-            $bioUser = $this->biography->create(['user_id' => $createdUser->id] + $userInput);
-            $this->address->create(['user_id' => $createdUser->id] + $userInput);
-            $createdUser->assignRole($bioUser->role);
+            DB::transaction(function () use ($request) {
+                $user = User::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make('1111aaaa'),
+                    'password_confirmation' => Hash::make('1111aaaa')
+                ]);
 
-            return redirect()->route("users.index")->with('createUserMessage', sessionMessage()['createUserMessage']);
+                $user->assignRole($request->role);
+
+                $user->biography()->create([
+                    'gender' => $request->gender,
+                    'birth_date' => $request->birth_date,
+                    'role' => $request->role,
+                    'home_number' => $request->home_number,
+                    'mobile_number' => $request->mobile_number,
+                    'address_line_one' => $request->address_line_one,
+                    'address_line_two' => $request->address_line_two,
+                    'postcode' => $request->postcode,
+                    'city' => $request->city,
+                    'state' => $request->state,
+                    'country' => $request->country,
+                    'user_id' => $user->id
+                ]);
+            });
+
+            return redirect()->back();
         } catch (\Throwable $th) {
             //throw $th;
             dd($th);
@@ -109,26 +130,27 @@ class UserController extends Controller
         try {
             DB::transaction(function () use ($request, $id){
                 $user = User::find($id);
+                $payload = $request->validated();
 
-                $user->syncRoles($request->validated()['role']);
+                $user->syncRoles($payload['role']);
 
                 $user->update([
-                    'name' => $request->validated()['name'],
-                    'email' => $request->validated()['email'],
+                    'name' => $payload['name'],
+                    'email' => $payload['email'],
                 ]);
 
                 $user->biography()->update([
-                        'home_number' => $request->validated()['home_number'],
-                        'gender' => $request->validated()['gender'],
-                        'birth_date' => $request->validated()['birth_date'],
-                        'role' => $request->validated()['role'],
-                        'mobile_number' => $request->validated()['mobile_number'],
-                        'address_line_one' => $request->validated()['address_line_one'],
-                        'address_line_two' => $request->validated()['address_line_two'],
-                        'postcode' => $request->validated()['postcode'],
-                        'city' => $request->validated()['city'],
-                        'state' => $request->validated()['state'],
-                        'country' => $request->validated()['country'],
+                        'home_number' => $payload['home_number'],
+                        'gender' => $payload['gender'],
+                        'birth_date' => $payload['birth_date'],
+                        'role' => $payload['role'],
+                        'mobile_number' => $payload['mobile_number'],
+                        'address_line_one' => $payload['address_line_one'],
+                        'address_line_two' => $payload['address_line_two'],
+                        'postcode' => $payload['postcode'],
+                        'city' => $payload['city'],
+                        'state' => $payload['state'],
+                        'country' => $payload['country'],
                 ]);
             });
 

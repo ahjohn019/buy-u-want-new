@@ -124,7 +124,7 @@
             <n-gi :span="2">
                 <n-form-item>
                     <div class="w-full flex justify-end">
-                        <n-button @click="handleUserEdit" attr-type="button">
+                        <n-button @click="handleUserSubmit" attr-type="button">
                             Submit
                         </n-button>
                     </div>
@@ -138,9 +138,9 @@
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({
-    props: ["params"],
+    props: ["params", "showModal"],
 
-    setup(props) {
+    setup() {
         const genderRef = ref("male");
 
         return {
@@ -160,37 +160,75 @@ export default defineComponent({
                 },
             ],
             formValue: ref({
-                name: props.params.data.fullname,
-                email: props.params.data.email,
-                role: props.params.data.role,
+                name: "",
+                email: "",
+                role: "",
                 gender: genderRef.value,
-                birth_date: props.params.data.birthdate,
-                home_number: props.params.data.home_number,
-                mobile_number: props.params.data.mobile_number ?? null,
-                address_line_one: props.params.data.address_line_one ?? null,
-                address_line_two: props.params.data.address_line_two ?? null,
-                postcode: props.params.data.postcode ?? null,
-                city: props.params.data.city ?? null,
-                state: props.params.data.state ?? null,
-                country: props.params.data.country ?? null,
+                birth_date: null,
+                home_number: "",
+                mobile_number: "",
+                address_line_one: "",
+                address_line_two: "",
+                postcode: "",
+                city: "",
+                state: "",
+                country: "",
             }),
         };
     },
 
-    methods: {
-        handleUserEdit(e) {
-            e.preventDefault();
-            console.log(this.formValue);
+    created() {
+        if (this.params != "create") {
+            this.getShowUserDetails();
+        }
+    },
 
-            this.$inertia.put(
-                route("users.update", this.params.data.id),
-                this.formValue,
-                {
-                    onError: (error) => {
-                        this.error = error;
-                    },
-                }
-            );
+    methods: {
+        getShowUserDetails() {
+            axios
+                .get(route("users.show", this.params.data.id))
+                .then((response) => {
+                    const { name, email, biography } = response.data.user;
+
+                    this.formValue = {
+                        ...this.formValue,
+                        name,
+                        email,
+                        role: biography?.role,
+                        gender: biography?.gender,
+                        birth_date: biography?.birth_date,
+                        home_number: biography?.home_number,
+                        mobile_number: biography?.mobile_number,
+                        address_line_one: biography?.address_line_one,
+                        address_line_two: biography?.address_line_two,
+                        postcode: biography?.postcode,
+                        city: biography?.city,
+                        state: biography?.state,
+                        country: biography?.country,
+                    };
+                });
+        },
+
+        handleUserSubmit(e) {
+            e.preventDefault();
+
+            if (this.params != "create") {
+                return this.$inertia.put(
+                    route("users.update", this.params.data.id),
+                    this.formValue,
+                    {
+                        onError: (error) => {
+                            this.error = error;
+                        },
+                    }
+                );
+            }
+
+            return this.$inertia.post(route("users.store"), this.formValue, {
+                onError: (error) => {
+                    this.error = error;
+                },
+            });
         },
     },
 });

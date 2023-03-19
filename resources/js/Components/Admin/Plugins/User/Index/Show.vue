@@ -39,28 +39,28 @@ import { defineComponent, ref } from "vue";
 import UserDetails from "@/CustomUserDetails";
 
 export default defineComponent({
-    components: {
-        UserDetails,
-    },
-    props: ["params"],
-    setup() {
-        const userDetails = ref([]);
+  components: {
+    UserDetails,
+  },
+  props: ["params"],
+  setup() {
+    const userDetails = ref([]);
 
-        return {
-            userDetails,
-            showModal: ref(false),
-        };
-    },
-    methods: {
-        displayModal() {
-            this.showModal = true;
+    return {
+      userDetails,
+      showModal: ref(false),
+    };
+  },
+  methods: {
+    displayModal() {
+      this.showModal = true;
 
-            axios
-                .get(route("users.show", this.params.data.id))
-                .then((response) => {
-                    this.userDetails = UserDetails(response);
-                });
-        },
+      axios
+        .get(route("users.show", this.params.data.id))
+        .then((response) => {
+          this.userDetails = UserDetails(response);
+        });
     },
+  },
 });
 </script>

@@ -1,15 +1,15 @@
 <template>
-    <n-button @click="showModal = true"> Edit </n-button>
+    <n-button @click="showModal = true"> Create </n-button>
     <n-modal v-model:show="showModal">
         <n-card
             style="width: 600px"
-            title="Edit"
+            title="Create"
             :bordered="false"
             size="medium"
             role="dialog"
             aria-modal="true"
         >
-            <AdminForm :params="params" />
+            <AdminForm :params="'create'" />
         </n-card>
     </n-modal>
 </template>
@@ -27,6 +27,9 @@ export default defineComponent({
         return {
             showModal: ref(false),
         };
+    },
+    created() {
+        console.log("aaaaaaaaaaaaaaaaaaaaa");
     },
 });
 </script>

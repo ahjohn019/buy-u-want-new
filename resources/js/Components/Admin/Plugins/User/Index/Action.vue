@@ -11,10 +11,10 @@ import Show from "./Show.vue";
 import EditButton from "./Edit/Button.vue";
 
 export default defineComponent({
-    components: {
-        Show,
-        EditButton,
-    },
-    props: ["params"],
+  components: {
+    Show,
+    EditButton,
+  },
+  props: ["params"],
 });
 </script>
